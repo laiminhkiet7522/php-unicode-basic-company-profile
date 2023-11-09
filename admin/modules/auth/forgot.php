@@ -5,7 +5,7 @@ $data = [
     'pageTitle' => 'Đặt lại mật khẩu'
 ];
 
-layout('header-login', $data);
+layout('header-login', 'admin', $data);
 
 //Kiểm tra trạng thái đăng nhập
 if (isLogin()){
@@ -19,19 +19,19 @@ if (isPost()){
         $email = $body['email'];
         $queryUser = firstRaw("SELECT id FROM users WHERE email='$email'");
         if (!empty($queryUser)){
-            $userId = $queryUser['id'];
+            $user_id = $queryUser['id'];
 
             //Tạo forgotToken
             $forgotToken = sha1(uniqid().time());
             $dataUpdate = [
-                'forgotToken' => $forgotToken
+                'forget_token' => $forgotToken
             ];
 
-            $updateStatus = update('users', $dataUpdate, "id=$userId");
+            $updateStatus = update('users', $dataUpdate, "id=$user_id");
             if ($updateStatus){
 
                 //Tạo link khôi phục
-                $linkReset = _WEB_HOST_ROOT.'?module=auth&action=reset&token='.$forgotToken;
+                $linkReset = _WEB_HOST_ROOT_ADMIN.'/?module=auth&action=reset&token='.$forgotToken;
 
                 //Thiết lập gửi email
                 $subject = 'Yêu cầu khôi phục mật khẩu';
@@ -62,7 +62,7 @@ if (isPost()){
 
     }
 
-    redirect('?module=auth&action=forgot');
+    redirect('admin/?module=auth&action=forgot');
 }
 
 $msg = getFlashData('msg');
@@ -80,10 +80,9 @@ $msgType = getFlashData('msg_type');
                 <button type="submit" class="btn btn-primary btn-block">Xác nhận</button>
                 <hr>
                 <p class="text-center"><a href="?module=auth&action=login">Đăng nhập</a></p>
-                <p class="text-center"><a href="?module=auth&action=register">Đăng ký tài khoản</a></p>
             </form>
         </div>
     </div>
 <?php
 
-layout('footer-login');
+layout('footer-login', 'admin');

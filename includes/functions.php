@@ -5,11 +5,15 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-function layout($layoutName = 'header', $data = [])
+function layout($layoutName = 'header', $dir = '', $data = [])
 {
 
-    if (file_exists(_WEB_PATH_TEMPLATE . '/' . 'layouts/' . $layoutName . '.php')) {
-        require_once _WEB_PATH_TEMPLATE . '/' . 'layouts/' . $layoutName . '.php';
+    if (!empty($dir)) {
+        $dir = '/' . $dir;
+    }
+
+    if (file_exists(_WEB_PATH_TEMPLATE . $dir . '/layouts/' . $layoutName . '.php')) {
+        require_once _WEB_PATH_TEMPLATE . $dir . '/layouts/' . $layoutName . '.php';
     }
 }
 
@@ -24,13 +28,13 @@ function sendMail($to, $subject, $content)
         $mail->isSMTP();                                            //Send using SMTP
         $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
         $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-        $mail->Username   = 'hoangan.web@gmail.com';                     //SMTP username
-        $mail->Password   = 'vijcervsnjmorpne';                               //SMTP password
+        $mail->Username   = 'kietminh070502@gmail.com';                     //SMTP username
+        $mail->Password   = 'pyfogqbjgpfzvxlo';                               //SMTP password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
         $mail->Port       = 465;                                    //TCP
 
         //Recipients
-        $mail->setFrom('hoangan.web@gmail.com', 'Unicode Training');
+        $mail->setFrom('kietminh070502@gmail.com', 'Unicode Training');
         $mail->addAddress($to);     //Add a recipient
         //Content
         $mail->isHTML(true);                                  //Set email format to HTML
@@ -46,7 +50,6 @@ function sendMail($to, $subject, $content)
                 'allow_self_signed' => true
             )
         );
-
         return $mail->send();
     } catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
@@ -192,7 +195,8 @@ function getMsg($msg, $type = 'success')
 //Hàm chuyển hướng
 function redirect($path = 'index.php')
 {
-    header("Location: $path");
+    $url = _WEB_HOST_ROOT . '/' . $path;
+    header("Location: $url");
     exit;
 }
 
@@ -215,7 +219,7 @@ function isLogin()
     if (getSession('loginToken')) {
         $tokenLogin = getSession('loginToken');
 
-        $queryToken = firstRaw("SELECT userId FROM login_token WHERE token='$tokenLogin'");
+        $queryToken = firstRaw("SELECT user_id FROM login_token WHERE token='$tokenLogin'");
 
         if (!empty($queryToken)) {
             //$checkLogin = true;
@@ -237,13 +241,13 @@ function autoRemoveTokenLogin()
         foreach ($allUsers as $user) {
             $now = date('Y-m-d H:i:s');
 
-            $before = $user['lastActivity'];
+            $before = $user['last_activity'];
 
             $diff = strtotime($now) - strtotime($before);
             $diff = floor($diff / 60);
 
-            if ($diff >= 1) {
-                delete('login_token', "userId=" . $user['id']);
+            if ($diff >= 15) {
+                delete('login_token', "user_id=" . $user['id']);
             }
         }
     }
@@ -252,13 +256,24 @@ function autoRemoveTokenLogin()
 //Lưu lại thời gian cuối cùng hoạt động
 function saveActivity()
 {
-    $userId = isLogin()['userId'];
-    update('users', ['lastActivity' => date('Y-m-d H:i:s')], "id=$userId");
+    $user_id = isLogin()['user_id'];
+    update('users', ['last_activity' => date('Y-m-d H:i:s')], "id=$user_id");
 }
 
 //Lấy thông tin user
-function getUserInfo($userId)
+function getUserInfo($user_id)
 {
-    $info = firstRaw("SELECT * FROM users WHERE id=$userId");
+    $info = firstRaw("SELECT * FROM users WHERE id=$user_id");
     return $info;
+}
+
+//Action menu sidebar
+function activeMenuSidebar($module = '')
+{
+    if (!empty(getBody()['module'])) {
+        if (getBody()['module'] == $module) {
+            return true;
+        }
+    }
+    return false;
 }

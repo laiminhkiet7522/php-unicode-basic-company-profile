@@ -1,10 +1,10 @@
 <?php
 if (!defined('_INCODE')) die('Access Deined...');
 
-try {
-    if (class_exists('PDO')) {
+try{
+    if (class_exists('PDO')){
 
-        $dsn = _DRIVER . ':dbname=' . _DB . ';host=' . _HOST;
+        $dsn = _DRIVER.':dbname='._DB.';host='._HOST;
 
         $options = [
             PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
@@ -12,7 +12,7 @@ try {
         ];
         $conn = new PDO($dsn, _USER, _PASS, $options);
     }
-} catch (Exception $exception) {
+}catch (Exception $exception){
     require_once 'modules/errors/database.php'; //Import error
     die();
 }
