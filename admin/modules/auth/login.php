@@ -28,7 +28,7 @@ if (isPost()) {
 
         if (!empty($userQuery)) {
             $passwordHash = $userQuery['password'];
-            $user_id = $userQuery['id'];
+            $userId = $userQuery['id'];
             if (password_verify($password, $passwordHash)) {
 
                 //Tạo token login
@@ -36,7 +36,7 @@ if (isPost()) {
 
                 //Insert dữ liệu vào bảng login_token
                 $dataToken = [
-                    'user_id' => $user_id,
+                    'user_id' => $userId,
                     'token' => $tokenLogin,
                     'create_at' => date('Y-m-d H:i:s')
                 ];

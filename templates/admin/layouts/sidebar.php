@@ -1,8 +1,11 @@
+<?php
+$userId = isLogin()['user_id'];
+$userDetail = getUserInfo($userId);
+?>
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-
+    <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '/?module=dashboard'; ?>" class="brand-link">
         <span class="brand-text font-weight-light text-uppercase">Radix Admin</span>
     </a>
 
@@ -14,7 +17,7 @@
                 <img src="<?php echo _WEB_HOST_ADMIN_TEMPLATE; ?>/assets/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
+                <a href="<?php echo getLinkAdmin('users', 'profile'); ?>" class="d-block"><?php echo $userDetail['fullname']; ?></a>
             </div>
         </div>
 
@@ -23,7 +26,7 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
                 <li class="nav-item">
-                    <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=dashboard'; ?>" class="nav-link <?php echo(activeMenuSidebar('dashboard')) ? 'active' : false; ?>">
+                    <a href="<?php echo getLinkAdmin('dashboard'); ?>" class="nav-link <?php echo (activeMenuSidebar('dashboard')) ? 'active' : false; ?>">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Tổng quan
@@ -68,13 +71,13 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=blog'; ?>" class="nav-link">
+                            <a href="<?php echo getLinkAdmin('blog'); ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Danh sách</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=blog&action=add'; ?>" class="nav-link">
+                            <a href="<?php echo getLinkAdmin('blog', 'add'); ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Thêm mới</p>
                             </a>
