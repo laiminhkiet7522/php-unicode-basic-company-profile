@@ -3,7 +3,7 @@ if (!defined('_INCODE')) die('Access Deined...');
 
 //Kiểm tra đăng nhập
 if (!isLogin()) {
-    redirect('admin/?module=auth&action=login');
+    redirect('admin?module=auth&action=login');
 } else {
     $userId = isLogin()['user_id'];
     $userDetail = getUserInfo($userId);
@@ -12,6 +12,7 @@ if (!isLogin()) {
 saveActivity(); //Lưu lại hoạt động cuối cùng của user
 
 autoRemoveTokenLogin();
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -42,6 +43,8 @@ autoRemoveTokenLogin();
     <link rel="stylesheet" href="<?php echo _WEB_HOST_ADMIN_TEMPLATE; ?>/assets/plugins/summernote/summernote-bs4.css">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <link rel="stylesheet" href="<?php echo _WEB_HOST_ADMIN_TEMPLATE; ?>/assets/css/style.css?ver=<?php echo rand(); ?>">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -49,18 +52,6 @@ autoRemoveTokenLogin();
 
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-
-            <!-- SEARCH FORM -->
-            <form class="form-inline ml-3">
-                <div class="input-group input-group-sm">
-                    <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-                    <div class="input-group-append">
-                        <button class="btn btn-navbar" type="submit">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
@@ -93,23 +84,26 @@ autoRemoveTokenLogin();
                     </div>
                 </li>
 
-                <!-- Notifications Dropdown Menu -->
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-user"></i> Hi, <?php echo $userDetail['fullname']; ?>
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <a href="#" class="dropdown-item">
-                            <i class="far fa-address-book mr-2"></i> Thông tin cá nhân
+                        <a href="<?php echo getLinkAdmin('users', 'profile'); ?>" class="dropdown-item">
+                            <i class="fas fa-angle-right mr-2"></i>
+                            Thông tin cá nhân
                         </a>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-sync-alt mr-2"></i> Đổi mật khẩu
+                        <a href="<?php echo getLinkAdmin('users', 'change_password'); ?>" class="dropdown-item">
+                            <i class="fas fa-angle-right mr-2"></i>
+                            Đổi mật khẩu
                         </a>
                         <a href="<?php echo getLinkAdmin('auth', 'logout'); ?>" class="dropdown-item">
-                            <i class="fas fa-sign-out-alt mr-2"></i> Đăng xuất
+                            <i class="fas fa-angle-right mr-2"></i>
+                            Đăng xuất
                         </a>
                     </div>
                 </li>
+
             </ul>
         </nav>
         <!-- /.navbar -->
