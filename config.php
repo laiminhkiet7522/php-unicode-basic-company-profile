@@ -35,4 +35,4 @@ const _DB = 'php_online_radix';
 const _DRIVER = 'mysql';
 
 //Thiết lập số lượng bản ghi hiển thị trên 1 trang
-const _PER_PAGE = 10;
+const _PER_PAGE = 3;

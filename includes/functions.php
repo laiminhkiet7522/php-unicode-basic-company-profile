@@ -296,3 +296,13 @@ function getLinkAdmin($module, $action = '', $params = [])
     }
     return $url;
 }
+
+//Format date
+function getDateFormat($strDate, $format)
+{
+    $dateObject = date_create($strDate);
+    if (!empty($dateObject)) {
+        return date_format($dateObject, $format);
+    }
+    return false;
+}
