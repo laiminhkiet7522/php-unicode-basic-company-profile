@@ -33,7 +33,7 @@ function insert($table, $dataInsert)
     $fieldStr = implode(', ', $keyArr);
     $valueStr = ':' . implode(', :', $keyArr);
 
-    $sql = 'INSERT INTO ' . $table . '(' . $fieldStr . ') VALUES(' . $valueStr . ')';
+    $sql = 'INSERT INTO `' . $table . '`(' . $fieldStr . ') VALUES(' . $valueStr . ')';
 
     return query($sql, $dataInsert);
 }

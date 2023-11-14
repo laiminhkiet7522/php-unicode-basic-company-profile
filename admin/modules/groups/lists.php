@@ -69,6 +69,8 @@ if (!empty($_SERVER['QUERY_STRING'])) {
 //Lấy dữ liệu nhóm ngưòi dùng
 $listGroups = getRaw("SELECT * FROM `groups` $filter ORDER BY create_at DESC LIMIT $offset, $perPage");
 
+$msg = getFlashData('msg');
+$msgType = getFlashData('msg_type');
 ?>
 <!-- Main content -->
 <section class="content">
@@ -87,6 +89,9 @@ $listGroups = getRaw("SELECT * FROM `groups` $filter ORDER BY create_at DESC LIM
             <input type="hidden" name="module" value="groups" />
         </form>
         <hr>
+        <?php
+        getMsg($msg, $msgType);
+        ?>
         <table class="table table-bordered">
             <thead>
                 <tr>
