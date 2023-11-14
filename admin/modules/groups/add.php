@@ -1,4 +1,5 @@
 <?php
+if (!defined('_INCODE')) die('Access Deined...');
 $data = [
     'pageTitle' => 'Thêm nhóm người dùng'
 ];
