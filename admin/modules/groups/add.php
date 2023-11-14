@@ -66,6 +66,7 @@ $old = getFlashData('old');
                 <?php echo form_error('name', $errors, '<span class="error">', '</span>'); ?>
             </div>
             <button type="submit" class="btn btn-primary">Thêm mới</button>
+            <a href="<?php echo getLinkAdmin('groups', ''); ?>" class="btn btn-secondary">Quay lại</a>
         </form>
     </div><!-- /.container-fluid -->
 </section>

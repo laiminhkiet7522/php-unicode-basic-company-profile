@@ -49,9 +49,9 @@ function update($table, $dataUpdate, $condition = '')
     $updateStr = rtrim($updateStr, ', ');
 
     if (!empty($condition)) {
-        $sql = 'UPDATE ' . $table . ' SET ' . $updateStr . ' WHERE ' . $condition;
+        $sql = 'UPDATE `' . $table . '` SET ' . $updateStr . ' WHERE ' . $condition;
     } else {
-        $sql = 'UPDATE ' . $table . ' SET ' . $updateStr;
+        $sql = 'UPDATE `' . $table . '` SET ' . $updateStr;
     }
 
     return query($sql, $dataUpdate);
