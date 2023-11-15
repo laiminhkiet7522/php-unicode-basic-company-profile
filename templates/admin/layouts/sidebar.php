@@ -24,7 +24,7 @@ $userDetail = getUserInfo($userId);
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-
+                <!-- Trang tổng quan - Begin -->
                 <li class="nav-item">
                     <a href="<?php echo getLinkAdmin('dashboard'); ?>" class="nav-link <?php echo (activeMenuSidebar('dashboard')) ? 'active' : false; ?>">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -33,14 +33,15 @@ $userDetail = getUserInfo($userId);
                         </p>
                     </a>
                 </li>
+                <!-- Trang tổng quan - End -->
 
+                <!-- Nhóm người dùng - Begin -->
                 <li class="nav-item has-treeview <?php echo activeMenuSidebar('groups') ? 'menu-open' : false; ?>">
                     <a href="#" class="nav-link <?php echo activeMenuSidebar('groups') ? 'active' : false; ?>">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
                             Nhóm người dùng
                             <i class="fas fa-angle-left right"></i>
-
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
@@ -56,9 +57,35 @@ $userDetail = getUserInfo($userId);
                                 <p>Thêm mới</p>
                             </a>
                         </li>
-
                     </ul>
                 </li>
+                <!-- Nhóm người dùng - End -->
+
+                <!-- Quản lý người dùng - Begin -->
+                <li class="nav-item has-treeview <?php echo activeMenuSidebar('users') ? 'menu-open' : false; ?>">
+                    <a href="#" class="nav-link <?php echo activeMenuSidebar('users') ? 'active' : false; ?>">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>
+                            Quản lý người dùng
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?php echo getLinkAdmin('users'); ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Danh sách</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo getLinkAdmin('users', 'add'); ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Thêm mới</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Quản lý người dùng - End -->
 
             </ul>
         </nav>
