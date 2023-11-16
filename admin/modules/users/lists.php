@@ -8,6 +8,8 @@ layout('header', 'admin', $data);
 layout('sidebar', 'admin', $data);
 layout('breadcrumb', 'admin', $data);
 
+$userId = isLogin()['user_id']; //Lấy userId đang đăng nhập
+
 //Xử lý lọc dữ liệu
 $filter = '';
 if (isGet()) {
@@ -180,7 +182,7 @@ $msg_type = getFlashData('msg_type');
                                             style="font-size: 15px; color: #fff;">Đã kích hoạt</span>' : '<span class="badge rounded-pill bg-dark"
                                             style="font-size: 15px; color: #fff;">Chưa kích hoạt</span>'; ?></td>
               <td class="text-center"><a href="<?php echo getLinkAdmin('users', 'edit', ['id' => $item['id']]); ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Sửa</a></td>
-              <td class="text-center"><a href="<?php echo getLinkAdmin('users', 'delete', ['id' => $item['id']]); ?>" onclick="return confirm('Bạn có chắc chắn muốn xoá?')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Xoá</a></td>
+              <td class="text-center"><?php if ($item['id'] != $userId) : ?><a href="<?php echo getLinkAdmin('users', 'delete', ['id' => $item['id']]); ?>" onclick="return confirm('Bạn có chắc chắn muốn xoá?')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Xoá</a><?php endif; ?></td>
             </tr>
           <?php
           endforeach;
