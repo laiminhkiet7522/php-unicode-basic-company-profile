@@ -14,17 +14,17 @@ const _INCODE = true; //Ngăn chặn hành vi truy cập trực tiếp vào file
 
 //Thiết lập host
 
-define('_WEB_HOST_ROOT', 'http://'.$_SERVER['HTTP_HOST'].'/php-unicode-basic-company-profile'); //Địa chỉ trang chủ
+define('_WEB_HOST_ROOT', 'http://' . $_SERVER['HTTP_HOST'] . '/php-unicode-basic-company-profile'); //Địa chỉ trang chủ
 
-define('_WEB_HOST_TEMPLATE', _WEB_HOST_ROOT.'/templates/client');
+define('_WEB_HOST_TEMPLATE', _WEB_HOST_ROOT . '/templates/client');
 
-define('_WEB_HOST_ROOT_ADMIN', _WEB_HOST_ROOT.'/admin');
+define('_WEB_HOST_ROOT_ADMIN', _WEB_HOST_ROOT . '/admin');
 
-define('_WEB_HOST_ADMIN_TEMPLATE', _WEB_HOST_ROOT.'/templates/admin');
+define('_WEB_HOST_ADMIN_TEMPLATE', _WEB_HOST_ROOT . '/templates/admin');
 
 //Thiết lập path
 define('_WEB_PATH_ROOT', __DIR__);
-define('_WEB_PATH_TEMPLATE', _WEB_PATH_ROOT.'/templates');
+define('_WEB_PATH_TEMPLATE', _WEB_PATH_ROOT . '/templates');
 
 //Thiết lập kết nối database
 

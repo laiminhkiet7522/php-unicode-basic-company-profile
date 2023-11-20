@@ -14,7 +14,7 @@ setFlashData('userDetail', $userDetail);
 
 //Xử lý cập nhật thông tin cá nhân
 
-if (isPost()) {
+if (isPost()){
 
     //Validate form
     $body = getBody(); //Lấy tất cả dữ liệu trong form
@@ -22,33 +22,33 @@ if (isPost()) {
     $errors = []; //Mảng lưu trữ các lỗi
 
     //Validate họ tên: Bắt buộc nhập, >=5 ký tự
-    if (empty(trim($body['fullname']))) {
+    if (empty(trim($body['fullname']))){
         $errors['fullname']['required'] = 'Họ tên bắt buộc phải nhập';
-    } else {
-        if (strlen(trim($body['fullname'])) < 5) {
+    }else{
+        if (strlen(trim($body['fullname']))<5){
             $errors['fullname']['min'] = 'Họ tên phải >= 5 ký tự';
         }
     }
 
     //Validate email: Bắt buộc phải nhập, định dạng email, email phải duy nhất
-    if (empty(trim($body['email']))) {
+    if (empty(trim($body['email']))){
         $errors['email']['required'] = 'Email bắt buộc phải nhập';
-    } else {
+    }else{
         //Kiểm tra email hợp lệ
-        if (!isEmail(trim($body['email']))) {
+        if (!isEmail(trim($body['email']))){
             $errors['email']['isEmail'] = 'Email không hợp lệ';
-        } else {
+        }else{
             //Kiểm tra email có tồn tại trong DB
             $email = trim($body['email']);
             $sql = "SELECT id FROM users WHERE email='$email' AND id<>$userId";
-            if (getRows($sql) > 0) {
+            if (getRows($sql)>0){
                 $errors['email']['unique'] = 'Địa chỉ email đã tồn tại';
             }
         }
     }
 
     //Kiểm tra mảng $errors
-    if (empty($errors)) {
+    if (empty($errors)){
         //Không có lỗi xảy ra
 
         $dataUpdate = [
@@ -65,21 +65,24 @@ if (isPost()) {
         $condition = "id=$userId";
 
         $updateStatus = update('users', $dataUpdate, $condition);
-        if ($updateStatus) {
+        if ($updateStatus){
             setFlashData('msg', 'Cập nhật thông tin thành công');
             setFlashData('msg_type', 'success');
-        } else {
+
+        }else{
             setFlashData('msg', 'Hệ thống đang gặp sự cố! Vui lòng thử lại sau.');
             setFlashData('msg_type', 'danger');
+
         }
-    } else {
+
+    }else{
         setFlashData('msg', 'Vui lòng kiểm tra dữ liệu nhập vào');
         setFlashData('msg_type', 'danger');
         setFlashData('errors', $errors);
         setFlashData('old', $body);
     }
 
-    redirect('admin/?module=users&action=profile');
+    redirect('admin?module=users&action=profile');
 }
 
 
@@ -89,69 +92,69 @@ $errors = getFlashData('errors');
 $old = getFlashData('old');
 
 $userDetail = getFlashData('userDetail');
-if (!empty($userDetail) && empty($old)) {
+if (!empty($userDetail) && empty($old)){
     $old = $userDetail;
 }
 ?>
-<!-- Main content -->
-<section class="content">
-    <div class="container-fluid">
-        <?php
-        getMsg($msg, $msgType);
-        ?>
-        <form action="" method="post">
-            <div class="row">
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="">Họ và tên</label>
-                        <input type="text" class="form-control" name="fullname" placeholder="Họ và tên..." value="<?php echo old('fullname', $old); ?>" />
-                        <?php echo form_error('fullname', $errors, '<span class="error">', '</span>'); ?>
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <?php
+            getMsg($msg, $msgType);
+            ?>
+            <form action="" method="post">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="">Họ và tên</label>
+                            <input type="text" class="form-control" name="fullname" placeholder="Họ và tên..." value="<?php echo old('fullname', $old); ?>"/>
+                            <?php echo form_error('fullname', $errors, '<span class="error">', '</span>'); ?>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="">Email</label>
+                            <input type="text" class="form-control" name="email" placeholder="Email..." value="<?php echo old('email', $old); ?>"/>
+                            <?php echo form_error('email', $errors, '<span class="error">', '</span>'); ?>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="">Facebook</label>
+                            <input type="text" class="form-control" name="contact_facebook" placeholder="Facebook..." value="<?php echo old('contact_facebook', $old); ?>"/>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="">Twitter</label>
+                            <input type="text" class="form-control" name="contact_twitter" placeholder="Twitter..." value="<?php echo old('contact_twitter', $old); ?>"/>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="">LinkedIn</label>
+                            <input type="text" class="form-control" name="contact_linkedin" placeholder="LinkedIn..." value="<?php echo old('contact_linkedin', $old); ?>"/>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="">Pinterest</label>
+                            <input type="text" class="form-control" name="contact_pinterest" placeholder="Pinterest..." value="<?php echo old('contact_pinterest', $old); ?>"/>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="">Nội dung giới thiệu</label>
+                            <textarea name="about_content" class="form-control" placeholder="Nội dung giới thiệu..."><?php echo old('about_content', $old); ?></textarea>
+                        </div>
                     </div>
                 </div>
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="">Email</label>
-                        <input type="text" class="form-control" name="email" placeholder="Email..." value="<?php echo old('email', $old); ?>" />
-                        <?php echo form_error('email', $errors, '<span class="error">', '</span>'); ?>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="">Facebook</label>
-                        <input type="text" class="form-control" name="contact_facebook" placeholder="Facebook..." value="<?php echo old('contact_facebook', $old); ?>" />
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="">Twitter</label>
-                        <input type="text" class="form-control" name="contact_twitter" placeholder="Twitter..." value="<?php echo old('contact_twitter', $old); ?>" />
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="">LinkedIn</label>
-                        <input type="text" class="form-control" name="contact_linkedin" placeholder="LinkedIn..." value="<?php echo old('contact_linkedin', $old); ?>" />
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="">Pinterest</label>
-                        <input type="text" class="form-control" name="contact_pinterest" placeholder="Pinterest..." value="<?php echo old('contact_pinterest', $old); ?>" />
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="form-group">
-                        <label for="">Nội dung giới thiệu</label>
-                        <textarea name="about_content" class="form-control" placeholder="Nội dung giới thiệu..."><?php echo old('about_content', $old); ?></textarea>
-                    </div>
-                </div>
-            </div>
 
-            <button type="submit" class="btn btn-primary">Cập nhật</button>
-        </form>
-    </div><!-- /.container-fluid -->
-</section>
-<!-- /.content -->
+                <button type="submit" class="btn btn-primary">Cập nhật</button>
+            </form>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
 
 <?php
 layout('footer', 'admin', $data);

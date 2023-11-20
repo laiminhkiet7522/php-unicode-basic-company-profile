@@ -126,22 +126,19 @@ function getBody($method = '')
                     }
                 }
             }
-        } else {
-            if ($method == 'post') {
-                if (!empty($_POST)) {
-                    foreach ($_POST as $key => $value) {
-                        $key = strip_tags($key);
-                        if (is_array($value)) {
-                            $bodyArr[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
-                        } else {
-                            $bodyArr[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
-                        }
+        } elseif ($method == 'post') {
+            if (!empty($_POST)) {
+                foreach ($_POST as $key => $value) {
+                    $key = strip_tags($key);
+                    if (is_array($value)) {
+                        $bodyArr[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
+                    } else {
+                        $bodyArr[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
                     }
                 }
             }
         }
     }
-
     return $bodyArr;
 }
 
@@ -214,13 +211,8 @@ function isPhone($phone)
 function getMsg($msg, $type = 'success')
 {
     if (!empty($msg)) {
-        echo '<div class="alert alert-' . $type . ' alert-dismissible fade show" role="alert">';
-        echo  '<strong>';
+        echo '<div class="alert alert-' . $type . '">';
         echo $msg;
-        echo '</strong>';
-        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
-        echo '<span aria-hidden="true">&times;</span>';
-        echo '</button>';
         echo '</div>';
     }
 }
@@ -279,7 +271,7 @@ function autoRemoveTokenLogin()
             $diff = strtotime($now) - strtotime($before);
             $diff = floor($diff / 60);
 
-            if ($diff >= 15) {
+            if ($diff >= 1) {
                 delete('login_token', "user_id=" . $user['id']);
             }
         }
@@ -301,28 +293,30 @@ function getUserInfo($user_id)
 }
 
 //Action menu sidebar
-function activeMenuSidebar($module = '')
+function activeMenuSidebar($module)
 {
-    if (!empty(getBody()['module'])) {
-        if (getBody()['module'] == $module) {
-            return true;
-        }
+    if ((!empty(getBody()['module']) && getBody()['module'] == $module)) {
+        return true;
     }
+
     return false;
 }
 
-//Get Link Admin
+//Get Link
 function getLinkAdmin($module, $action = '', $params = [])
 {
     $url = _WEB_HOST_ROOT_ADMIN;
-    $url = $url . '/?module=' . $module;
+    $url = $url . '?module=' . $module;
+
     if (!empty($action)) {
         $url = $url . '&action=' . $action;
     }
+
     /*
-    params = ['id'=>1,'keyword'=>'unicode']
-    => paramsString (id=1&keyword=unicode)
-    */
+     * params = ['id'=>1, 'keyword'=>'unicode']
+     * => paramsString = id=1&keyword=unicode
+     *
+     * */
     if (!empty($params)) {
         $paramsString = http_build_query($params);
         $url = $url . '&' . $paramsString;
@@ -330,12 +324,63 @@ function getLinkAdmin($module, $action = '', $params = [])
     return $url;
 }
 
-//Format date
+//Format Date
 function getDateFormat($strDate, $format)
 {
     $dateObject = date_create($strDate);
     if (!empty($dateObject)) {
         return date_format($dateObject, $format);
     }
+
     return false;
+}
+
+//Check font-awesome icon
+function isFontIcon($input)
+{
+
+    if (strpos($input, '<i class="') !== false) {
+        return true;
+    }
+
+    return false;
+}
+
+function getLinkQueryString($key, $value)
+{
+    $queryString = $_SERVER['QUERY_STRING'];
+    $queryArr = explode('&', $queryString);
+    $queryArr = array_filter($queryArr);
+
+    $queryFinal = '';
+
+    $check = false;
+
+    if (!empty($queryArr)) {
+        foreach ($queryArr as $item) {
+            $itemArr = explode('=', $item);
+            if (!empty($itemArr)) {
+                if ($itemArr[0] == $key) {
+                    $itemArr[1] = $value;
+                    $check = true;
+                }
+
+                $item = implode('=', $itemArr);
+
+                $queryFinal .= $item . '&';
+            }
+        }
+    }
+
+    if (!$check) {
+        $queryFinal .= $key . '=' . $value;
+    }
+
+    if (!empty($queryFinal)) {
+        $queryFinal = rtrim($queryFinal, '&');
+    } else {
+        $queryFinal = $queryString;
+    }
+
+    return $queryFinal;
 }

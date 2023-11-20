@@ -1,11 +1,13 @@
 <?php
 $userId = isLogin()['user_id'];
 $userDetail = getUserInfo($userId);
+
 ?>
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '/?module=dashboard'; ?>" class="brand-link">
+    <a href="<?php echo _WEB_HOST_ROOT_ADMIN; ?>" class="brand-link">
+
         <span class="brand-text font-weight-light text-uppercase">Radix Admin</span>
     </a>
 
@@ -24,69 +26,150 @@ $userDetail = getUserInfo($userId);
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <!-- Trang tổng quan - Begin -->
+                <!--
+                Trang tổng quan - Begin
+                -->
+
                 <li class="nav-item">
-                    <a href="<?php echo getLinkAdmin('dashboard'); ?>" class="nav-link <?php echo (activeMenuSidebar('dashboard')) ? 'active' : false; ?>">
+                    <a href="<?php echo _WEB_HOST_ROOT_ADMIN; ?>" class="nav-link <?php echo activeMenuSidebar('') || !isset(getBody()['module']) ? 'active' : false; ?>">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Tổng quan
                         </p>
                     </a>
                 </li>
-                <!-- Trang tổng quan - End -->
+                <!--
+                Trang tổng quan - End
+                -->
 
-                <!-- Nhóm người dùng - Begin -->
-                <li class="nav-item has-treeview <?php echo activeMenuSidebar('groups') ? 'menu-open' : false; ?>">
-                    <a href="#" class="nav-link <?php echo activeMenuSidebar('groups') ? 'active' : false; ?>">
-                        <i class="nav-icon fas fa-copy"></i>
+                <!--
+                Quản lý dịch vụ - Begin
+                -->
+                <li class="nav-item has-treeview <?php echo activeMenuSidebar('services') ? 'menu-open' : false; ?>">
+                    <a href="#" class="nav-link <?php echo activeMenuSidebar('services') ? 'active' : false; ?>">
+                        <i class="nav-icon fab fa-servicestack"></i>
                         <p>
-                            Nhóm người dùng
+                            Quản lý dịch vụ
                             <i class="fas fa-angle-left right"></i>
+
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="<?php echo getLinkAdmin('groups'); ?>" class="nav-link">
+                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=services'; ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Danh sách</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?php echo getLinkAdmin('groups', 'add'); ?>" class="nav-link">
+                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=services&action=add'; ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Thêm mới</p>
                             </a>
                         </li>
                     </ul>
                 </li>
-                <!-- Nhóm người dùng - End -->
+                <!--
+                Quản lý dịch vụ - End
+                -->
 
-                <!-- Quản lý người dùng - Begin -->
-                <li class="nav-item has-treeview <?php echo activeMenuSidebar('users') ? 'menu-open' : false; ?>">
-                    <a href="#" class="nav-link <?php echo activeMenuSidebar('users') ? 'active' : false; ?>">
+
+                <!--
+                Quản lý blog - Begin
+                -->
+                <li class="nav-item has-treeview <?php echo activeMenuSidebar('blog') || activeMenuSidebar('blog_categories') ? 'menu-open' : false; ?>">
+                    <a href="#" class="nav-link <?php echo activeMenuSidebar('blog') || activeMenuSidebar('blog_categories') ? 'active' : false; ?>">
+                        <i class="nav-icon fas fa-address-card"></i>
+                        <p>
+                            Quản lý Blog
+                            <i class="fas fa-angle-left right"></i>
+
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=blog'; ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Danh sách Blog</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=blog&action=add'; ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Thêm blog mới</p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+                <!--
+                Quản lý blog - End
+                -->
+
+
+                <!--
+                Nhóm người dùng - Begin
+                -->
+                <li class="nav-item has-treeview <?php echo activeMenuSidebar('groups') ? 'menu-open' : false; ?>">
+                    <a href="#" class="nav-link <?php echo activeMenuSidebar('groups') ? 'active' : false; ?>">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Nhóm người dùng
+                            <i class="fas fa-angle-left right"></i>
+
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=groups'; ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Danh sách</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=groups&action=add'; ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Thêm mới</p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+                <!--
+                    Nhóm người dùng - End
+                -->
+
+                <!--
+                Quản lý người dùng - Begin
+                -->
+                <li class="nav-item has-treeview <?php echo (activeMenuSidebar('users')) ? 'menu-open' : false; ?>">
+                    <a href="#" class="nav-link <?php echo (activeMenuSidebar('users')) ? 'active' : false; ?>">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
                             Quản lý người dùng
                             <i class="fas fa-angle-left right"></i>
+
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="<?php echo getLinkAdmin('users'); ?>" class="nav-link">
+                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=users'; ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Danh sách</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?php echo getLinkAdmin('users', 'add'); ?>" class="nav-link">
+                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=users&action=add'; ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Thêm mới</p>
                             </a>
                         </li>
+
                     </ul>
                 </li>
-                <!-- Quản lý người dùng - End -->
-
+                <!--
+                Quản lý người dùng - End
+                -->
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

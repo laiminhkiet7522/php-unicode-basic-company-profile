@@ -7,7 +7,7 @@
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=dashboard'; ?>">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="<?php echo _WEB_HOST_ROOT_ADMIN; ?>">Trang chủ</a></li>
                     <li class="breadcrumb-item active"><?php echo $data['pageTitle']; ?></li>
                 </ol>
             </div><!-- /.col -->

@@ -31,7 +31,7 @@ if (isPost()){
             if ($updateStatus){
 
                 //Tạo link khôi phục
-                $linkReset = _WEB_HOST_ROOT_ADMIN.'/?module=auth&action=reset&token='.$forgotToken;
+                $linkReset = _WEB_HOST_ROOT_ADMIN.'?module=auth&action=reset&token='.$forgotToken;
 
                 //Thiết lập gửi email
                 $subject = 'Yêu cầu khôi phục mật khẩu';
@@ -62,7 +62,7 @@ if (isPost()){
 
     }
 
-    redirect('admin/?module=auth&action=forgot');
+    redirect('admin?module=auth&action=forgot');
 }
 
 $msg = getFlashData('msg');
