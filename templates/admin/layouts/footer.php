@@ -49,5 +49,20 @@
 <script src="<?php echo _WEB_HOST_ADMIN_TEMPLATE; ?>/assets/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo _WEB_HOST_ADMIN_TEMPLATE; ?>/assets/js/demo.js"></script>
+
+<?php
+$body = getBody();
+$module = null;
+if (!empty($body['module'])) {
+    $module = $body['module'];
+}
+?>
+<script type="text/javascript">
+    let rootUrl = '<?php echo _WEB_HOST_ROOT; ?>';
+    let prefixUrl = '<?php echo getPreFixLinkService($module); ?>';
+</script>
+
+<script src="<?php echo _WEB_HOST_ADMIN_TEMPLATE; ?>/assets/js/custom.js?version=<?php echo rand(); ?>"></script>
 </body>
+
 </html>

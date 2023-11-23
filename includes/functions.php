@@ -211,8 +211,13 @@ function isPhone($phone)
 function getMsg($msg, $type = 'success')
 {
     if (!empty($msg)) {
-        echo '<div class="alert alert-' . $type . '">';
+        echo '<div class="alert alert-' . $type . ' alert-dismissible fade show" role="alert">';
+        echo  '<strong>';
         echo $msg;
+        echo '</strong>';
+        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
+        echo '<span aria-hidden="true">&times;</span>';
+        echo '</button>';
         echo '</div>';
     }
 }
