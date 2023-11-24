@@ -19,14 +19,20 @@ function toSlug(title) {
 
   return slug;
 }
+let sourceTitle = document.querySelector('.slug');
+let slugRender = document.querySelector('.render-slug');
 
 let renderLink = document.querySelector('.render-link');
 if (renderLink !== null) {
-  renderLink.querySelector('span').innerHTML = `<a href="${rootUrl}" target="_blank">${rootUrl}</a>`;
+
+  //Lấy slug
+  let slug = '';
+  if (slugRender !== null) {
+    slug = '/' + slugRender.value.trim();
+  }
+  renderLink.querySelector('span').innerHTML = `<a href="${rootUrl + slug}" target="_blank">${rootUrl + slug}</a>`;
 }
 
-let sourceTitle = document.querySelector('.slug');
-let slugRender = document.querySelector('.render-slug');
 if (sourceTitle !== null && slugRender !== null) {
   sourceTitle.addEventListener('keyup', (e) => {
     if (!sessionStorage.getItem('save_slug')) {
