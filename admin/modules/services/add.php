@@ -13,7 +13,6 @@ $userId = isLogin()['user_id'];
 
 //Xử lý thêm nhóm người dùng
 if (isPost()) {
-
   //Validate form
   $body = getBody(); //Lấy tất cả dữ liệu trong form
 
@@ -29,11 +28,6 @@ if (isPost()) {
     $errors['slug']['required'] = 'Đường dẫn tĩnh bắt buộc phải nhập';
   }
 
-  //Validate icon: Bắt buộc nhập
-  if (empty(trim($body['icon']))) {
-    $errors['icon']['required'] = 'Icon bắt buộc phải nhập';
-  }
-
   //Validate nội dung: Bắt buộc nhập
   if (empty(trim($body['content']))) {
     $errors['content']['required'] = 'Nội dung bắt buộc phải nhập';
@@ -43,10 +37,30 @@ if (isPost()) {
   if (empty($errors)) {
     //Không có lỗi xảy ra
 
+    $path = $_FILES['icon']['name'];
+    $path_tmp = $_FILES['icon']['tmp_name'];
+
+    $arr = explode('.', $path);
+    $filename = "services_" . uniqid() . '.' . $arr[1];
+
+    if (
+      $arr[1] == "jpg" || $arr[1] == "png" || $arr[1] == "gif" || $arr[1] == "pdf"
+    ) {
+      move_uploaded_file(
+        $path_tmp,
+        $_SERVER['DOCUMENT_ROOT']. '/php-unicode-basic-company-profile/uploads/' . $filename
+      );
+    } else {
+      echo 'Invalid Format';
+    }
+
+    //Lưu đường dẫn lên server
+    $upload_path = _WEB_HOST_ROOT . '/uploads/' . $filename;
+
     $dataInsert = [
       'name' => trim($body['name']),
       'slug' => trim($body['slug']),
-      'icon' => trim($body['icon']),
+      'icon' => $upload_path,
       'description' => trim($body['description']),
       'content' => trim($body['content']),
       'user_id' => $userId,
@@ -87,7 +101,7 @@ $old = getFlashData('old');
 <!-- Main content -->
 <section class="content">
   <div class="container-fluid">
-    <form action="" method="post">
+    <form action="" method="post" enctype="multipart/form-data">
       <?php
       getMsg($msg, $msgType);
       ?>
@@ -106,26 +120,20 @@ $old = getFlashData('old');
 
       <div class="form-group">
         <label for="">Icon</label>
-        <div class="row ckfinder-group">
-          <div class="col-10">
-            <input type="text" class="form-control image-render" name="icon" placeholder="Đường dẫn ảnh hoặc mã icon..." value="<?php echo old('icon', $old); ?>" />
-          </div>
-          <div class="col-2">
-            <button type="button" class="btn btn-success btn-block choose-image">Chọn ảnh</button>
-          </div>
-        </div>
+        <input name="icon" class="form-control" type="file" style="width: 20%; padding: 0.25rem 0.75rem !important;" onchange="loadImage(this)">
+        <img src="" id="load_image" alt="" style="margin-top: 10px;">
         <?php echo form_error('icon', $errors, '<span class="error">', '</span>'); ?>
       </div>
 
       <div class="form-group">
         <label for="">Mô tả ngắn</label>
-        <textarea name="description" class="form-control editor" placeholder="Mô tả ngắn..."><?php echo old('description', $old) ?></textarea>
+        <textarea name="description" id="file-picker" class="form-control editor" placeholder="Mô tả ngắn..."><?php echo old('description', $old) ?></textarea>
         <?php echo form_error('description', $errors, '<span class="error">', '</span>'); ?>
       </div>
 
       <div class="form-group">
         <label for="">Nội dung</label>
-        <textarea name="content" class="form-control editor"><?php echo old('content', $old) ?></textarea>
+        <textarea name="content" id="file-picker" class="form-control editor"><?php echo old('content', $old) ?></textarea>
         <?php echo form_error('content', $errors, '<span class="error">', '</span>'); ?>
       </div>
   </div>
@@ -135,6 +143,16 @@ $old = getFlashData('old');
   </form>
   </div>
 </section>
-
+<script type="text/javascript">
+  function loadImage(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        $('#load_image').attr('src', e.target.result).width(100).height(100);
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+</script>
 <?php
 layout('footer', 'admin', $data);

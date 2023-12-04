@@ -146,7 +146,10 @@ $msgType = getFlashData('msg_type');
                             <td>
                                 <?php echo (isFontIcon($item['icon'])) ? $item['icon'] : '<img src="' . $item['icon'] . '" width="80"/>'; ?>
                             </td>
-                            <td><a href="<?php echo getLinkAdmin('services', 'edit', ['id' => $item['id']]); ?>"><?php echo $item['name']; ?></a></td>
+                            <td><a href="<?php echo getLinkAdmin('services', 'edit', ['id' => $item['id']]); ?>"><?php echo $item['name']; ?></a>
+                                <a href="<?php echo getLinkAdmin('services', 'duplicate', ['id' => $item['id']]); ?>" style="padding: 0 5px;" class="btn btn-danger btn-sm">Nhân bản</a>
+                            </td>
+                            <td>
                             <td>
                                 <a href="?<?php echo getLinkQueryString('user_id', $item['user_id']); ?>"><?php echo $item['fullname']; ?></a>
                             </td>
