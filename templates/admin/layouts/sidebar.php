@@ -73,6 +73,37 @@ $userDetail = getUserInfo($userId);
                 Quản lý dịch vụ - End
                 -->
 
+                <!--
+                Quản lý trang - Begin
+                -->
+                <li class="nav-item has-treeview <?php echo activeMenuSidebar('pages') ? 'menu-open' : false; ?>">
+                    <a href="#" class="nav-link <?php echo activeMenuSidebar('pages') ? 'active' : false; ?>">
+                        <i class="nav-icon fas fa-file-alt"></i>
+                        <p>
+                            Quản lý trang
+                            <i class="fas fa-angle-left right"></i>
+
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=pages'; ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Danh sách</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=pages&action=add'; ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Thêm mới</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!--
+                Quản lý trang - End
+                -->
+
 
                 <!--
                 Quản lý blog - Begin
