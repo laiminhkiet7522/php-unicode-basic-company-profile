@@ -1,26 +1,42 @@
 <?php
 if (!defined('_INCODE')) die('Access Deined...');
 $data = [
-  'pageTitle' => 'Thêm trang'
+  'pageTitle' => 'Cập nhật trang'
 ];
 
 layout('header', 'admin', $data);
 layout('sidebar', 'admin', $data);
 layout('breadcrumb', 'admin', $data);
 
-//Lấy userId đăng nhập
-$userId = isLogin()['user_id'];
+//Lấy dữ liệu cũ của nhóm người dùng
+$body = getBody('get'); //Yêu cầu lấy phương thức get
 
-//Xử lý thêm nhóm người dùng
+if (!empty($body['id'])) {
+  $pageId = $body['id'];
+
+  $pageDetail = firstRaw("SELECT * FROM pages WHERE id=$pageId");
+
+  if (empty($pageDetail)) {
+    //Không Tồn tại
+    redirect('admin?module=pages');
+  }
+} else {
+  redirect('admin?module=pages');
+}
+
+
+//Xử lý cập nhật nhóm người dùng
 if (isPost()) {
+
   //Validate form
   $body = getBody(); //Lấy tất cả dữ liệu trong form
 
   $errors = []; //Mảng lưu trữ các lỗi
 
   //Validate tên trang: Bắt buộc nhập
+
   if (empty(trim($body['title']))) {
-    $errors['name']['required'] = 'Tiêu đề trang bắt buộc phải nhập';
+    $errors['title']['required'] = 'Tiêu đề trang bắt buộc phải nhập';
   }
 
   //Validate slug: Bắt buộc nhập
@@ -28,7 +44,7 @@ if (isPost()) {
     $errors['slug']['required'] = 'Đường dẫn tĩnh bắt buộc phải nhập';
   }
 
-  //Validate nội dung: Bắt buộc nhập
+  //Validate nội dung: Bắt buộc phải nhập
   if (empty(trim($body['content']))) {
     $errors['content']['required'] = 'Nội dung bắt buộc phải nhập';
   }
@@ -37,27 +53,23 @@ if (isPost()) {
   if (empty($errors)) {
     //Không có lỗi xảy ra
 
-    $dataInsert = [
+    $dataUpdate = [
       'title' => trim($body['title']),
       'slug' => trim($body['slug']),
       'content' => trim($body['content']),
-      'user_id' => $userId,
-      'create_at' => date('Y-m-d H:i:s')
+      'update_at' => date('Y-m-d H:i:s')
     ];
 
-    $insertStatus = insert('pages', $dataInsert);
+    $condition = "id=$pageId";
 
-    if ($insertStatus) {
-      setFlashData('msg', 'Thêm trang thành công');
+    $updateStatus = update('pages', $dataUpdate, $condition);
+
+    if ($updateStatus) {
+      setFlashData('msg', 'Cập nhật trang thành công');
       setFlashData('msg_type', 'success');
-
-      redirect('admin?module=pages'); //Chuyển hướng qua trang danh sách
-
     } else {
       setFlashData('msg', 'Hệ thống đang gặp sự cố! Vui lòng thử lại sau.');
       setFlashData('msg_type', 'danger');
-
-      redirect('admin?module=pages&action=add'); //Load lại trang thêm trang
     }
   } else {
 
@@ -66,14 +78,20 @@ if (isPost()) {
     setFlashData('msg_type', 'danger');
     setFlashData('errors', $errors);
     setFlashData('old', $body);
-    redirect('admin?module=pages&action=add'); //Load lại trang trang
   }
+
+  //Load lại trang sửa hiện tại
+  redirect('admin?module=pages&action=edit&id=' . $pageId);
 }
 
 $msg = getFlashData('msg');
 $msgType = getFlashData('msg_type');
 $errors = getFlashData('errors');
 $old = getFlashData('old');
+
+if (empty($old) && !empty($pageDetail)) {
+  $old = $pageDetail;
+}
 
 ?>
 <!-- Main content -->
@@ -83,6 +101,7 @@ $old = getFlashData('old');
       <?php
       getMsg($msg, $msgType);
       ?>
+
       <div class="form-group">
         <label for="">Tên trang</label>
         <input type="text" class="form-control slug" name="title" placeholder="Tên trang..." value="<?php echo old('title', $old); ?>" />
@@ -101,11 +120,10 @@ $old = getFlashData('old');
         <textarea name="content" id="file-picker" class="form-control"><?php echo old('content', $old) ?></textarea>
         <?php echo form_error('content', $errors, '<span class="error">', '</span>'); ?>
       </div>
-  </div>
 
-  <button type="submit" class="btn btn-primary">Thêm mới</button>
-  <a href="<?php echo getLinkAdmin('pages', 'lists'); ?>" class="btn btn-success">Quay lại</a>
-  </form>
+      <button type="submit" class="btn btn-primary">Cập nhật</button>
+      <a href="<?php echo getLinkAdmin('pages', 'lists'); ?>" class="btn btn-success">Quay lại</a>
+    </form>
   </div>
 </section>
 <?php
