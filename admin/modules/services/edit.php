@@ -49,30 +49,33 @@ if (isPost()) {
     $errors['content']['required'] = 'Nội dung bắt buộc phải nhập';
   }
 
+  $path = $_FILES['icon']['name'];
+  $path_tmp = $_FILES['icon']['tmp_name'];
+
+  $arr = explode(
+    '.',
+    $path
+  );
+  $filename = "services_" . uniqid() . '.' . $arr[1];
+
+  if (
+    $arr[1] == "jpg" || $arr[1] == "png" || $arr[1] == "jpeg"
+  ) {
+    move_uploaded_file(
+      $path_tmp,
+      $_SERVER['DOCUMENT_ROOT'] . '/php-unicode-basic-company-profile/uploads/' . $filename
+    );
+  } else {
+    $errors['icon']['invalid'] = 'Hình ảnh tải lên phải thuộc các dạng jpg, jpeg, png';
+  }
+
+  //Lưu đường dẫn lên server
+  $upload_path = _WEB_HOST_ROOT . '/uploads/' . $filename;
+
 
   //Kiểm tra mảng $errors
   if (empty($errors)) {
     //Không có lỗi xảy ra
-
-    $path = $_FILES['icon']['name'];
-    $path_tmp = $_FILES['icon']['tmp_name'];
-
-    $arr = explode('.', $path);
-    $filename = "services_" . uniqid() . '.' . $arr[1];
-
-    if (
-      $arr[1] == "jpg" || $arr[1] == "png" || $arr[1] == "gif" || $arr[1] == "pdf"
-    ) {
-      move_uploaded_file(
-        $path_tmp,
-        $_SERVER['DOCUMENT_ROOT'] . '/php-unicode-basic-company-profile/uploads/' . $filename
-      );
-    } else {
-      echo 'Invalid Format';
-    }
-
-    //Lưu đường dẫn lên server
-    $upload_path = _WEB_HOST_ROOT . '/uploads/' . $filename;
 
     $dataUpdate = [
       'name' => trim($body['name']),

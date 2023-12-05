@@ -33,29 +33,29 @@ if (isPost()) {
     $errors['content']['required'] = 'Nội dung bắt buộc phải nhập';
   }
 
+  $path = $_FILES['icon']['name'];
+  $path_tmp = $_FILES['icon']['tmp_name'];
+
+  $arr = explode('.', $path);
+  $filename = "services_" . uniqid() . '.' . $arr[1];
+
+  if (
+    $arr[1] == "jpg" || $arr[1] == "png" || $arr[1] == "jpeg"
+  ) {
+    move_uploaded_file(
+      $path_tmp,
+      $_SERVER['DOCUMENT_ROOT'] . '/php-unicode-basic-company-profile/uploads/' . $filename
+    );
+  } else {
+    $errors['icon']['invalid'] = 'Hình ảnh tải lên phải thuộc các dạng jpg, jpeg, png';
+  }
+
+  //Lưu đường dẫn lên server
+  $upload_path = _WEB_HOST_ROOT . '/uploads/' . $filename;
+
   //Kiểm tra mảng $errors
   if (empty($errors)) {
     //Không có lỗi xảy ra
-
-    $path = $_FILES['icon']['name'];
-    $path_tmp = $_FILES['icon']['tmp_name'];
-
-    $arr = explode('.', $path);
-    $filename = "services_" . uniqid() . '.' . $arr[1];
-
-    if (
-      $arr[1] == "jpg" || $arr[1] == "png" || $arr[1] == "gif" || $arr[1] == "pdf"
-    ) {
-      move_uploaded_file(
-        $path_tmp,
-        $_SERVER['DOCUMENT_ROOT']. '/php-unicode-basic-company-profile/uploads/' . $filename
-      );
-    } else {
-      echo 'Invalid Format';
-    }
-
-    //Lưu đường dẫn lên server
-    $upload_path = _WEB_HOST_ROOT . '/uploads/' . $filename;
 
     $dataInsert = [
       'name' => trim($body['name']),
@@ -127,13 +127,13 @@ $old = getFlashData('old');
 
       <div class="form-group">
         <label for="">Mô tả ngắn</label>
-        <textarea name="description" id="file-picker" class="form-control editor" placeholder="Mô tả ngắn..."><?php echo old('description', $old) ?></textarea>
+        <textarea name="description" id="file-picker" class="form-control" placeholder="Mô tả ngắn..."><?php echo old('description', $old) ?></textarea>
         <?php echo form_error('description', $errors, '<span class="error">', '</span>'); ?>
       </div>
 
       <div class="form-group">
         <label for="">Nội dung</label>
-        <textarea name="content" id="file-picker" class="form-control editor"><?php echo old('content', $old) ?></textarea>
+        <textarea name="content" id="file-picker" class="form-control"><?php echo old('content', $old) ?></textarea>
         <?php echo form_error('content', $errors, '<span class="error">', '</span>'); ?>
       </div>
   </div>
