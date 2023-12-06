@@ -68,16 +68,12 @@ $msgType = getFlashData('msg_type');
 <!-- Main content -->
 <section class="content">
   <div class="container-fluid">
+    <?php
+    getMsg($msg, $msgType);
+    ?>
     <div class="row">
       <div class="col-6">
-        <h4>Thêm danh mục</h4>
-        <form action="" method="post">
-          <div class="form-group">
-            <label for="">Tên danh mục</label>
-            <input type="text" name="name" class="form-control" placeholder="Tên danh mục...">
-          </div>
-          <button type="submit" class="btn btn-primary">Thêm mới</button>
-        </form>
+        <?php require_once('add.php'); ?>
       </div>
       <div class="col-6">
         <h4>Danh sách danh mục</h4>

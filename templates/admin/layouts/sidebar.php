@@ -107,8 +107,8 @@ $userDetail = getUserInfo($userId);
                 <!--
                 Quản lý dự án - Begin
                 -->
-                <li class="nav-item has-treeview <?php echo activeMenuSidebar('portfolios') || activeMenuSidebar('portpolio_categories') ? 'menu-open' : false; ?>">
-                    <a href="#" class="nav-link <?php echo activeMenuSidebar('portfolios') || activeMenuSidebar('portpolio_categories') ? 'active' : false; ?>">
+                <li class="nav-item has-treeview <?php echo activeMenuSidebar('portfolios') || activeMenuSidebar('portfolio_categories') ? 'menu-open' : false; ?>">
+                    <a href="#" class="nav-link <?php echo activeMenuSidebar('portfolios') || activeMenuSidebar('portfolio_categories') ? 'active' : false; ?>">
                         <i class="nav-icon fas fa-file-alt"></i>
                         <p>
                             Quản lý dự án
