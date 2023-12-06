@@ -107,8 +107,8 @@ $userDetail = getUserInfo($userId);
                 <!--
                 Quản lý dự án - Begin
                 -->
-                <li class="nav-item has-treeview <?php echo activeMenuSidebar('portpolios') || activeMenuSidebar('portpolio_categories') ? 'menu-open' : false; ?>">
-                    <a href="#" class="nav-link <?php echo activeMenuSidebar('portpolios') || activeMenuSidebar('portpolio_categories') ? 'active' : false; ?>">
+                <li class="nav-item has-treeview <?php echo activeMenuSidebar('portfolios') || activeMenuSidebar('portpolio_categories') ? 'menu-open' : false; ?>">
+                    <a href="#" class="nav-link <?php echo activeMenuSidebar('portfolios') || activeMenuSidebar('portpolio_categories') ? 'active' : false; ?>">
                         <i class="nav-icon fas fa-file-alt"></i>
                         <p>
                             Quản lý dự án
@@ -118,19 +118,19 @@ $userDetail = getUserInfo($userId);
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=portpolios'; ?>" class="nav-link">
+                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=portfolios'; ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Danh sách dự án</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=portpolios&action=add'; ?>" class="nav-link">
+                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=portfolios&action=add'; ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Thêm dự án mới</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=portpolio_categories'; ?>" class="nav-link">
+                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=portfolio_categories'; ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Danh mục dự án</p>
                             </a>
