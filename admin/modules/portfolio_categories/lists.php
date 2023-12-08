@@ -70,7 +70,7 @@ if (!empty($_SERVER['QUERY_STRING'])) {
 }
 
 //Lấy dữ liệu nhóm ngưòi dùng
-$listCate = getRaw("SELECT * FROM `portfolio_categories` $filter ORDER BY create_at DESC LIMIT $offset, $perPage");
+$listCate = getRaw("SELECT *, (SELECT count(portfolios.id) FROM portfolios WHERE portfolios.id = portfolio_categories.id) as portfolios_count FROM `portfolio_categories` $filter ORDER BY create_at DESC LIMIT $offset, $perPage");
 
 $msg = getFlashData('msg');
 $msgType = getFlashData('msg_type');
@@ -122,7 +122,7 @@ $msgType = getFlashData('msg_type');
             ?>
                 <tr>
                   <td><?php echo $key + 1; ?></td>
-                  <td><a href="<?php echo getLinkAdmin('portfolio_categories', '', ['id' => $item['id'], 'view' => 'edit']); ?>"><?php echo $item['name']; ?></a></td>
+                  <td><a href="<?php echo getLinkAdmin('portfolio_categories', '', ['id' => $item['id'], 'view' => 'edit']); ?>"><?php echo $item['name']; ?></a><?php echo ' (' . $item['portfolios_count'] . ') '; ?><a href="<?php echo getLinkAdmin('portfolio_categories', 'duplicate', ['id' => $item['id']]); ?>" style="padding: 0 5px;" class="btn btn-danger btn-sm">Nhân bản</a></td>
                   <td><?php echo getDateFormat($item['create_at'], 'd/m/Y H:i:s'); ?></td>
                   <td class="text-center"><a href="<?php echo getLinkAdmin('portfolio_categories', '', ['id' => $item['id'], 'view' => 'edit']); ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a></td>
                   <td class="text-center"><a href="<?php echo getLinkAdmin('portfolio_categories', 'delete', ['id' => $item['id']]); ?>" onclick="return confirm('Bạn có chắc chắn muốn xoá?')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a></td>
