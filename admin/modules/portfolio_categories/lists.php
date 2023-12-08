@@ -13,16 +13,26 @@ layout('breadcrumb', 'admin', $data);
 
 $filter = '';
 
-if (isGet()) {
-  $body = getBody();
+$ivew = 'add'; //View mặc định
 
-  if (isset($body['keyword'])) {
-    $keyword = $body['keyword'];
-  }
+$id = 0; //id mặc định
 
-  if (!empty($keyword)) {
-    $filter = "WHERE name LIKE '%$keyword%'";
-  }
+$body = getBody('get');
+
+if (isset($body['keyword'])) {
+  $keyword = $body['keyword'];
+}
+
+if (!empty($keyword)) {
+  $filter = "WHERE name LIKE '%$keyword%'";
+}
+
+if (!empty($body['view'])) {
+  $view = $body['view'];
+}
+
+if (!empty($body['id'])) {
+  $id = $body['id'];
 }
 
 //Xử lý phân trang
@@ -73,7 +83,13 @@ $msgType = getFlashData('msg_type');
     ?>
     <div class="row">
       <div class="col-6">
-        <?php require_once('add.php'); ?>
+        <?php
+        if (!empty($view) && !empty($id)) {
+          require_once $view . '.php';
+        } else {
+          require_once('add.php');
+        }
+        ?>
       </div>
       <div class="col-6">
         <h4>Danh sách danh mục</h4>
@@ -106,9 +122,9 @@ $msgType = getFlashData('msg_type');
             ?>
                 <tr>
                   <td><?php echo $key + 1; ?></td>
-                  <td><a href="<?php echo getLinkAdmin('portfolio_categories', 'edit', ['id' => $item['id']]); ?>"><?php echo $item['name']; ?></a></td>
+                  <td><a href="<?php echo getLinkAdmin('portfolio_categories', '', ['id' => $item['id'], 'view' => 'edit']); ?>"><?php echo $item['name']; ?></a></td>
                   <td><?php echo getDateFormat($item['create_at'], 'd/m/Y H:i:s'); ?></td>
-                  <td class="text-center"><a href="<?php echo getLinkAdmin('portfolio_categories', 'edit', ['id' => $item['id']]); ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a></td>
+                  <td class="text-center"><a href="<?php echo getLinkAdmin('portfolio_categories', '', ['id' => $item['id'], 'view' => 'edit']); ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a></td>
                   <td class="text-center"><a href="<?php echo getLinkAdmin('portfolio_categories', 'delete', ['id' => $item['id']]); ?>" onclick="return confirm('Bạn có chắc chắn muốn xoá?')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a></td>
                 </tr>
               <?php

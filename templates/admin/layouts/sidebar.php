@@ -109,7 +109,7 @@ $userDetail = getUserInfo($userId);
                 -->
                 <li class="nav-item has-treeview <?php echo activeMenuSidebar('portfolios') || activeMenuSidebar('portfolio_categories') ? 'menu-open' : false; ?>">
                     <a href="#" class="nav-link <?php echo activeMenuSidebar('portfolios') || activeMenuSidebar('portfolio_categories') ? 'active' : false; ?>">
-                        <i class="nav-icon fas fa-file-alt"></i>
+                        <i class="nav-icon fas fa-paste"></i>
                         <p>
                             Quản lý dự án
                             <i class="fas fa-angle-left right"></i>
