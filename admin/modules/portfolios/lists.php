@@ -93,7 +93,7 @@ if (!empty(getBody()['page'])) {
 $offset = ($page - 1) * $perPage;
 
 //Truy vấn lấy tất cả bản ghi
-$listAllPortfolio = getRaw("SELECT portfolios.id, portfolios.name, portfolios.create_at, portfolio_categories.name as cate_name, users.fullname FROM portfolios INNER JOIN `portfolio_categories` ON portfolios.portfolio_category_id=`portfolio_categories`.id INNER JOIN users ON portfolios.user_id=users.id $filter ORDER BY portfolios.create_at DESC LIMIT $offset, $perPage");
+$listAllPortfolio = getRaw("SELECT portfolios.id, portfolios.name, portfolios.create_at, portfolio_categories.name as cate_name, portfolio_categories.id as cate_id, users.fullname, users.id as user_id FROM portfolios INNER JOIN `portfolio_categories` ON portfolios.portfolio_category_id=`portfolio_categories`.id INNER JOIN users ON portfolios.user_id=users.id $filter ORDER BY portfolios.create_at DESC LIMIT $offset, $perPage");
 
 //Truy vấn lấy danh sách danh mục
 $allportfolio_categories = getRaw("SELECT id, name FROM `portfolio_categories` ORDER BY name");
@@ -155,7 +155,7 @@ $msgType = getFlashData('msg_type');
           </div>
         </div>
         <div class="col-4">
-          <input type="search" class="form-control" name="keyword" placeholder="Từ khoá tìm kiếm..." value="<?php echo (!empty($keyword)) ? $keyword : false; ?>">
+          <input type="search" class="form-control" name="keyword" placeholder="Từ dự án tìm kiếm..." value="<?php echo (!empty($keyword)) ? $keyword : false; ?>">
         </div>
         <div class="col-2">
           <button type="submit" class="btn btn-primary btn-block">Tìm kiếm</button>
@@ -171,8 +171,8 @@ $msgType = getFlashData('msg_type');
         <tr>
           <th width="5%">STT</th>
           <th>Tên</th>
-          <th>Danh mục</th>
-          <th>Đăng bởi</th>
+          <th width="15%">Danh mục</th>
+          <th width="15%">Đăng bởi</th>
           <th width="15%">Thời gian</th>
           <th width="10%">Sửa</th>
           <th width="10%">Xoá</th>
@@ -188,8 +188,8 @@ $msgType = getFlashData('msg_type');
             <tr>
               <td><?php echo $count; ?></td>
               <td><a href="<?php echo getLinkAdmin('portfolios', 'edit', ['id' => $item['id']]); ?>"><?php echo $item['name']; ?></a></td>
-              <td><a href="£"><?php echo $item['cate_name']; ?></a></td>
-              <td><a href="£"><?php echo $item['fullname']; ?></a></td>
+              <td><a href="?<?php echo getLinkQueryString('cate_id', $item['cate_id']); ?>"><?php echo $item['cate_name']; ?></a></td>
+              <td><a href="?<?php echo getLinkQueryString('user_id', $item['user_id']); ?>"><?php echo $item['fullname']; ?></a></td>
               <td><?php echo (!empty($item['create_at'])) ? getDateFormat($item['create_at'], 'd/m/Y H:i:s') : false; ?></td>
               <td><a href="<?php echo getLinkAdmin('portfolios', 'edit', ['id' => $item['id']]); ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Sửa</a></td>
               <td>
