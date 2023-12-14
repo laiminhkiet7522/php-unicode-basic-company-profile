@@ -194,7 +194,7 @@ $msgType = getFlashData('msg_type');
               <td><a href="<?php echo getLinkAdmin('portfolios', 'edit', ['id' => $item['id']]); ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Sửa</a></td>
               <td>
                 <?php if ($item['id'] != $UserId) : ?>
-                  <a href="<?php echo getLinkAdmin('portfolios', 'delete', ['id' => $item['id']]); ?>" onclick="return confirm('Are you sure?')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Xoá</a>
+                  <a href="<?php echo getLinkAdmin('portfolios', 'delete', ['id' => $item['id']]); ?>" id="delete_sweet_alert2" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Xoá</a>
                 <?php endif; ?>
               </td>
             </tr>

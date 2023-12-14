@@ -125,7 +125,7 @@ $msgType = getFlashData('msg_type');
                   <td><a href="<?php echo getLinkAdmin('portfolio_categories', '', ['id' => $item['id'], 'view' => 'edit']); ?>"><?php echo $item['name']; ?></a><?php echo ' (' . $item['portfolios_count'] . ') '; ?><a href="<?php echo getLinkAdmin('portfolio_categories', 'duplicate', ['id' => $item['id']]); ?>" style="padding: 0 5px;" class="btn btn-danger btn-sm">Nhân bản</a></td>
                   <td><?php echo getDateFormat($item['create_at'], 'd/m/Y H:i:s'); ?></td>
                   <td class="text-center"><a href="<?php echo getLinkAdmin('portfolio_categories', '', ['id' => $item['id'], 'view' => 'edit']); ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a></td>
-                  <td class="text-center"><a href="<?php echo getLinkAdmin('portfolio_categories', 'delete', ['id' => $item['id']]); ?>" onclick="return confirm('Bạn có chắc chắn muốn xoá?')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a></td>
+                  <td class="text-center"><a href="<?php echo getLinkAdmin('portfolio_categories', 'delete', ['id' => $item['id']]); ?>" id="delete_sweet_alert2" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a></td>
                 </tr>
               <?php
               endforeach;
