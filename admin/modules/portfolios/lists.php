@@ -187,7 +187,7 @@ $msgType = getFlashData('msg_type');
         ?>
             <tr>
               <td><?php echo $count; ?></td>
-              <td><a href="<?php echo getLinkAdmin('portfolios', 'edit', ['id' => $item['id']]); ?>"><?php echo $item['name']; ?></a></td>
+              <td><a href="<?php echo getLinkAdmin('portfolios', 'edit', ['id' => $item['id']]); ?>"><?php echo $item['name']; ?></a> <a href="<?php echo getLinkAdmin('portfolios', 'duplicate', ['id' => $item['id']]); ?>" style="padding: 0 5px;" class="btn btn-danger btn-sm">Nhân bản</a></td>
               <td><a href="?<?php echo getLinkQueryString('cate_id', $item['cate_id']); ?>"><?php echo $item['cate_name']; ?></a></td>
               <td><a href="?<?php echo getLinkQueryString('user_id', $item['user_id']); ?>"><?php echo $item['fullname']; ?></a></td>
               <td><?php echo (!empty($item['create_at'])) ? getDateFormat($item['create_at'], 'd/m/Y H:i:s') : false; ?></td>
