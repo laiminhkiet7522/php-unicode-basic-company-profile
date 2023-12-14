@@ -56,18 +56,8 @@ if (isPost()) {
     '.',
     $path
   );
-  $filename = "services_" . uniqid() . '.' . $arr[1];
 
-  if (
-    $arr[1] == "jpg" || $arr[1] == "png" || $arr[1] == "jpeg"
-  ) {
-    move_uploaded_file(
-      $path_tmp,
-      $_SERVER['DOCUMENT_ROOT'] . '/php-unicode-basic-company-profile/uploads/' . $filename
-    );
-  } else {
-    $errors['icon']['invalid'] = 'Hình ảnh tải lên phải thuộc các dạng jpg, jpeg, png';
-  }
+  $filename = "service_" . uniqid() . '.' . $arr[1];
 
   //Lưu đường dẫn lên server
   $upload_path = _WEB_HOST_ROOT . '/uploads/' . $filename;
@@ -77,14 +67,37 @@ if (isPost()) {
   if (empty($errors)) {
     //Không có lỗi xảy ra
 
-    $dataUpdate = [
-      'name' => trim($body['name']),
-      'slug' => trim($body['slug']),
-      'icon' => $upload_path,
-      'description' => trim($body['description']),
-      'content' => trim($body['content']),
-      'update_at' => date('Y-m-d H:i:s')
-    ];
+    if ($_FILES['icon']['name'] != '') {
+      if (
+        $arr[1] == "jpg" || $arr[1] == "png" || $arr[1] == "jpeg"
+      ) {
+        move_uploaded_file(
+          $path_tmp,
+          $_SERVER['DOCUMENT_ROOT'] . '/php-unicode-basic-company-profile/uploads/' . $filename
+        );
+      } else {
+        setFlashData('msg', 'Hình ảnh upload phải thuộc dạng jpg, jpeg, png');
+        setFlashData('msg_type', 'danger');
+        setFlashData('old', $body);
+        redirect('admin?module=services&action=edit&id=' . $serviceId); //Load lại trang cập nhật dự án
+      }
+      $dataUpdate = [
+        'name' => trim($body['name']),
+        'slug' => trim($body['slug']),
+        'icon' => $upload_path,
+        'description' => trim($body['description']),
+        'content' => trim($body['content']),
+        'update_at' => date('Y-m-d H:i:s')
+      ];
+    } else {
+      $dataUpdate = [
+        'name' => trim($body['name']),
+        'slug' => trim($body['slug']),
+        'description' => trim($body['description']),
+        'content' => trim($body['content']),
+        'update_at' => date('Y-m-d H:i:s')
+      ];
+    }
 
     $condition = "id=$serviceId";
 
