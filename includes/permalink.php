@@ -10,7 +10,7 @@ function getPreFixLinkService($module = '')
     'services' => 'dich-vu',
     'pages' => 'thong-tin',
     'portfolios' => 'du-an',
-    'blog_categories' => 'danh-muc',
+    'blog_categories' => 'danh-muc-blog',
     'blog' => 'blog'
   ];
 

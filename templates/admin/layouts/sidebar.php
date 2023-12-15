@@ -164,10 +164,15 @@ $userDetail = getUserInfo($userId);
                         <li class="nav-item">
                             <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=blog&action=add'; ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Thêm blog mới</p>
+                                <p>Thêm Blog mới</p>
                             </a>
                         </li>
-
+                        <li class="nav-item">
+                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=blog_categories'; ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Danh mục Blog</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <!--
