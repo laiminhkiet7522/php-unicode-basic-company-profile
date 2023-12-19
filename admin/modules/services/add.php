@@ -45,7 +45,7 @@ if (isPost()) {
     $path
   );
 
-  $filename = "services_" . uniqid() . '.' . $arr[1];
+  $filename = "service_" . uniqid() . '.' . $arr[1];
 
   //Lưu đường dẫn lên server
   $upload_path = _WEB_HOST_ROOT . '/uploads/' . $filename;
