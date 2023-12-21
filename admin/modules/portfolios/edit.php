@@ -194,7 +194,7 @@ $allCate = getRaw("SELECT * FROM portfolio_categories ORDER BY name");
       <div class="form-group">
         <label for="">Ảnh đại diện</label>
         <input name="thumbnail" class="form-control" type="file" style="width: 20%; padding: 0.25rem 0.75rem !important;" id="update_image">
-        <img src="<?php echo old('thumbnail', $old); ?>" id="showImage" alt="" style="width: 100px; height: 100px; margin-top: 10px;">
+        <img src="<?php echo old('thumbnail', $old); ?>" id="showImage" alt="" style="width: 150px; height: 140px; margin-top: 10px;">
         <?php echo form_error('thumbnail', $errors, '<span class="error">', '</span>'); ?>
       </div>
   </div>

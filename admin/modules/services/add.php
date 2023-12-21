@@ -159,7 +159,7 @@ $old = getFlashData('old');
     if (input.files && input.files[0]) {
       var reader = new FileReader();
       reader.onload = function(e) {
-        $('#load_image').attr('src', e.target.result).width(100).height(100);
+        $('#load_image').attr('src', e.target.result).width(150).height(140);
       };
       reader.readAsDataURL(input.files[0]);
     }

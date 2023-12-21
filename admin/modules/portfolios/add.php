@@ -73,7 +73,7 @@ if (isPost()) {
         $path_tmp,
         $_SERVER['DOCUMENT_ROOT'] . '/php-unicode-basic-company-profile/uploads/' . $filename
       );
-    }else{
+    } else {
       setFlashData('msg', 'Hình ảnh upload phải thuộc dạng jpg, jpeg, png');
       setFlashData('msg_type', 'danger');
       setFlashData('old', $body);
@@ -125,6 +125,7 @@ $old = getFlashData('old');
 //Truy vấn lấy danh sách danh mục
 $allCate = getRaw("SELECT * FROM portfolio_categories ORDER BY name");
 ?>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <!-- Main content -->
 <section class="content">
   <div class="container-fluid">
@@ -187,6 +188,15 @@ $allCate = getRaw("SELECT * FROM portfolio_categories ORDER BY name");
         <?php echo form_error('thumbnail', $errors, '<span class="error">', '</span>'); ?>
       </div>
 
+      <div class="form-group">
+        <label for="">Ảnh dự án (có thể chọn nhiều hình)</label>
+        <input required name="gallery[]" style="width: 20%; padding: 0.25rem 0.75rem !important;" type="file" multiple class="form-control" onchange="loadFile(event)">
+        <div class="row" id="cont" style="margin-top: 10px;"></div>
+
+      </div>
+  </div>
+  </div>
+
   </div>
 
   <button type="submit" class="btn btn-primary">Thêm mới</button>
@@ -199,11 +209,42 @@ $allCate = getRaw("SELECT * FROM portfolio_categories ORDER BY name");
     if (input.files && input.files[0]) {
       var reader = new FileReader();
       reader.onload = function(e) {
-        $('#load_image').attr('src', e.target.result).width(150).height(120);
+        $('#load_image').attr('src', e.target.result).width(150).height(140);
       };
       reader.readAsDataURL(input.files[0]);
     }
   }
+</script>
+
+<script>
+  var loadFile = function(event) {
+    var imgCont = document.getElementById("cont");
+    for (let i = 0; i < event.target.files.length; i++) {
+      var divElm = document.createElement('div');
+      divElm.style.marginRight = "10px";
+      divElm.id = "rowdiv" + i;
+      var spanElm = document.createElement('span');
+      var image = document.createElement('img');
+      image.src = URL.createObjectURL(event.target.files[i]);
+      image.id = "output" + i;
+      image.width = "150";
+      image.height = "140";
+      spanElm.appendChild(image);
+      var deleteImg = document.createElement('p');
+      deleteImg.innerHTML = "x";
+      deleteImg.style.cursor = "pointer";
+      deleteImg.style.color = "red";
+      deleteImg.style.fontWeight = "blod";
+      deleteImg.style.fontSize = "20px";
+      deleteImg.align = "center";
+      deleteImg.onclick = function() {
+        this.parentNode.remove()
+      };
+      divElm.appendChild(spanElm);
+      divElm.appendChild(deleteImg);
+      imgCont.appendChild(divElm);
+    }
+  };
 </script>
 <?php
 layout('footer', 'admin', $data);

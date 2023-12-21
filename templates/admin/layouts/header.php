@@ -101,6 +101,12 @@ autoRemoveTokenLogin();
         });
     </script>
 
+    <style>
+        .thumb{
+            margin-left: 10px;
+        }
+    </style>
+
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">

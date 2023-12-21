@@ -158,7 +158,7 @@ if (empty($old) && !empty($serviceDetail)) {
       <div class="form-group">
         <label for="">Icon</label>
         <input name="icon" class="form-control" type="file" style="width: 20%; padding: 0.25rem 0.75rem !important;" id="update_image">
-        <img id="showImage" src="<?php echo old('icon', $old); ?>" alt="" style="width: 100px; height: 100px; margin-top: 10px;">
+        <img id="showImage" src="<?php echo old('icon', $old); ?>" alt="" style="width: 150px; height: 140px; margin-top: 10px;">
         <?php echo form_error('icon', $errors, '<span class="error">', '</span>'); ?>
       </div>
   </div>
