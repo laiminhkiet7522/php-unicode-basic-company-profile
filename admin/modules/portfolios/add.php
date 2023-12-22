@@ -45,6 +45,7 @@ if (isPost()) {
     $errors['portfolio_category_id']['required'] = 'Danh mục bắt buộc phải chọn';
   }
 
+  //Validate ảnh đại diện dự án: Bắt buộc phải chọn
   if ($_FILES['thumbnail']['name'] == '') {
     $errors['thumbnail']['required'] = 'Ảnh bắt buộc phải chọn';
   }
@@ -80,6 +81,39 @@ if (isPost()) {
       redirect('admin?module=portfolios&action=add'); //Load lại dự án dự án
     }
 
+    $save_url = array();
+    if ($_FILES['gallery']['name'][0] != '') {
+      foreach ($_FILES['gallery']['tmp_name'] as $key => $tmp_name) {
+        $file_name_multi = $key . $_FILES['gallery']['name'][$key];
+        $file_tmp_multi = $_FILES['gallery']['tmp_name'][$key];
+
+        $array_multi = explode(
+          '.',
+          $file_name_multi
+        );
+
+        $file_name_multi = "portfolio_gallery_" . uniqid() . '.' . $array_multi[1];
+
+        //Lưu đường dẫn lên server
+        $upload_path_multi = _WEB_HOST_ROOT . '/uploads/' . $file_name_multi;
+        $save_url[] = $upload_path_multi;
+
+        if (
+          $array_multi[1] == "jpg" || $array_multi[1] == "png" || $array_multi[1] == "jpeg"
+        ) {
+          move_uploaded_file(
+            $file_tmp_multi,
+            $_SERVER['DOCUMENT_ROOT'] . '/php-unicode-basic-company-profile/uploads/' . $file_name_multi
+          );
+        } else {
+          setFlashData('msg', 'Hình ảnh upload phải thuộc dạng jpg, jpeg, png');
+          setFlashData('msg_type', 'danger');
+          setFlashData('old', $body);
+          redirect('admin?module=portfolios&action=add'); //Load lại dự án dự án
+        }
+      }
+    }
+
     $dataInsert = [
       'name' => trim($body['name']),
       'slug' => trim($body['slug']),
@@ -93,6 +127,19 @@ if (isPost()) {
     ];
 
     $insertStatus = insert('portfolios', $dataInsert);
+
+    $currentId = insertId(); //Lấy id vừa insert 
+    foreach ($save_url as $item) {
+      $dataImages = [
+        'portfolio_id' => $currentId,
+        'image' => $item,
+        'create_at' => date('Y-m-d H:i:s')
+      ];
+      insert(
+        'portfolio_images',
+        $dataImages
+      );
+    }
 
     if ($insertStatus) {
       setFlashData('msg', 'Thêm dự án thành công');
@@ -190,18 +237,15 @@ $allCate = getRaw("SELECT * FROM portfolio_categories ORDER BY name");
 
       <div class="form-group">
         <label for="">Ảnh dự án (có thể chọn nhiều hình)</label>
-        <input required name="gallery[]" style="width: 20%; padding: 0.25rem 0.75rem !important;" type="file" multiple class="form-control" onchange="loadFile(event)">
-        <div class="row" id="cont" style="margin-top: 10px;"></div>
+        <input name="gallery[]" type="file" style="width: 20%; padding: 0.25rem 0.75rem !important;" multiple class="form-control" onchange="loadFile(event)">
+        <div class="row" id="cont" style="margin-top: 10px;">
 
+        </div>
       </div>
-  </div>
-  </div>
 
-  </div>
-
-  <button type="submit" class="btn btn-primary">Thêm mới</button>
-  <a href="<?php echo getLinkAdmin('portfolios', 'lists'); ?>" class="btn btn-success">Quay lại</a>
-  </form>
+      <button type="submit" class="btn btn-primary">Thêm mới</button>
+      <a href="<?php echo getLinkAdmin('portfolios', 'lists'); ?>" class="btn btn-success">Quay lại</a>
+    </form>
   </div>
 </section>
 <script type="text/javascript">

@@ -116,6 +116,8 @@ function getRows($sql){
 }
 
 //Lấy id vừa insert
-function insertId(){
-
+function insertId()
+{
+    global $conn;
+    return $conn->lastInsertId();
 }
