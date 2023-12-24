@@ -62,7 +62,7 @@ if (isPost()){
 
     }
 
-    redirect('admin?module=auth&action=forgot');
+    redirect('?module=auth&action=forgot');
 }
 
 $msg = getFlashData('msg');

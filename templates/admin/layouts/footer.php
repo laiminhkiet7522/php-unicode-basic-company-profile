@@ -1,6 +1,6 @@
 </div>
 <footer class="main-footer">
-    <strong>Copyright &copy; <?php echo date('Y'); ?>. Xây dựng bởi <a href="https://unicode.vn">Lại Minh Kiệt</a></strong>.
+    <strong>Copyright &copy; <?php echo date('Y'); ?>. Xây dựng bởi <a href="https://unicode.vn">Unicode Academy</a></strong>.
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
         <b>Version</b> 1.0
@@ -19,12 +19,6 @@
 <script src="<?php echo _WEB_HOST_ADMIN_TEMPLATE; ?>/assets/plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="<?php echo _WEB_HOST_ADMIN_TEMPLATE; ?>/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-
-<!-- sweetalert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
     $.widget.bridge('uibutton', $.ui.button)
@@ -55,20 +49,21 @@
 <script src="<?php echo _WEB_HOST_ADMIN_TEMPLATE; ?>/assets/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo _WEB_HOST_ADMIN_TEMPLATE; ?>/assets/js/demo.js"></script>
-
+<!-- Sweetalert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.all.min.js"></script>
 <?php
 $body = getBody();
 $module = null;
 if (!empty($body['module'])) {
     $module = $body['module'];
 }
+
 ?>
 <script type="text/javascript">
     let rootUrl = '<?php echo _WEB_HOST_ROOT; ?>';
-    let prefixUrl = '<?php echo getPreFixLinkService($module); ?>';
+    let prefixUrl = '<?php echo getPrefixLinkService($module); ?>';
 </script>
-
-<script src="<?php echo _WEB_HOST_ADMIN_TEMPLATE; ?>/assets/js/custom.js?version=<?php echo rand(); ?>"></script>
+<script src="<?php echo _WEB_HOST_ADMIN_TEMPLATE; ?>/assets/js/custom.js?ver=<?php echo rand(); ?>"></script>
 </body>
 
 </html>

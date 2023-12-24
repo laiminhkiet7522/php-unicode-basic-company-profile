@@ -47,6 +47,7 @@ if (isGet()) {
     //Xử lý lọc theo chuyên mục
     if (!empty($body['cate_id'])) {
         $cateId = $body['cate_id'];
+
         if (!empty($filter) && strpos($filter, 'WHERE') >= 0) {
 
             $operator = 'AND';
@@ -61,13 +62,13 @@ if (isGet()) {
 //Xử lý phân blog
 
 //1. Lấy số lượng bản ghi blog
-$allBlogsNum = getRows("SELECT id FROM blog $filter");
+$allBlogNum = getRows("SELECT id FROM blog $filter");
 
 //2. Số lượng bản ghi trên 1 blog
 $perPage = _PER_PAGE; //Mỗi blog có 3 bản ghi
 
 //3. Tính số blog
-$maxPage = ceil($allBlogsNum / $perPage); //Làm tròn lên
+$maxPage = ceil($allBlogNum / $perPage); //Làm tròn lên
 
 //4. Xử lý số blog dựa vào phương thức GET
 if (!empty(getBody()['page'])) {
@@ -94,7 +95,7 @@ if (!empty($_SERVER['QUERY_STRING'])) {
 }
 
 //Lấy dữ liệu blog
-$listBlogs = getRaw("SELECT blog.id, title, blog.create_at, fullname, users.id as user_id, view_count, blog_categories.name as cate_name, category_id FROM blog INNER JOIN users ON blog.user_id=users.id INNER JOIN blog_categories ON blog.category_id=blog_categories.id $filter ORDER BY blog.create_at DESC LIMIT $offset, $perPage");
+$listBlog = getRaw("SELECT blog.id, title, blog.create_at, fullname, users.id as user_id, view_count, blog_categories.name as cate_name, category_id FROM blog INNER JOIN users ON blog.user_id=users.id INNER JOIN blog_categories ON blog.category_id=blog_categories.id $filter ORDER BY blog.create_at DESC LIMIT $offset, $perPage");
 
 //Lấy dữ liệu tất cả người dùng
 $allUsers = getRaw("SELECT id, fullname, email FROM users ORDER BY fullname");
@@ -104,6 +105,7 @@ $allCategories = getRaw("SELECT id, name FROM blog_categories ORDER BY name");
 
 $msg = getFlashData('msg');
 $msgType = getFlashData('msg_type');
+
 ?>
 <!-- Main content -->
 <section class="content">
@@ -141,7 +143,7 @@ $msgType = getFlashData('msg_type');
                     </select>
                 </div>
                 <div class="col-3">
-                    <input type="search" name="keyword" class="form-control" placeholder="Nhập từ khóa tìm kiếm..." value="<?php echo (!empty($keyword)) ? $keyword : false; ?>" />
+                    <input type="search" name="keyword" class="form-control" placeholder="Nhập từ khoá tìm kiếm..." value="<?php echo (!empty($keyword)) ? $keyword : false; ?>" />
                 </div>
                 <div class="col-3">
                     <button type="submit" class="btn btn-primary btn-block">Tìm kiếm</button>
@@ -161,25 +163,33 @@ $msgType = getFlashData('msg_type');
                     <th width="15%">Chuyên mục</th>
                     <th width="15%">Đăng bởi</th>
                     <th width="10%">Thời gian</th>
+
                     <th width="10%">Sửa</th>
                     <th width="10%">Xoá</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                if (!empty($listBlogs)) :
-                    foreach ($listBlogs as $key => $item) :
+                if (!empty($listBlog)) :
+                    foreach ($listBlog as $key => $item) :
                 ?>
                         <tr>
                             <td><?php echo $key + 1; ?></td>
-                            <td><a href="<?php echo getLinkAdmin('blog', 'edit', ['id' => $item['id']]); ?>"><?php echo $item['title']; ?></a><br>
-                                <a href="<?php echo getLinkAdmin('blog', 'duplicate', ['id' => $item['id']]); ?>" style="padding: 0 5px;" class="btn btn-danger btn-sm">Nhân bản</a> <span class="btn btn-success btn-sm" style="padding: 0 5px;"><?php echo $item['view_count']; ?> lượt xem</span> <a href="" class="btn btn-primary btn-sm" style="padding: 0 5px;" target="_blank">Xem</a>
+
+                            <td><a href="<?php echo getLinkAdmin('blog', 'edit', ['id' => $item['id']]); ?>">
+                                    <?php echo $item['title']; ?></a><br />
+                                <a href="<?php echo getLinkAdmin('blog', 'duplicate', ['id' => $item['id']]); ?>" style="padding: 0 5px;" class="btn btn-danger btn-sm">Nhân bản</a>
+                                <span class="btn btn-success btn-sm" style="padding: 0 5px;"><?php echo $item['view_count']; ?> lượt xem</span>
+                                <a href="#" class="btn btn-primary btn-sm" style="padding: 0 5px;" target="_blank">Xem</a>
                             </td>
-                            <td><a href="?<?php echo getLinkQueryString('cate_id', $item['category_id']); ?>"><?php echo $item['cate_name']; ?></a></td>
+                            <td>
+                                <a href="?<?php echo getLinkQueryString('cate_id', $item['category_id']); ?>"><?php echo $item['cate_name']; ?></a>
+                            </td>
                             <td>
                                 <a href="?<?php echo getLinkQueryString('user_id', $item['user_id']); ?>"><?php echo $item['fullname']; ?></a>
                             </td>
                             <td><?php echo getDateFormat($item['create_at'], 'd/m/Y H:i:s'); ?></td>
+
                             <td class="text-center"><a href="<?php echo getLinkAdmin('blog', 'edit', ['id' => $item['id']]); ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Sửa</a></td>
                             <td class="text-center"><a href="<?php echo getLinkAdmin('blog', 'delete', ['id' => $item['id']]); ?>" id="delete_sweet_alert2" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Xoá</a></td>
                         </tr>
@@ -188,7 +198,7 @@ $msgType = getFlashData('msg_type');
                 else :
                     ?>
                     <tr>
-                        <td colspan="8" class="text-center">Không có blog</td>
+                        <td colspan="8" class="alert alert-danger text-center">Không có blog</td>
                     </tr>
                 <?php endif; ?>
             </tbody>

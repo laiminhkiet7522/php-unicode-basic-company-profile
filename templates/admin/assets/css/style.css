@@ -2,3 +2,7 @@
     color: red;
     font-size: 95%;
 }
+
+.gallery-images .gallery-item{
+    margin-bottom: 10px;
+}

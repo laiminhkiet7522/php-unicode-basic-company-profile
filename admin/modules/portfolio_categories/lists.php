@@ -132,7 +132,7 @@ $msgType = getFlashData('msg_type');
             else :
               ?>
               <tr>
-                <td colspan="5" class="text-center">Không có danh mục dự án</td>
+                <td colspan="5" class="alert alert-danger text-center">Không có danh mục dự án</td>
               </tr>
             <?php
             endif;

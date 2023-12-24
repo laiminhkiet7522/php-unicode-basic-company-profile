@@ -1,7 +1,7 @@
 <?php
 if (!defined('_INCODE')) die('Access Deined...');
 $data = [
-  'pageTitle' => 'Thêm trang'
+    'pageTitle' => 'Thêm trang'
 ];
 
 layout('header', 'admin', $data);
@@ -12,62 +12,65 @@ layout('breadcrumb', 'admin', $data);
 $userId = isLogin()['user_id'];
 
 //Xử lý thêm nhóm người dùng
-if (isPost()) {
-  //Validate form
-  $body = getBody(); //Lấy tất cả dữ liệu trong form
+if (isPost()){
 
-  $errors = []; //Mảng lưu trữ các lỗi
+    //Validate form
+    $body = getBody(); //Lấy tất cả dữ liệu trong form
 
-  //Validate tên trang: Bắt buộc nhập
-  if (empty(trim($body['title']))) {
-    $errors['name']['required'] = 'Tiêu đề trang bắt buộc phải nhập';
-  }
+    $errors = []; //Mảng lưu trữ các lỗi
 
-  //Validate slug: Bắt buộc nhập
-  if (empty(trim($body['slug']))) {
-    $errors['slug']['required'] = 'Đường dẫn tĩnh bắt buộc phải nhập';
-  }
+    //Validate tên trang: Bắt buộc nhập
 
-  //Validate nội dung: Bắt buộc nhập
-  if (empty(trim($body['content']))) {
-    $errors['content']['required'] = 'Nội dung bắt buộc phải nhập';
-  }
-
-  //Kiểm tra mảng $errors
-  if (empty($errors)) {
-    //Không có lỗi xảy ra
-
-    $dataInsert = [
-      'title' => trim($body['title']),
-      'slug' => trim($body['slug']),
-      'content' => trim($body['content']),
-      'user_id' => $userId,
-      'create_at' => date('Y-m-d H:i:s')
-    ];
-
-    $insertStatus = insert('pages', $dataInsert);
-
-    if ($insertStatus) {
-      setFlashData('msg', 'Thêm trang thành công');
-      setFlashData('msg_type', 'success');
-
-      redirect('admin?module=pages'); //Chuyển hướng qua trang danh sách
-
-    } else {
-      setFlashData('msg', 'Hệ thống đang gặp sự cố! Vui lòng thử lại sau.');
-      setFlashData('msg_type', 'danger');
-
-      redirect('admin?module=pages&action=add'); //Load lại trang thêm trang
+    if (empty(trim($body['title']))){
+        $errors['title']['required'] = 'Tên trang bắt buộc phải nhập';
     }
-  } else {
 
-    //Có lỗi xảy ra
-    setFlashData('msg', 'Vui lòng kiểm tra dữ liệu nhập vào');
-    setFlashData('msg_type', 'danger');
-    setFlashData('errors', $errors);
-    setFlashData('old', $body);
-    redirect('admin?module=pages&action=add'); //Load lại trang trang
-  }
+    //Validate slug: Bắt buộc nhập
+    if (empty(trim($body['slug']))){
+        $errors['slug']['required'] = 'Đường dẫn tĩnh bắt buộc phải nhập';
+    }
+
+    //Validate nội dung: Bắt buộc phải nhập
+    if (empty(trim($body['content']))){
+        $errors['content']['required'] = 'Nội dung bắt buộc phải nhập';
+    }
+
+    //Kiểm tra mảng $errors
+    if (empty($errors)) {
+        //Không có lỗi xảy ra
+
+        $dataInsert = [
+            'title' => trim($body['title']),
+            'slug' => trim($body['slug']),
+            'content' => trim($body['content']),
+            'user_id' => $userId,
+            'create_at' => date('Y-m-d H:i:s')
+        ];
+
+        $insertStatus = insert('pages', $dataInsert);
+
+        if ($insertStatus){
+            setFlashData('msg', 'Thêm trang thành công');
+            setFlashData('msg_type', 'success');
+
+            redirect('admin?module=pages'); //Chuyển hướng qua trang danh sách
+
+        }else{
+            setFlashData('msg', 'Hệ thống đang gặp sự cố! Vui lòng thử lại sau.');
+            setFlashData('msg_type', 'danger');
+
+            redirect('admin?module=pages&action=add'); //Load lại trang thêm nhóm người dùng
+        }
+
+    }else{
+
+        //Có lỗi xảy ra
+        setFlashData('msg', 'Vui lòng kiểm tra dữ liệu nhập vào');
+        setFlashData('msg_type', 'danger');
+        setFlashData('errors', $errors);
+        setFlashData('old', $body);
+        redirect('admin?module=pages&action=add'); //Load lại trang nhóm người dùng
+    }
 }
 
 $msg = getFlashData('msg');
@@ -76,37 +79,37 @@ $errors = getFlashData('errors');
 $old = getFlashData('old');
 
 ?>
-<!-- Main content -->
-<section class="content">
-  <div class="container-fluid">
-    <form action="" method="post" enctype="multipart/form-data">
-      <?php
-      getMsg($msg, $msgType);
-      ?>
-      <div class="form-group">
-        <label for="">Tên trang</label>
-        <input type="text" class="form-control slug" name="title" placeholder="Tên trang..." value="<?php echo old('title', $old); ?>" />
-        <?php echo form_error('title', $errors, '<span class="error">', '</span>'); ?>
-      </div>
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <form action="" method="post">
+                <?php
+                getMsg($msg, $msgType);
+                ?>
+                <div class="form-group">
+                    <label for="">Tên trang</label>
+                    <input type="text" class="form-control slug" name="title" placeholder="Tên trang..." value="<?php echo old('title', $old); ?>"/>
+                    <?php echo form_error('title', $errors, '<span class="error">', '</span>'); ?>
+                </div>
 
-      <div class="form-group">
-        <label for="">Đường dẫn tĩnh</label>
-        <input type="text" class="form-control render-slug" name="slug" placeholder="Đường dẫn tĩnh..." value="<?php echo old('slug', $old); ?>" />
-        <?php echo form_error('slug', $errors, '<span class="error">', '</span>'); ?>
-        <p class="render-link"><b>Link</b>: <span></span></p>
-      </div>
+                <div class="form-group">
+                    <label for="">Đường dẫn tĩnh</label>
+                    <input type="text" class="form-control render-slug" name="slug" placeholder="Đường dẫn tĩnh..." value="<?php echo old('slug', $old); ?>"/>
+                    <?php echo form_error('slug', $errors, '<span class="error">', '</span>'); ?>
+                    <p class="render-link"><b>Link</b>: <span></span></p>
+                </div>
 
-      <div class="form-group">
-        <label for="">Nội dung</label>
-        <textarea name="content" id="file-picker" class="form-control"><?php echo old('content', $old) ?></textarea>
-        <?php echo form_error('content', $errors, '<span class="error">', '</span>'); ?>
-      </div>
-  </div>
+                <div class="form-group">
+                    <label for="">Nội dung</label>
+                    <textarea name="content" class="form-control editor"><?php echo old('content', $old) ?></textarea>
+                    <?php echo form_error('content', $errors, '<span class="error">', '</span>'); ?>
+                </div>
 
-  <button type="submit" class="btn btn-primary">Thêm mới</button>
-  <a href="<?php echo getLinkAdmin('pages', 'lists'); ?>" class="btn btn-success">Quay lại</a>
-  </form>
-  </div>
-</section>
+                <button type="submit" class="btn btn-primary">Thêm mới</button>
+                <a href="<?php echo getLinkAdmin('pages', 'lists'); ?>" class="btn btn-success">Quay lại</a>
+            </form>
+        </div>
+    </section>
+
 <?php
 layout('footer', 'admin', $data);

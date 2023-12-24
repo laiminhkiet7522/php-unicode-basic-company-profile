@@ -57,19 +57,19 @@ if (!empty($token)){
                     $content = 'Chúc mừng bạn đã đổi mật khẩu thành công!';
                     sendMail($email, $subject, $content);
 
-                    redirect('admin?module=auth&action=login');
+                    redirect('?module=auth&action=login');
                 }else{
                     setFlashData('msg', 'Lỗi hệ thống! Bạn không thể đổi mật khẩu');
                     setFlashData('msg_type', 'danger');
 
-                    redirect('admin?module=auth&action=reset&token='.$token);
+                    redirect('?module=auth&action=reset&token='.$token);
                 }
 
             }else{
                 setFlashData('msg', 'Vui lòng kiểm tra dữ liệu nhập vào');
                 setFlashData('msg_type', 'danger');
                 setFlashData('errors', $errors);
-                redirect('admin?module=auth&action=reset&token='.$token);
+                redirect('?module=auth&action=reset&token='.$token);
             }
 
             //redirect('?module=auth&action=reset&token='.$token);
