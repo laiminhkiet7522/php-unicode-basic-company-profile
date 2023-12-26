@@ -19,10 +19,13 @@ if (!empty($body['id'])) {
     //Truy vấn lấy thư viện ảnh
     $galleryDetailArr = getRaw("SELECT * FROM portfolio_images WHERE portfolio_id=$portfolioId");
 
+    $galleryIdsArr = []; //lưu trữ id gallery trong database
+
     $galleryData = [];
     if (!empty($galleryDetailArr)) {
         foreach ($galleryDetailArr as $gallery) {
             $galleryData[] = $gallery['image'];
+            $galleryIdsArr[] = $gallery['id'];
         }
     }
 
@@ -93,7 +96,7 @@ if (isPost()) {
 
         //Trường hợp 1: Cái mới lớn hơn cái cũ
         if (count($galleryArr) > count($galleryData)) {
-
+            
             //Insert những ảnh còn thiếu và update những ảnh thay đổi
             if (!empty($galleryData)) {
                 foreach ($galleryData as $key => $item) {
@@ -103,7 +106,7 @@ if (isPost()) {
                     ];
 
                     //Update thư viện ảnh
-                    $condition = "image = '$item'";
+                    $condition = "id=" . $galleryIdsArr[$key];
                     update('portfolio_images', $dataImages, $condition);
                 }
             } else {
@@ -129,7 +132,7 @@ if (isPost()) {
                 ];
 
                 //Update thư viện ảnh
-                $condition = "image = '" . $galleryData[$key] . "'";
+                $condition = "id=" . $galleryIdsArr[$key];
                 update('portfolio_images', $dataImages, $condition);
             }
 
@@ -144,7 +147,7 @@ if (isPost()) {
                 // ];
 
                 //Delete ảnh thừa
-                $condition = "image = '" . $galleryData[$index] . "'";
+                $condition = "id=" . $galleryIdsArr[$index];
                 delete('portfolio_images', $condition);
             }
         }
