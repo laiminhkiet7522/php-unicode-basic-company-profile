@@ -389,3 +389,117 @@ function getLinkQueryString($key, $value)
 
     return $queryFinal;
 }
+
+function setExceptionError($exception)
+{
+    if (_DEBUG) {
+
+        setFlashData('debug_error', [
+            'error_code' => $exception->getCode(),
+            'error_message' => $exception->getMessage(),
+            'error_file' => $exception->getFile(),
+            'error_line' => $exception->getLine()
+        ]);
+
+        $reload = getFlashData('reload');
+
+        if (!$reload) {
+
+            setFlashData('reload', 1);
+            if (isAdmin()) {
+                redirect(getPathAdmin());
+            } else {
+                redirect(getPath());
+            }
+        }
+
+        die();
+    } else {
+        //removeSession('reload');
+        //removeSession('debug_error');
+        require_once _WEB_PATH_ROOT . '/modules/errors/500.php';
+    }
+}
+
+function setErrorHandler($errno, $errstr, $errfile, $errline)
+{
+    if (!_DEBUG) {
+        require_once _WEB_PATH_ROOT . '/modules/errors/500.php';
+        //removeSession('reload');
+        //removeSession('debug_error');
+        return;
+    }
+
+    setFlashData('debug_error', [
+        'error_code' => $errno,
+        'error_message' => $errstr,
+        'error_file' => $errfile,
+        'error_line' => $errline
+    ]);
+
+    $reload = getFlashData('reload');
+
+    if (!$reload) {
+        setFlashData('reload', 1);
+        if (isAdmin()) {
+            redirect(getPathAdmin());
+        } else {
+            redirect(getPath());
+        }
+    } else {
+        //removeSession('reload');
+    }
+
+    die();
+
+    //throw new ErrorException($errstr, $errno, 1, $errfile, $errline);
+}
+
+function loadExceptionError()
+{
+    $debugError = getFlashData('debug_error');
+
+    if (!empty($debugError)) {
+
+        if (_DEBUG) {
+            require_once _WEB_PATH_ROOT . '/modules/errors/exception.php';
+        } else {
+            require_once _WEB_PATH_ROOT . '/modules/errors/500.php';
+        }
+    }
+}
+
+function getPathAdmin()
+{
+    $path = 'admin';
+    if (!empty($_SERVER['QUERY_STRING'])) {
+        $path .= '?' . trim($_SERVER['QUERY_STRING']);
+    }
+
+    return $path;
+}
+
+function getPath()
+{
+    $path = '';
+    if (!empty($_SERVER['QUERY_STRING'])) {
+        $path .= '?' . trim($_SERVER['QUERY_STRING']);
+    }
+
+    return $path;
+}
+
+//Hàm kiểm tra trang hiện tại có phải trang admin hay không
+function isAdmin()
+{
+    if (!empty($_SERVER['PHP_SELF'])) {
+        $currentFile = $_SERVER['PHP_SELF'];
+        $dirFile = dirname($currentFile);
+        $baseNameDir = basename($dirFile);
+        if (trim($baseNameDir) == 'admin') {
+            return true;
+        }
+    }
+
+    return false;
+}

@@ -3,7 +3,6 @@ if (!defined('_INCODE')) die('Access Deined...');
 /*
  * File này hiển thị danh sách dự án
  * */
-
 $data = [
     'pageTitle' => 'Quản lý dự án'
 ];

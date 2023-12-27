@@ -15,23 +15,30 @@ require_once '../includes/session.php';
 
 $module = _MODULE_DEFAULT_ADMIN;
 $action = _ACTION_DEFAULT;
+$debug_status = _DEBUG;
 
-if (!empty($_GET['module'])){
-    if (is_string($_GET['module'])){
+set_exception_handler("setExceptionError");
+
+set_error_handler('setErrorHandler');
+
+loadExceptionError();
+
+if (!empty($_GET['module'])) {
+    if (is_string($_GET['module'])) {
         $module = trim($_GET['module']);
     }
 }
 
-if (!empty($_GET['action'])){
-    if (is_string($_GET['action'])){
+if (!empty($_GET['action'])) {
+    if (is_string($_GET['action'])) {
         $action = trim($_GET['action']);
     }
 }
 
-$path = 'modules/'.$module.'/'.$action.'.php';
+$path = 'modules/' . $module . '/' . $action . '.php';
 
-if (file_exists($path)){
+if (file_exists($path)) {
     require_once $path;
-}else{
+} else {
     require_once 'modules/errors/404.php';
 }

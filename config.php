@@ -36,5 +36,8 @@ const _PASS = ''; //Xampp => pass='';
 const _DB = 'php_online_radix';
 const _DRIVER = 'mysql';
 
+//Thiết lập debug
+const _DEBUG = true;
+
 //Thiết lập số lượng bản ghi hiển thị trên 1 trang
 const _PER_PAGE = 10;

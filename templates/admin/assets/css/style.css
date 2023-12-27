@@ -6,3 +6,19 @@
 .gallery-images .gallery-item{
     margin-bottom: 10px;
 }
+
+.debug-wrapper{
+    position: fixed;
+    z-index: 999999;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100% !important;
+    background: #fff0be;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    flex-direction: column;
+}
