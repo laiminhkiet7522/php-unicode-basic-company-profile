@@ -215,8 +215,15 @@ $userDetail = getUserInfo($userId);
                 <!--
                 Quản lý người dùng - Begin
                 -->
-                <li class="nav-item has-treeview <?php echo (activeMenuSidebar('users')) ? 'menu-open' : false; ?>">
-                    <a href="#" class="nav-link <?php echo (activeMenuSidebar('users')) ? 'active' : false; ?>">
+                <?php
+                $check = false;
+                $query_string = $_SERVER['QUERY_STRING'];
+                if ($query_string == "module=users&action=profile") {
+                    $check = true;
+                }
+                ?>
+                <li class="nav-item has-treeview <?php echo (activeMenuSidebar('users') && !$check) ? 'menu-open' : false; ?>">
+                    <a href="#" class="nav-link <?php echo (activeMenuSidebar('users') && !$check) ? 'active' : false; ?>">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
                             Quản lý người dùng
