@@ -250,6 +250,50 @@ $userDetail = getUserInfo($userId);
                 <!--
                 Quản lý người dùng - End
                 -->
+
+                <!--
+                Quản lý cấu hình - Begin
+                -->
+                <li class="nav-item has-treeview <?php echo (activeMenuSidebar('options')) ? 'menu-open' : false; ?>">
+                    <a href="#" class="nav-link <?php echo (activeMenuSidebar('options')) ? 'active' : false; ?>">
+                        <i class="nav-icon fas fa-cog"></i>
+                        <p>
+                            Quản lý cấu hình
+                            <i class="fas fa-angle-left right"></i>
+
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=options&action=general'; ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Cấu hình chung</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=options&action=home'; ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Cấu hình trang chủ</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=options&action=header'; ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Cấu hình Header</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=options&action=header'; ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Cấu hình Footer</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!--
+                Quản lý cấu hình - End
+                -->
+
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

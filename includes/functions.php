@@ -503,3 +503,45 @@ function isAdmin()
 
     return false;
 }
+
+function getOption($key, $type = '')
+{
+    $sql = "SELECT * FROM options WHERE opt_key = '$key'";
+    $option = firstRaw($sql);
+    if (!empty($option)) {
+        if ($type == 'label') {
+            return $option['name'];
+        } else {
+            return $option['opt_value'];
+        }
+    }
+    return false;
+}
+
+function updateOptions()
+{
+    if (isPost()) {
+        $allFields = getBody();
+        $countUpdate = 0;
+        if (!empty($allFields)) {
+            foreach ($allFields as $field => $value) {
+                $condition = "opt_key = '$field'";
+                $dataUpdate = [
+                    'opt_value' => trim($value)
+                ];
+                $updateStatus = update('options', $dataUpdate, $condition);
+                if ($updateStatus) {
+                    $countUpdate++;
+                }
+            }
+        }
+        if ($countUpdate > 0) {
+            setFlashData('msg', 'Đã cập nhật ' . $countUpdate . ' bản ghi thành công');
+            setFlashData('msg_type', 'success');
+        } else {
+            setFlashData('msg', 'Cập nhật không thành công');
+            setFlashData('msg_type', 'error');
+        }
+        redirect(getPathAdmin()); //reload trang
+    }
+}
