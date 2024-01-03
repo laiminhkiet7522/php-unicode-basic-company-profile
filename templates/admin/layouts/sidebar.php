@@ -228,7 +228,6 @@ $userDetail = getUserInfo($userId);
                         <p>
                             Quản lý người dùng
                             <i class="fas fa-angle-left right"></i>
-
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
@@ -249,6 +248,37 @@ $userDetail = getUserInfo($userId);
                 </li>
                 <!--
                 Quản lý người dùng - End
+                -->
+
+                <!--
+                Quản lý liên hệ - Begin
+                -->
+                <li class="nav-item has-treeview <?php echo (activeMenuSidebar('contacts') || activeMenuSidebar('contact_type')) ? 'menu-open' : false; ?>">
+                    <a href="#" class="nav-link <?php echo (activeMenuSidebar('contacts') || activeMenuSidebar('contact_type')) ? 'active' : false; ?>">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>
+                            Quản lý liên hệ <span class="badge badge-danger">1</span>
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=contacts'; ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Danh sách <span class="badge badge-danger">1</span></p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=contact_type'; ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Quản lý phòng ban</p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+                <!--
+                Quản lý liên hệ - End
                 -->
 
                 <!--
