@@ -117,7 +117,7 @@ $msgType = getFlashData('msg_type');
                 else :
                     ?>
                     <tr>
-                        <td colspan="6" class="text-center">Không có nhóm người dùng</td>
+                        <td colspan="6" class="alert alert-danger text-center">Không có nhóm người dùng</td>
                     </tr>
                 <?php endif; ?>
             </tbody>

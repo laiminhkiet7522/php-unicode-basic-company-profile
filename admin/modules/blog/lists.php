@@ -115,7 +115,7 @@ $msgType = getFlashData('msg_type');
         <form action="" method="get">
             <div class="row">
                 <div class="col-3">
-                    <select class="form-control" name="user_id" id="">
+                    <select class="form-control" name="user_id">
                         <option value="0">Chọn người đăng</option>
                         <?php
                         if (!empty($allUsers)) {
@@ -129,7 +129,7 @@ $msgType = getFlashData('msg_type');
                     </select>
                 </div>
                 <div class="col-3">
-                    <select class="form-control" name="cate_id" id="">
+                    <select class="form-control" name="cate_id">
                         <option value="0">Chọn chuyên mục</option>
                         <?php
                         if (!empty($allCategories)) {
