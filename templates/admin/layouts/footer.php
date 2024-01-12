@@ -64,6 +64,7 @@ if (!empty($body['module'])) {
     let prefixUrl = '<?php echo getPrefixLinkService($module); ?>';
 </script>
 <script src="<?php echo _WEB_HOST_ADMIN_TEMPLATE; ?>/assets/js/custom.js?ver=<?php echo rand(); ?>"></script>
+<?php foot(); ?>
 </body>
 
 </html>

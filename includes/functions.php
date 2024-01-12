@@ -545,3 +545,14 @@ function updateOptions()
         redirect(getPathAdmin()); //reload trang
     }
 }
+
+function head()
+{
+?>
+    <link rel="stylesheet" href="<?php echo _WEB_HOST_ROOT; ?>/templates/core/css/style.css" />
+<?php
+}
+
+function foot()
+{
+}

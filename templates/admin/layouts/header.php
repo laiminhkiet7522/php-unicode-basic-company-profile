@@ -50,6 +50,10 @@ autoRemoveTokenLogin();
 
     <script type="text/javascript" src="<?php echo _WEB_HOST_ADMIN_TEMPLATE; ?>/assets/ckfinder/ckfinder.js"></script>
 
+    <?php
+    head();
+    ?>
+
     <!-- Sweetalert2 -->
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.css" rel="stylesheet">
 </head>
