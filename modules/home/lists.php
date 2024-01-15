@@ -1,7 +1,7 @@
 <?php
 if (!defined('_INCODE')) die('Access Deined...');
 $data = [
-  'pageTitle' => 'Danh mục blog'
+  'pageTitle' => 'Trang chủ'
 ];
 layout('header', 'client', $data);
 ?>

@@ -11,7 +11,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Title Tag -->
-  <title>Radix &#8739; Creative Business & Consulting HTML5 Template</title>
+  <title><?php echo !empty($data['pageTitle']) ? $data['pageTitle'] : false; ?></title>
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="<?php echo _WEB_HOST_TEMPLATE; ?>/images/favicon.png">
@@ -79,9 +79,9 @@
           <div class="col-lg-6 col-12">
             <!-- Contact -->
             <ul class="contact">
-              <li><i class="fa fa-headphones"></i> +(123) 45678910</li>
-              <li><i class="fa fa-envelope"></i> <a href="mailto:info@yourmail.com">info@yourmail.com</a></li>
-              <li><i class="fa fa-clock-o"></i>Opening: 09am-5pm</li>
+              <li><i class="fa fa-headphones"></i> <?php echo getOption('general_hotline'); ?></li>
+              <li><i class="fa fa-envelope"></i> <a href="mailto:<?php echo getOption('general_email'); ?>"><?php echo getOption('general_email'); ?></a></li>
+              <li><i class="fa fa-clock-o"></i><?php echo getOption('general_time'); ?></li>
             </ul>
             <!--/ End Contact -->
           </div>
@@ -91,17 +91,17 @@
               <div class="search-form active">
                 <a class="icon" href="#"><i class="fa fa-search"></i></a>
                 <form class="form" action="#">
-                  <input placeholder="Search & Enter" type="search">
+                  <input placeholder="<?php echo getOption('general_search_placeholder'); ?>" type="search">
                 </form>
               </div>
               <!--/ End Search Form -->
               <!-- Social -->
               <ul class="social">
-                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                <li><a href="#"><i class="fa fa-behance"></i></a></li>
-                <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+                <li><a target="_blank" href="<?php echo getOption('general_twitter'); ?>"><i class="fa fa-twitter"></i></a></li>
+                <li><a target="_blank" href="<?php echo getOption('general_facebook'); ?>"><i class="fa fa-facebook"></i></a></li>
+                <li><a target="_blank" href="<?php echo getOption('general_linkedin'); ?>"><i class="fa fa-linkedin"></i></a></li>
+                <li><a target="_blank" href="<?php echo getOption('general_behance'); ?>"><i class="fa fa-behance"></i></a></li>
+                <li><a target="_blank" href="<?php echo getOption('general_youtube'); ?>"><i class="fa fa-youtube"></i></a></li>
               </ul>
               <!--/ End Social -->
             </div>
@@ -117,9 +117,9 @@
           <div class="col-lg-2 col-12">
             <!-- Logo -->
             <div class="logo">
-              <a href="index.html"><img src="<?php echo _WEB_HOST_TEMPLATE; ?>/images/logo.png" alt="logo"></a>
+              <a href="<?php echo _WEB_HOST_ROOT; ?>"><img src="<?php echo _WEB_HOST_TEMPLATE; ?>/images/logo.png" alt="logo"></a>
             </div>
-            <div class="link"><a href="index.html"><span>R</span>adix</a></div>
+            <div class="link"><a href="<?php echo _WEB_HOST_ROOT; ?>"><span>R</span>adix</a></div>
             <!--/ End Logo -->
             <button class="mobile-arrow"><i class="fa fa-bars"></i></button>
             <div class="mobile-menu"></div>
@@ -150,7 +150,7 @@
               </nav>
               <!-- Button -->
               <div class="button">
-                <a href="contact.html" class="btn">Get a quote</a>
+                <a href="<?php echo getOption('general_quote_link'); ?>" class="btn"><?php echo getOption('general_quote_text'); ?></a>
               </div>
               <!--/ End Button -->
             </div>

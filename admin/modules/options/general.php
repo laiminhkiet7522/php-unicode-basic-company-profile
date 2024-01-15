@@ -27,19 +27,65 @@ $allCategories = getRaw("SELECT id, name FROM blog_categories ORDER BY name");
       ?>
       <h5>Thông tin liên hệ</h5>
       <div class="form-group">
-        <label for=""><?php echo getOption('general_hotline', 'label') ?></label>
-        <input type="text" class="form-control slug" name="general_hotline" placeholder="Hotline..." value="<?php echo getOption('general_hotline'); ?>" />
+        <label for=""><?php echo getOption('general_hotline', 'label'); ?></label>
+        <input type="text" class="form-control" name="general_hotline" placeholder="<?php echo getOption('general_hotline', 'label'); ?>" value="<?php echo getOption('general_hotline'); ?>" />
         <?php echo form_error('general_hotline', $errors, '<span class="error">', '</span>'); ?>
       </div>
       <div class="form-group">
-        <label for=""><?php echo getOption('general_email', 'label') ?></label>
-        <input type="text" class="form-control slug" name="general_email" placeholder="Email..." value="<?php echo getOption('general_email'); ?>" />
+        <label for=""><?php echo getOption('general_email', 'label'); ?></label>
+        <input type="text" class="form-control" name="general_email" placeholder="<?php echo getOption('general_email', 'label'); ?>" value="<?php echo getOption('general_email'); ?>" />
         <?php echo form_error('general_email', $errors, '<span class="error">', '</span>'); ?>
       </div>
       <div class="form-group">
-        <label for=""><?php echo getOption('general_time', 'label') ?></label>
-        <input type="text" class="form-control slug" name="general_time" placeholder="Thời gian làm việc..." value="<?php echo getOption('general_time'); ?>" />
+        <label for=""><?php echo getOption('general_time', 'label'); ?></label>
+        <input type="text" class="form-control" name="general_time" placeholder="<?php echo getOption('general_time', 'label'); ?>" value="<?php echo getOption('general_time'); ?>" />
         <?php echo form_error('general_time', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <div class="form-group">
+        <label for=""><?php echo getOption('general_facebook', 'label'); ?></label>
+        <input type="text" class="form-control" name="general_facebook" placeholder="<?php echo getOption('general_facebook', 'label'); ?>" value="<?php echo getOption('general_facebook'); ?>" />
+        <?php echo form_error('general_facebook', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <div class="form-group">
+        <label for=""><?php echo getOption('general_twitter', 'label'); ?></label>
+        <input type="text" class="form-control" name="general_twitter" placeholder="<?php echo getOption('general_twitter', 'label'); ?>" value="<?php echo getOption('general_twitter'); ?>" />
+        <?php echo form_error('general_twitter', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <div class="form-group">
+        <label for=""><?php echo getOption('general_linkedin', 'label'); ?></label>
+        <input type="text" class="form-control" name="general_linkedin" placeholder="<?php echo getOption('general_linkedin', 'label'); ?>" value="<?php echo getOption('general_linkedin'); ?>" />
+        <?php echo form_error('general_linkedin', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <div class="form-group">
+        <label for=""><?php echo getOption('general_behance', 'label'); ?></label>
+        <input type="text" class="form-control" name="general_behance" placeholder="<?php echo getOption('general_behance', 'label'); ?>" value="<?php echo getOption('general_behance'); ?>" />
+        <?php echo form_error('general_behance', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <div class="form-group">
+        <label for=""><?php echo getOption('general_youtube', 'label'); ?></label>
+        <input type="text" class="form-control" name="general_youtube" placeholder="<?php echo getOption('general_youtube', 'label'); ?>" value="<?php echo getOption('general_youtube'); ?>" />
+        <?php echo form_error('general_youtube', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <hr>
+
+      <h5>Thiết lập tìm kiếm</h5>
+      <div class="form-group">
+        <label for=""><?php echo getOption('general_search_placeholder', 'label'); ?></label>
+        <input type="text" class="form-control" name="general_search_placeholder" placeholder="<?php echo getOption('general_search_placeholder', 'label'); ?>" value="<?php echo getOption('general_search_placeholder'); ?>" />
+        <?php echo form_error('general_search_placeholder', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <hr>
+
+      <h5>Thiết lập tìm kiếm</h5>
+      <div class="form-group">
+        <label for=""><?php echo getOption('general_quote_text', 'label'); ?></label>
+        <input type="text" class="form-control" name="general_quote_text" placeholder="<?php echo getOption('general_quote_text', 'label'); ?>" value="<?php echo getOption('general_quote_text'); ?>" />
+        <?php echo form_error('general_quote_text', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <div class="form-group">
+        <label for=""><?php echo getOption('general_quote_link', 'label'); ?></label>
+        <input type="text" class="form-control" name="general_quote_link" placeholder="<?php echo getOption('general_quote_link', 'label'); ?>" value="<?php echo getOption('general_quote_link'); ?>" />
+        <?php echo form_error('general_quote_link', $errors, '<span class="error">', '</span>'); ?>
       </div>
 
       <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
