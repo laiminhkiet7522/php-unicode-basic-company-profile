@@ -11,11 +11,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Title Tag -->
-  <title><?php echo !empty($data['pageTitle']) ? $data['pageTitle'] : false; ?></title>
+  <title><?php echo !empty($data['pageTitle']) ? $data['pageTitle'] : false; ?> - <?php echo getOption('general_sitename'); ?></title>
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="<?php echo _WEB_HOST_TEMPLATE; ?>/images/favicon.png">
-
+  <?php
+  $faviconUrl = getOption('header_favicon');
+  if (!empty($faviconUrl)) :
+  ?>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="<?php echo $faviconUrl; ?>">
+  <?php
+  endif;
+  ?>
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800" rel="stylesheet">
 
@@ -91,7 +97,7 @@
               <div class="search-form active">
                 <a class="icon" href="#"><i class="fa fa-search"></i></a>
                 <form class="form" action="#">
-                  <input placeholder="<?php echo getOption('general_search_placeholder'); ?>" type="search">
+                  <input placeholder="<?php echo getOption('header_search_placeholder'); ?>" type="search">
                 </form>
               </div>
               <!--/ End Search Form -->
@@ -115,11 +121,28 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-2 col-12">
+            <?php
+            $logo = getOption('header_logo');
+            ?>
             <!-- Logo -->
             <div class="logo">
-              <a href="<?php echo _WEB_HOST_ROOT; ?>"><img src="<?php echo _WEB_HOST_TEMPLATE; ?>/images/logo.png" alt="logo"></a>
+              <a href="<?php echo _WEB_HOST_ROOT; ?>">
+                <?php if (!empty($logo)) : ?>
+                  <img src="<?php echo $logo; ?>" alt="logo">
+                <?php else : ?>
+                  <h1 style="margin-top: 10px;"><?php echo getOption('general_sitename'); ?></h1>
+                <?php endif; ?>
+              </a>
             </div>
-            <div class="link"><a href="<?php echo _WEB_HOST_ROOT; ?>"><span>R</span>adix</a></div>
+            <div class="link">
+              <a href="<?php echo _WEB_HOST_ROOT; ?>">
+                <?php if (!empty($logo)) : ?>
+                  <img src="<?php echo $logo; ?>" style="height: 45px; width: auto; ">
+                <?php else : ?>
+                  <h1 style="margin-top: 10px;"><?php echo getOption('general_sitename'); ?></h1>
+                <?php endif; ?>
+              </a>
+            </div>
             <!--/ End Logo -->
             <button class="mobile-arrow"><i class="fa fa-bars"></i></button>
             <div class="mobile-menu"></div>
@@ -150,7 +173,7 @@
               </nav>
               <!-- Button -->
               <div class="button">
-                <a href="<?php echo getOption('general_quote_link'); ?>" class="btn"><?php echo getOption('general_quote_text'); ?></a>
+                <a href="<?php echo getOption('header_quote_link'); ?>" class="btn"><?php echo getOption('header_quote_text'); ?></a>
               </div>
               <!--/ End Button -->
             </div>

@@ -282,13 +282,13 @@ $userDetail = getUserInfo($userId);
                 -->
 
                 <!--
-                Quản lý cấu hình - Begin
+                Quản lý thiết lập - Begin
                 -->
                 <li class="nav-item has-treeview <?php echo (activeMenuSidebar('options')) ? 'menu-open' : false; ?>">
                     <a href="#" class="nav-link <?php echo (activeMenuSidebar('options')) ? 'active' : false; ?>">
                         <i class="nav-icon fas fa-cog"></i>
                         <p>
-                            Quản lý cấu hình
+                            Quản lý thiết lập
                             <i class="fas fa-angle-left right"></i>
 
                         </p>
@@ -297,31 +297,25 @@ $userDetail = getUserInfo($userId);
                         <li class="nav-item">
                             <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=options&action=general'; ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Cấu hình chung</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=options&action=home'; ?>" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Cấu hình trang chủ</p>
+                                <p>Thiết lập chung</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=options&action=header'; ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Cấu hình Header</p>
+                                <p>Thiết lập Header</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=options&action=header'; ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Cấu hình Footer</p>
+                                <p>Thiết lập Footer</p>
                             </a>
                         </li>
                     </ul>
                 </li>
                 <!--
-                Quản lý cấu hình - End
+                Quản lý thiết lập - End
                 -->
 
             </ul>

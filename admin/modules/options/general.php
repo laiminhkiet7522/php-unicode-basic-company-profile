@@ -1,7 +1,7 @@
 <?php
 if (!defined('_INCODE')) die('Access Deined...');
 $data = [
-  'pageTitle' => 'Cấu hình chung'
+  'pageTitle' => 'Thiết lập chung'
 ];
 
 layout('header', 'admin', $data);
@@ -25,6 +25,19 @@ $allCategories = getRaw("SELECT id, name FROM blog_categories ORDER BY name");
       <?php
       getMsg($msg, $msgType);
       ?>
+      <h5>Thông tin chung</h5>
+      <div class="form-group">
+        <label for=""><?php echo getOption('general_sitename', 'label'); ?></label>
+        <input type="text" class="form-control" name="general_sitename" placeholder="<?php echo getOption('general_sitename', 'label'); ?>" value="<?php echo getOption('general_sitename'); ?>" />
+        <?php echo form_error('general_sitename', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <div class="form-group">
+        <label for=""><?php echo getOption('general_sitedesc', 'label'); ?></label>
+        <textarea name="general_sitedesc" class="form-control" placeholder="<?php echo getOption('general_sitedesc', 'label'); ?>" rows="10" cols="20"><?php echo getOption('general_sitedesc'); ?></textarea>
+        <?php echo form_error('general_sitedesc', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <hr>
+
       <h5>Thông tin liên hệ</h5>
       <div class="form-group">
         <label for=""><?php echo getOption('general_hotline', 'label'); ?></label>
@@ -67,26 +80,6 @@ $allCategories = getRaw("SELECT id, name FROM blog_categories ORDER BY name");
         <?php echo form_error('general_youtube', $errors, '<span class="error">', '</span>'); ?>
       </div>
       <hr>
-
-      <h5>Thiết lập tìm kiếm</h5>
-      <div class="form-group">
-        <label for=""><?php echo getOption('general_search_placeholder', 'label'); ?></label>
-        <input type="text" class="form-control" name="general_search_placeholder" placeholder="<?php echo getOption('general_search_placeholder', 'label'); ?>" value="<?php echo getOption('general_search_placeholder'); ?>" />
-        <?php echo form_error('general_search_placeholder', $errors, '<span class="error">', '</span>'); ?>
-      </div>
-      <hr>
-
-      <h5>Thiết lập tìm kiếm</h5>
-      <div class="form-group">
-        <label for=""><?php echo getOption('general_quote_text', 'label'); ?></label>
-        <input type="text" class="form-control" name="general_quote_text" placeholder="<?php echo getOption('general_quote_text', 'label'); ?>" value="<?php echo getOption('general_quote_text'); ?>" />
-        <?php echo form_error('general_quote_text', $errors, '<span class="error">', '</span>'); ?>
-      </div>
-      <div class="form-group">
-        <label for=""><?php echo getOption('general_quote_link', 'label'); ?></label>
-        <input type="text" class="form-control" name="general_quote_link" placeholder="<?php echo getOption('general_quote_link', 'label'); ?>" value="<?php echo getOption('general_quote_link'); ?>" />
-        <?php echo form_error('general_quote_link', $errors, '<span class="error">', '</span>'); ?>
-      </div>
 
       <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
     </form>
