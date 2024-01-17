@@ -212,3 +212,119 @@ if (addGalleryObject !== null && galleryImagesObject !== null) {
         }
     });
 }
+
+const slideItemHtml = `<div class="slide-item">
+          <div class="row">
+            <div class="col-11">
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="">Tiêu đề</label>
+                    <input type="text" name="slide_title" class="form-control" placeholder="Tiêu đề slide">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="">Nút xem thêm</label>
+                    <input type="text" name="slide_button_text" class="form-control" placeholder="Chữ của nút">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="">Link xem thêm</label>
+                    <input type="text" name="slide_button_link" class="form-control" placeholder="Link của nút">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="">Link youtube</label>
+                    <input type="text" name="slide_video" class="form-control" placeholder="Link của video Youtube">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="">Ảnh 1</label>
+                    <div class="row ckfinder-group">
+                      <div class="col-10">
+                        <input type="text" class="form-control image-render" name="slide_image_1" placeholder="Đường dẫn ảnh 1..." value="" />
+                      </div>
+                      <div class="col-2">
+                        <button type="button" class="btn btn-success btn-block choose-image"><i class="fa fa-upload" aria-hidden="true"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="">Ảnh 2</label>
+                    <div class="row ckfinder-group">
+                      <div class="col-10">
+                        <input type="text" class="form-control image-render" name="slide_image_2" placeholder="Đường dẫn ảnh 2..." value="" />
+                      </div>
+                      <div class="col-2">
+                        <button type="button" class="btn btn-success btn-block choose-image"><i class="fa fa-upload" aria-hidden="true"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="">Mô tả</label>
+                    <textarea name="slide_desc" cols="30" rows="3" class="form-control" placeholder="Mô tả slide"></textarea>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="">Ảnh nền (background)</label>
+                    <div class="row ckfinder-group">
+                      <div class="col-10">
+                        <input type="text" class="form-control image-render" name="slide_bg" placeholder="Ảnh nền..." value="" />
+                      </div>
+                      <div class="col-2">
+                        <button type="button" class="btn btn-success btn-block choose-image"><i class="fa fa-upload" aria-hidden="true"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-1">
+              <a href="#" class="btn btn-danger btn-sm btn-block remove">&times;</a>
+            </div>
+          </div>
+        </div>`;
+const addSlideObject = document.querySelector('.add-slide');
+const slideWrapperObject = document.querySelector('.slide-wrapper');
+if(addSlideObject !== null && slideWrapperObject !== null) {
+    addSlideObject.addEventListener('click',function(e){
+        e.preventDefault();
+
+        let slideItemHtmlNode = new DOMParser().parseFromString(slideItemHtml, 'text/html').querySelector('.slide-item');
+
+        slideWrapperObject.appendChild(slideItemHtmlNode);
+
+        openCkfinder();
+    });
+    slideWrapperObject.addEventListener('click', function (e) {
+        e.preventDefault(); //Ngăn tình trạng mặc định html (Thẻ a)
+        if (e.target.classList.contains('remove') || e.target.parentElement.classList.contains('remove')) {
+
+            if (confirm('Bạn có chắc chắn muốn xoá?')) {
+                let slideItem = e.target;
+                while (slideItem) {
+
+                    slideItem = slideItem.parentElement;
+
+                    if (slideItem.classList.contains('slide-item')) {
+                        break;
+                    }
+                }
+
+                if (slideItem !== null) {
+                    slideItem.remove();
+                }
+
+            }
+        }
+    });
+}
