@@ -220,25 +220,25 @@ const slideItemHtml = `<div class="slide-item">
                 <div class="col-6">
                   <div class="form-group">
                     <label for="">Tiêu đề</label>
-                    <input type="text" name="slide_title" class="form-control" placeholder="Tiêu đề slide">
+                    <input type="text" name="home_slide[slide_title][]" class="form-control" placeholder="Tiêu đề slide">
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
                     <label for="">Nút xem thêm</label>
-                    <input type="text" name="slide_button_text" class="form-control" placeholder="Chữ của nút">
+                    <input type="text" name="home_slide[slide_button_text][]" class="form-control" placeholder="Chữ của nút">
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
                     <label for="">Link xem thêm</label>
-                    <input type="text" name="slide_button_link" class="form-control" placeholder="Link của nút">
+                    <input type="text" name="home_slide[slide_button_link][]" class="form-control" placeholder="Link của nút">
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
                     <label for="">Link youtube</label>
-                    <input type="text" name="slide_video" class="form-control" placeholder="Link của video Youtube">
+                    <input type="text" name="home_slide[slide_video][]" class="form-control" placeholder="Link của video Youtube">
                   </div>
                 </div>
                 <div class="col-6">
@@ -246,7 +246,7 @@ const slideItemHtml = `<div class="slide-item">
                     <label for="">Ảnh 1</label>
                     <div class="row ckfinder-group">
                       <div class="col-10">
-                        <input type="text" class="form-control image-render" name="slide_image_1" placeholder="Đường dẫn ảnh 1..." value="" />
+                        <input type="text" class="form-control image-render" name="home_slide[slide_image_1][]" placeholder="Đường dẫn ảnh 1..." value="" />
                       </div>
                       <div class="col-2">
                         <button type="button" class="btn btn-success btn-block choose-image"><i class="fa fa-upload" aria-hidden="true"></i></button>
@@ -259,7 +259,7 @@ const slideItemHtml = `<div class="slide-item">
                     <label for="">Ảnh 2</label>
                     <div class="row ckfinder-group">
                       <div class="col-10">
-                        <input type="text" class="form-control image-render" name="slide_image_2" placeholder="Đường dẫn ảnh 2..." value="" />
+                        <input type="text" class="form-control image-render" name="home_slide[slide_image_2][]" placeholder="Đường dẫn ảnh 2..." value="" />
                       </div>
                       <div class="col-2">
                         <button type="button" class="btn btn-success btn-block choose-image"><i class="fa fa-upload" aria-hidden="true"></i></button>
@@ -270,7 +270,7 @@ const slideItemHtml = `<div class="slide-item">
                 <div class="col-6">
                   <div class="form-group">
                     <label for="">Mô tả</label>
-                    <textarea name="slide_desc" cols="30" rows="3" class="form-control" placeholder="Mô tả slide"></textarea>
+                    <textarea name="home_slide[slide_desc][]" cols="30" rows="3" class="form-control" placeholder="Mô tả slide"></textarea>
                   </div>
                 </div>
                 <div class="col-6">
@@ -278,7 +278,7 @@ const slideItemHtml = `<div class="slide-item">
                     <label for="">Ảnh nền (background)</label>
                     <div class="row ckfinder-group">
                       <div class="col-10">
-                        <input type="text" class="form-control image-render" name="slide_bg" placeholder="Ảnh nền..." value="" />
+                        <input type="text" class="form-control image-render" name="home_slide[slide_bg][]" placeholder="Ảnh nền..." value="" />
                       </div>
                       <div class="col-2">
                         <button type="button" class="btn btn-success btn-block choose-image"><i class="fa fa-upload" aria-hidden="true"></i></button>

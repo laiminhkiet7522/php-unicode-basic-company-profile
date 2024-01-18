@@ -518,13 +518,22 @@ function getOption($key, $type = '')
     return false;
 }
 
-function updateOptions()
+function updateOptions($data = [])
 {
     if (isPost()) {
         $allFields = getBody();
+        if (!empty($data)) {
+            $keyDataArr = array_keys($data);
+            $valueDataArr = array_values($data);
+
+            foreach ($keyDataArr as $key => $value) {
+                $allFields[$value] = $valueDataArr[$key];
+            }
+        }
         $countUpdate = 0;
         if (!empty($allFields)) {
             foreach ($allFields as $field => $value) {
+
                 $condition = "opt_key = '$field'";
                 $dataUpdate = [
                     'opt_value' => trim($value)
