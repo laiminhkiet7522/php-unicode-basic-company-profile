@@ -1,98 +1,98 @@
-<!-- Hero Area -->
-<section id="hero-area" class="hero-area">
-  <!-- Slider -->
-  <div class="slider-area">
-    <!-- Single Slider -->
-    <div class="single-slider" style="background-image:url('<?php echo _WEB_HOST_TEMPLATE; ?>/images/slider/slider-image1.jpg')">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-7 col-md-6 col-12">
-            <!-- Slider Text -->
-            <div class="slider-text">
-              <h1>Radix <span>Business</span> World That Possible anything<span>!</span></h1>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi laoreet urna ante, quis luctus nisi
-                sodales sit amet. Aliquam a enim in massa molestie mollis Proin quis velit at nisl vulputate egestas
-                non in arcu Proin a magna hendrerit, tincidunt neque sed. </p>
-              <div class="button">
-                <a href="portfolio-3-column.html" class="btn">Our Portfolio</a>
-                <a href="https://www.youtube.com/watch?v=FZQPhrdKjow" class="btn video video-popup mfp-fade"><i class="fa fa-play"></i>Play Now</a>
+<?php
+$homeSlide = getOption('home_slide');
+if (!empty($homeSlide)) {
+  $homeSlideArr = json_decode($homeSlide, true);
+  if (!empty($homeSlideArr)) {
+?>
+    <!-- Hero Area -->
+    <section id="hero-area" class="hero-area">
+      <!-- Slider -->
+      <div class="slider-area">
+        <?php
+        foreach ($homeSlideArr as $item) :
+          $classItemSlide = '';
+          if (!empty($item['slide_position'])) {
+            if ($item['slide_position'] == 'center') {
+              $classItemSlide = 'slider-center';
+            } elseif ($item['slide_position'] == 'right') {
+              $classItemSlide = 'slider-right';
+            }
+          }
+        ?>
+          <!-- Single Slider -->
+          <div class="single-slider <?php echo !empty($classItemSlide) ? $classItemSlide : false; ?>" style="background-image:url('<?php echo $item['slide_bg']; ?>')">
+            <div class="container">
+              <div class="row">
+                <?php
+                $allowTwoCol = false;
+                $classCol = 'col-lg-10 offset-lg-1 col-12';
+                if (!empty($item['slide_image_1']) || !empty($item['slide_image_2'])) {
+                  $allowTwoCol = true;
+                  $classCol = 'col-lg-7 col-md-6 col-12';
+                }
+
+                ?>
+                <div class="<?php echo $classCol; ?>">
+                  <!-- Slider Text -->
+                  <div class="slider-text">
+                    <?php
+                    if (!empty($item['slide_title'])) :
+                    ?>
+                      <h1><?php echo html_entity_decode($item['slide_title']); ?></h1>
+                    <?php endif; ?>
+
+                    <?php
+                    if (!empty($item['slide_desc'])) :
+                    ?>
+                      <p><?php echo $item['slide_desc']; ?></p>
+                    <?php endif; ?>
+
+                    <div class="button">
+                      <?php if (!empty($item['slide_button_link'])) : ?>
+                        <a href="<?php echo $item['slide_button_link']; ?>" class="btn"><?php echo (!empty($item['slide_button_text'])) ? $item['slide_button_text'] : 'Xem thêm'; ?></a>
+                      <?php endif; ?>
+
+                      <?php if (!empty($item['slide_video'])) : ?>
+                        <a href="<?php echo $item['slide_video']; ?>" class="btn video video-popup mfp-fade"><i class="fa fa-play"></i>Video</a>
+                      <?php endif; ?>
+
+                    </div>
+                  </div>
+                  <!--/ End Slider Text -->
+                </div>
+                <?php
+                if ($allowTwoCol) :
+                ?>
+                  <div class="col-lg-5 col-md-6 col-12">
+                    <!-- Image Gallery -->
+                    <div class="image-gallery">
+                      <?php if (!empty($item['slide_image_1'])) : ?>
+                        <div class="single-image">
+                          <img src="<?php echo $item['slide_image_1']; ?>" alt="#">
+                        </div>
+                      <?php endif; ?>
+
+                      <?php if (!empty($item['slide_image_2'])) : ?>
+                        <div class="single-image two">
+                          <img src="<?php echo $item['slide_image_2']; ?>" alt="#">
+                        </div>
+                      <?php endif; ?>
+                      
+                    </div>
+                    <!--/ End Image Gallery -->
+                  </div>
+                <?php endif; ?>
               </div>
             </div>
-            <!--/ End Slider Text -->
           </div>
-          <div class="col-lg-5 col-md-6 col-12">
-            <!-- Image Gallery -->
-            <div class="image-gallery">
-              <div class="single-image">
-                <img src="<?php echo _WEB_HOST_TEMPLATE; ?>/images/slider/gallery-image1.jpg" alt="#">
-              </div>
-              <div class="single-image two">
-                <img src="<?php echo _WEB_HOST_TEMPLATE; ?>/images/slider/gallery-image2.jpg" alt="#">
-              </div>
-            </div>
-            <!--/ End Image Gallery -->
-          </div>
-        </div>
+          <!--/ End Single Slider -->
+        <?php endforeach; ?>
+
       </div>
-    </div>
-    <!--/ End Single Slider -->
-    <!-- Single Slider -->
-    <div class="single-slider slider-right" style="background-image:url('<?php echo _WEB_HOST_TEMPLATE; ?>/images/slider/slider-image2.jpg')">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-5 col-md-6 col-12">
-            <!-- Image Gallery -->
-            <div class="image-gallery">
-              <div class="single-image">
-                <img src="<?php echo _WEB_HOST_TEMPLATE; ?>/images/slider/gallery-image1.jpg" alt="#">
-              </div>
-              <div class="single-image two">
-                <img src="<?php echo _WEB_HOST_TEMPLATE; ?>/images/slider/gallery-image2.jpg" alt="#">
-              </div>
-            </div>
-            <!--/ End Image Gallery -->
-          </div>
-          <div class="col-lg-7 col-md-6 col-12">
-            <!-- Slider Text -->
-            <div class="slider-text text-right">
-              <h1>Radix <span>Business</span> World That Possible anything<span>!</span></h1>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi laoreet urna ante, quis luctus nisi
-                sodales sit amet. Aliquam a enim in massa molestie mollis Proin quis velit at nisl vulputate egestas
-                non in arcu Proin a magna hendrerit, tincidunt neque sed. </p>
-              <div class="button">
-                <a href="services.html" class="btn">Our Services</a>
-                <a href="https://www.youtube.com/watch?v=FZQPhrdKjow" class="btn video video-popup mfp-fade"><i class="fa fa-play"></i>Play Now</a>
-              </div>
-            </div>
-            <!--/ End Slider Text -->
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--/ End Single Slider -->
-    <!-- Single Slider -->
-    <div class="single-slider slider-center" style="background-image:url('<?php echo _WEB_HOST_TEMPLATE; ?>/images/slider/slider-image1.jpg')">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-10 offset-lg-1 col-12">
-            <!-- Slider Text -->
-            <div class="slider-text text-center">
-              <h1>Build your website with Radix Multipurpose <span>Business</span> Template.</h1>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi laoreet urna ante, quis luctus nisi
-                sodales sit amet. Aliquam a enim in massa molestie mollis Proin quis velit at nisl vulputate egestas
-                non in arcu Proin a magna hendrerit, tincidunt neque sed. </p>
-              <div class="button">
-                <a href="about-us.html" class="btn">About Company</a>
-                <a href="https://www.youtube.com/watch?v=FZQPhrdKjow" class="btn video video-popup mfp-fade"><i class="fa fa-play"></i>Play Now</a>
-              </div>
-            </div>
-            <!--/ End Slider Text -->
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--/ End Single Slider -->
-  </div>
-  <!--/ End Slider -->
-</section>
-<!--/ End Hero Area -->
+      <!--/ End Slider -->
+    </section>
+    <!--/ End Hero Area -->
+<?php
+  }
+}
+?>

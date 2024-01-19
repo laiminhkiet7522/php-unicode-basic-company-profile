@@ -136,7 +136,7 @@ $errors = getFlashData('errors');
                       <div class="col-6">
                         <div class="form-group">
                           <label for="">Mô tả</label>
-                          <textarea name="home_slide[slide_desc][]" class="form-control" placeholder="Mô tả slide..."><?php echo $item['slide_desc']; ?></textarea>
+                          <textarea name="home_slide[slide_desc][]" class="form-control" placeholder="Mô tả slide..." rows="5"><?php echo $item['slide_desc']; ?></textarea>
                         </div>
                       </div>
                       <div class="col-6">
@@ -151,6 +151,16 @@ $errors = getFlashData('errors');
                             </div>
                           </div>
                         </div>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="">Vị trí</label>
+                        <select name="home_slide[slide_position][]" class="form-control">
+                          <option value="left" <?php echo $item['slide_position'] == 'left' ? 'selected' : false; ?>>Trái</option>
+                          <option value="center" <?php echo $item['slide_position'] == 'center' ? 'selected' : false; ?>>Giữa</option>
+                          <option value="right" <?php echo $item['slide_position'] == 'right' ? 'selected' : false; ?>>Phải</option>
+                        </select>
                       </div>
                     </div>
                   </div>
