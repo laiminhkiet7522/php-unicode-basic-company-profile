@@ -70,6 +70,7 @@ $errors = getFlashData('errors');
       <?php
       getMsg($msg, $msgType);
       ?>
+
       <h5>Thiết lập slide</h5>
       <div class="slide-wrapper">
         <?php
@@ -176,6 +177,65 @@ $errors = getFlashData('errors');
         ?>
       </div><!-- End slide--wrapper -->
       <p><button type="button" class="btn btn-warning btn-sm add-slide">Thêm slide</button></p>
+
+      <h5>Thiết lập giới thiệu</h5>
+      <div class="form-group">
+        <label for="">Tiêu đề nền</label>
+        <input type="text" name="" class="form-control" placeholder="Tiêu đề nền...">
+      </div>
+      <div class="form-group">
+        <label for="">Mô tả</label>
+        <textarea name="" class="form-control editor" placeholder="Mô tả..." cols="30" rows="10"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="">Hình ảnh</label>
+        <div class="row ckfinder-group">
+          <div class="col-10">
+            <input type="text" class="form-control image-render" name="" placeholder="Đường dẫn ảnh..." value="" />
+          </div>
+          <div class="col-2">
+            <button type="button" class="btn btn-success btn-block choose-image"><i class="fa fa-upload" aria-hidden="true"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="">Video</label>
+        <input type="text" name="" class="form-control" placeholder="Link video youtube...">
+      </div>
+      <div class="form-group">
+        <label for="">Nội dung giới thiệu</label>
+        <input type="text" name="" class="form-control editor" placeholder="Nội dung giới thiệu...">
+      </div>
+
+      <h5>Thiết lập năng lực</h5>
+      <div class="skill-wrapper">
+        <div class="skill-item">
+          <div class="row">
+            <div class="col-11">
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="">Tên năng lực</label>
+                    <input type="text" name="" class="form-control" placeholder="Tên năng lực...">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="">Giá trị</label>
+                    <input type="text" name="" class="ranger form-control">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-1">
+              <a href="#" class="btn btn-danger btn-sm btn-block remove">&times;</a>
+            </div>
+          </div>
+        </div><!-- End skill-item -->
+      </div><!-- End skill-wrapper -->
+      <p><button type="button" class="btn btn-warning btn-sm add-skill">Thêm năng lực</button></p>
+
+
       <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
     </form>
   </div>

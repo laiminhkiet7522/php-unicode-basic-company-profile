@@ -337,4 +337,83 @@ if (addSlideObject !== null && slideWrapperObject !== null) {
       }
     }
   });
+
+  const skillItemHtml = `<div class="skill-item">
+          <div class="row">
+            <div class="col-11">
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="">Tên năng lực</label>
+                    <input type="text" name="" class="form-control" placeholder="Tên năng lực...">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="">Giá trị</label>
+                    <input type="text" name="" class="ranger form-control">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-1">
+              <a href="#" class="btn btn-danger btn-sm btn-block remove">&times;</a>
+            </div>
+          </div>
+        </div><!-- End skill-item -->`;
+
+  const addSkillObject = document.querySelector('.add-skill');
+  const skillWrapperObject = document.querySelector('.skill-wrapper');
+  if (addSkillObject !== null && skillWrapperObject !== null) {
+    addSkillObject.addEventListener('click', function () {
+      let skillItemHtmlNode = new DOMParser().parseFromString(skillItemHtml, 'text/html').querySelector('.skill-item');
+
+      skillWrapperObject.appendChild(skillItemHtmlNode);
+
+      openCkfinder();
+
+      $('.ranger').ionRangeSlider({
+        min: 0,
+        max: 100,
+        type: 'single',
+        step: 1,
+        postfix: ' %',
+        prettify: false,
+        hasGrid: true
+      })
+    });
+
+    skillWrapperObject.addEventListener('click', function (e) {
+      e.preventDefault(); //Ngăn tình trạng mặc định html (Thẻ a)
+      if (e.target.classList.contains('remove') || e.target.parentElement.classList.contains('remove')) {
+
+        if (confirm('Bạn có chắc chắn muốn xoá?')) {
+          let skillItem = e.target;
+          while (skillItem) {
+
+            skillItem = skillItem.parentElement;
+
+            if (skillItem.classList.contains('skill-item')) {
+              break;
+            }
+          }
+
+          if (skillItem !== null) {
+            skillItem.remove();
+          }
+
+        }
+      }
+    });
+
+  }
+  $('.ranger').ionRangeSlider({
+    min: 0,
+    max: 100,
+    type: 'single',
+    step: 1,
+    postfix: ' %',
+    prettify: false,
+    hasGrid: true
+  })
 }
