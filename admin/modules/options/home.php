@@ -52,8 +52,14 @@ if (isPost()) {
      *
      * */
 
+  $homeAbout = [];
+  if (!empty(getBody()['home_about'])) {
+    $homeAbout = json_encode(getBody()['home_about']);
+  }
+
   $data = [
-    'home_slide' => $homeSlideJson
+    'home_slide' => $homeSlideJson,
+    'home_about' => $homeAbout,
   ];
 
   updateOptions($data);
@@ -179,19 +185,27 @@ $errors = getFlashData('errors');
       <p><button type="button" class="btn btn-warning btn-sm add-slide">Thêm slide</button></p>
 
       <h5>Thiết lập giới thiệu</h5>
+      <?php
+      $homeAbout = getOption('home_about');
+      $homeAboutArr = [];
+      if (!empty($homeAbout)) {
+        $homeAboutArr = json_decode($homeAbout, true);
+        
+      }
+      ?>
       <div class="form-group">
         <label for="">Tiêu đề nền</label>
-        <input type="text" name="" class="form-control" placeholder="Tiêu đề nền...">
+        <input type="text" name="home_about[title_bg]" class="form-control" placeholder="Tiêu đề nền..." value="<?php echo !(empty($homeAboutArr)) ? $homeAboutArr['title_bg'] : false; ?>">
       </div>
       <div class="form-group">
         <label for="">Mô tả</label>
-        <textarea name="" class="form-control editor" placeholder="Mô tả..." cols="30" rows="10"></textarea>
+        <textarea name="home_about[desc]" class="form-control editor" placeholder="Mô tả..." cols="30" rows="10"><?php echo !(empty($homeAboutArr)) ? $homeAboutArr['desc'] : false; ?></textarea>
       </div>
       <div class="form-group">
         <label for="">Hình ảnh</label>
         <div class="row ckfinder-group">
           <div class="col-10">
-            <input type="text" class="form-control image-render" name="" placeholder="Đường dẫn ảnh..." value="" />
+            <input type="text" class="form-control image-render" name="home_about[image]" placeholder="Đường dẫn ảnh..." value="<?php echo !(empty($homeAboutArr)) ? $homeAboutArr['image'] : false; ?>" />
           </div>
           <div class="col-2">
             <button type="button" class="btn btn-success btn-block choose-image"><i class="fa fa-upload" aria-hidden="true"></i></button>
@@ -200,11 +214,11 @@ $errors = getFlashData('errors');
       </div>
       <div class="form-group">
         <label for="">Video</label>
-        <input type="text" name="" class="form-control" placeholder="Link video youtube...">
+        <input type="text" name="home_about[video]" class="form-control" placeholder="Link video youtube..." value="<?php echo !(empty($homeAboutArr)) ? $homeAboutArr['video'] : false; ?>">
       </div>
       <div class="form-group">
         <label for="">Nội dung giới thiệu</label>
-        <input type="text" name="" class="form-control editor" placeholder="Nội dung giới thiệu...">
+        <textarea name="home_about[content]" class="form-control editor" placeholder="Nội dung giới thiệu..." cols="30" rows="10"><?php echo !(empty($homeAboutArr)) ? $homeAboutArr['content'] : false; ?></textarea>
       </div>
 
       <h5>Thiết lập năng lực</h5>
