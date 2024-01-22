@@ -54,12 +54,30 @@ if (isPost()) {
 
   $homeAbout = [];
   if (!empty(getBody()['home_about'])) {
-    $homeAbout = json_encode(getBody()['home_about']);
+    $homeAbout['information'] = json_encode(getBody()['home_about']);
   }
+
+  $skillJson = '';
+  if (!empty(getBody()['home_about']['skill'])) {
+    $skillArr = [];
+    if (!empty(getBody()['home_about']['skill']['name'])) {
+      foreach (getBody()['home_about']['skill']['name'] as $key => $value) {
+        $skillArr[] = [
+          'name' => $value,
+          'value' => getBody()['home_about']['skill']['value'][$key],
+        ];
+      }
+
+      $skillJson = json_encode($skillArr);
+    }
+  }
+
+  $homeAbout['skill'] = $skillJson;
+  $homeAboutJson = json_encode($homeAbout);
 
   $data = [
     'home_slide' => $homeSlideJson,
-    'home_about' => $homeAbout,
+    'home_about' => $homeAboutJson,
   ];
 
   updateOptions($data);
@@ -186,26 +204,29 @@ $errors = getFlashData('errors');
 
       <h5>Thiết lập giới thiệu</h5>
       <?php
-      $homeAbout = getOption('home_about');
+      $homeAboutJson = getOption('home_about');
       $homeAboutArr = [];
-      if (!empty($homeAbout)) {
-        $homeAboutArr = json_decode($homeAbout, true);
-        
+      $homeAboutInfo = [];
+      $homeAboutSkill = [];
+      if (!empty($homeAboutJson)) {
+        $homeAboutArr = json_decode($homeAboutJson, true);
+        $homeAboutInfo = json_decode($homeAboutArr['information'], true);
+        $homeAboutSkill = json_decode($homeAboutArr['skill'], true);
       }
       ?>
       <div class="form-group">
         <label for="">Tiêu đề nền</label>
-        <input type="text" name="home_about[title_bg]" class="form-control" placeholder="Tiêu đề nền..." value="<?php echo !(empty($homeAboutArr)) ? $homeAboutArr['title_bg'] : false; ?>">
+        <input type="text" name="home_about[title_bg]" class="form-control" placeholder="Tiêu đề nền..." value="<?php echo !(empty($homeAboutInfo['title_bg'])) ? $homeAboutInfo['title_bg'] : false; ?>">
       </div>
       <div class="form-group">
         <label for="">Mô tả</label>
-        <textarea name="home_about[desc]" class="form-control editor" placeholder="Mô tả..." cols="30" rows="10"><?php echo !(empty($homeAboutArr)) ? $homeAboutArr['desc'] : false; ?></textarea>
+        <textarea name="home_about[desc]" class="form-control editor" placeholder="Mô tả..." cols="30" rows="10"><?php echo !(empty($homeAboutInfo['desc'])) ? $homeAboutInfo['desc'] : false; ?></textarea>
       </div>
       <div class="form-group">
         <label for="">Hình ảnh</label>
         <div class="row ckfinder-group">
           <div class="col-10">
-            <input type="text" class="form-control image-render" name="home_about[image]" placeholder="Đường dẫn ảnh..." value="<?php echo !(empty($homeAboutArr)) ? $homeAboutArr['image'] : false; ?>" />
+            <input type="text" class="form-control image-render" name="home_about[image]" placeholder="Đường dẫn ảnh..." value="<?php echo !(empty($homeAboutInfo['image'])) ? $homeAboutInfo['image'] : false; ?>" />
           </div>
           <div class="col-2">
             <button type="button" class="btn btn-success btn-block choose-image"><i class="fa fa-upload" aria-hidden="true"></i></button>
@@ -214,38 +235,44 @@ $errors = getFlashData('errors');
       </div>
       <div class="form-group">
         <label for="">Video</label>
-        <input type="text" name="home_about[video]" class="form-control" placeholder="Link video youtube..." value="<?php echo !(empty($homeAboutArr)) ? $homeAboutArr['video'] : false; ?>">
+        <input type="text" name="home_about[video]" class="form-control" placeholder="Link video youtube..." value="<?php echo !(empty($homeAboutInfo['video'])) ? $homeAboutInfo['video'] : false; ?>">
       </div>
       <div class="form-group">
         <label for="">Nội dung giới thiệu</label>
-        <textarea name="home_about[content]" class="form-control editor" placeholder="Nội dung giới thiệu..." cols="30" rows="10"><?php echo !(empty($homeAboutArr)) ? $homeAboutArr['content'] : false; ?></textarea>
+        <textarea name="home_about[content]" class="form-control editor" placeholder="Nội dung giới thiệu..." cols="30" rows="10"><?php echo !(empty($homeAboutInfo['content'])) ? $homeAboutInfo['content'] : false; ?></textarea>
       </div>
 
       <h5>Thiết lập năng lực</h5>
       <div class="skill-wrapper">
-        <div class="skill-item">
-          <div class="row">
-            <div class="col-11">
+        <?php
+        if (!empty($homeAboutSkill)) :
+          foreach ($homeAboutSkill as $key => $item) :
+        ?>
+            <div class="skill-item">
               <div class="row">
-                <div class="col-6">
-                  <div class="form-group">
-                    <label for="">Tên năng lực</label>
-                    <input type="text" name="" class="form-control" placeholder="Tên năng lực...">
+                <div class="col-11">
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="">Tên năng lực</label>
+                        <input type="text" name="home_about[skill][name][]" class="form-control" placeholder="Tên năng lực..." value="<?php echo $item['name']; ?>">
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="">Giá trị</label>
+                        <input type="text" name="home_about[skill][value][]" class="ranger form-control" value="<?php echo $item['value']; ?>">
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="col-6">
-                  <div class="form-group">
-                    <label for="">Giá trị</label>
-                    <input type="text" name="" class="ranger form-control">
-                  </div>
+                <div class="col-1">
+                  <a href="#" class="btn btn-danger btn-sm btn-block remove">&times;</a>
                 </div>
               </div>
-            </div>
-            <div class="col-1">
-              <a href="#" class="btn btn-danger btn-sm btn-block remove">&times;</a>
-            </div>
-          </div>
-        </div><!-- End skill-item -->
+            </div><!-- End skill-item -->
+        <?php endforeach;
+        endif; ?>
       </div><!-- End skill-wrapper -->
       <p><button type="button" class="btn btn-warning btn-sm add-skill">Thêm năng lực</button></p>
 

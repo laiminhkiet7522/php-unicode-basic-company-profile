@@ -345,13 +345,13 @@ if (addSlideObject !== null && slideWrapperObject !== null) {
                 <div class="col-6">
                   <div class="form-group">
                     <label for="">Tên năng lực</label>
-                    <input type="text" name="" class="form-control" placeholder="Tên năng lực...">
+                    <input type="text" name="home_about[skill][name][]" class="form-control" placeholder="Tên năng lực...">
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
                     <label for="">Giá trị</label>
-                    <input type="text" name="" class="ranger form-control">
+                    <input type="text" name="home_about[skill][value][]" class="ranger form-control">
                   </div>
                 </div>
               </div>
