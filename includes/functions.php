@@ -343,7 +343,7 @@ function getDateFormat($strDate, $format)
 //Check font-awesome icon
 function isFontIcon($input)
 {
-
+    $input = html_entity_decode($input);
     if (strpos($input, '<i class="') !== false) {
         return true;
     }
