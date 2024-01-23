@@ -276,6 +276,24 @@ $errors = getFlashData('errors');
       </div><!-- End skill-wrapper -->
       <p><button type="button" class="btn btn-warning btn-sm add-skill">Thêm năng lực</button></p>
 
+      <h5>Thiết lập dịch vụ</h5>
+      <div class="form-group">
+        <label for=""><?php echo getOption('home_service_title_bg', 'label'); ?></label>
+        <input type="text" class="form-control" name="home_service_title_bg" placeholder="<?php echo getOption('home_service_title_bg', 'label'); ?>" value="<?php echo getOption('home_service_title_bg'); ?>" />
+        <?php echo form_error('home_service_title_bg', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <div class="form-group">
+        <label for=""><?php echo getOption('home_service_title', 'label'); ?></label>
+        <input type="text" class="form-control" name="home_service_title" placeholder="<?php echo getOption('home_service_title', 'label'); ?>" value="<?php echo getOption('home_service_title'); ?>" />
+        <?php echo form_error('home_service_title', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <div class="form-group">
+        <label for=""><?php echo getOption('home_service_desc', 'label'); ?></label>
+        <textarea name="home_service_desc" class="form-control editor" placeholder="<?php echo getOption('home_service_desc', 'label'); ?>" rows="10" cols="20"><?php echo getOption('home_service_desc'); ?></textarea>
+        <?php echo form_error('home_service_desc', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <hr>
+
 
       <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
     </form>

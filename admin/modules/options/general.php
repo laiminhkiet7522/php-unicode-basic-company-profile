@@ -33,7 +33,7 @@ $allCategories = getRaw("SELECT id, name FROM blog_categories ORDER BY name");
       </div>
       <div class="form-group">
         <label for=""><?php echo getOption('general_sitedesc', 'label'); ?></label>
-        <textarea name="general_sitedesc" class="form-control" placeholder="<?php echo getOption('general_sitedesc', 'label'); ?>" rows="10" cols="20"><?php echo getOption('general_sitedesc'); ?></textarea>
+        <textarea name="general_sitedesc" class="form-control" placeholder="<?php echo getOption('general_sitedesc', 'label'); ?>" rows="5" cols="20"><?php echo getOption('general_sitedesc'); ?></textarea>
         <?php echo form_error('general_sitedesc', $errors, '<span class="error">', '</span>'); ?>
       </div>
       <hr>
