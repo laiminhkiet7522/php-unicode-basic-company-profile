@@ -4,93 +4,35 @@
     <div class="row">
       <div class="col-12 wow fadeInUp">
         <div class="section-title">
-          <span class="title-bg">Services</span>
-          <h1>What we provide</h1>
-          <p>Sed lorem enim, faucibus at erat eget, laoreet tincidunt tortor. Ut sed mi nec ligula bibendum aliquam.
-            Sed scelerisque maximus magna, a vehicula turpis Proin
+          <span class="title-bg"><?php echo getOption('home_service_title_bg'); ?></span>
+          <h1><?php echo getOption('home_service_title'); ?></h1>
+          <p><?php echo html_entity_decode(getOption('home_service_desc')); ?>
           <p>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-12">
-        <div class="service-slider">
-          <!-- Single Service -->
-          <div class="single-service">
-            <i class="fa fa-magic"></i>
-            <h2><a href="service-single.html">Consulting</a></h2>
-            <p>welcome to our consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt</p>
+    <?php
+    $serviceLists = getRaw("SELECT * FROM `services` ORDER BY name ASC");
+    if (!empty($serviceLists)) :
+    ?>
+      <div class="row">
+        <div class="col-12">
+          <div class="service-slider">
+            <?php
+            foreach ($serviceLists as $item) :
+            ?>
+              <!-- Single Service -->
+              <div class="single-service">
+                <?php echo html_entity_decode($item['icon']); ?>
+                <h2><a href="#"><?php echo $item['name']; ?></a></h2>
+                <p><?php echo $item['description']; ?></p>
+              </div>
+              <!-- End Single Service -->
+            <?php endforeach; ?>
           </div>
-          <!-- End Single Service -->
-          <!-- Single Service -->
-          <div class="single-service">
-            <i class="fa fa-lightbulb-o"></i>
-            <h2><a href="service-single.html">Creative Idea</a></h2>
-            <p>Creative and erat, porta non porttitor non, dignissim et enim Aenean ac enim feugiat classical Latin
-            </p>
-          </div>
-          <!-- End Single Service -->
-          <!-- Single Service -->
-          <div class="single-service">
-            <i class="fa fa-wordpress"></i>
-            <h2><a href="service-single.html">Development</a></h2>
-            <p>just fine erat, porta non porttitor non, dignissim et enim Aenean ac enim feugiat classical Latin</p>
-          </div>
-          <!-- End Single Service -->
-          <!-- Single Service -->
-          <div class="single-service">
-            <i class="fa fa-bullhorn "></i>
-            <h2><a href="service-single.html">Marketing</a></h2>
-            <p>Possible of erat, porta non porttitor non, dignissim et enim Aenean ac enim feugiat classical Latin</p>
-          </div>
-          <!-- End Single Service -->
-          <!-- Single Service -->
-          <div class="single-service">
-            <i class="fa fa-magic"></i>
-            <h2><a href="service-single.html">Consulting</a></h2>
-            <p>welcome to our consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt</p>
-          </div>
-          <!-- End Single Service -->
-          <!-- Single Service -->
-          <div class="single-service">
-            <i class="fa fa-lightbulb-o"></i>
-            <h2><a href="service-single.html">Creative Idea</a></h2>
-            <p>Creative and erat, porta non porttitor non, dignissim et enim Aenean ac enim feugiat classical Latin
-            </p>
-          </div>
-          <!-- End Single Service -->
-          <!-- Single Service -->
-          <div class="single-service">
-            <i class="fa fa-wordpress"></i>
-            <h2><a href="service-single.html">Development</a></h2>
-            <p>just fine erat, porta non porttitor non, dignissim et enim Aenean ac enim feugiat classical Latin</p>
-          </div>
-          <!-- End Single Service -->
-          <!-- Single Service -->
-          <div class="single-service">
-            <i class="fa fa-bullhorn "></i>
-            <h2><a href="service-single.html">Marketing</a></h2>
-            <p>Possible of erat, porta non porttitor non, dignissim et enim Aenean ac enim feugiat classical Latin</p>
-          </div>
-          <!-- End Single Service -->
-          <!-- Single Service -->
-          <div class="single-service">
-            <i class="fa fa-bullseye "></i>
-            <h2><a href="service-single.html">Direct Work</a></h2>
-            <p>Everything ien erat, porta non porttitor non, dignissim et enim Aenean ac enim feugiat Latin</p>
-          </div>
-          <!-- End Single Service -->
-          <!-- Single Service -->
-          <div class="single-service">
-            <i class="fa fa-cube"></i>
-            <h2><a href="service-single.html">Creative Plan</a></h2>
-            <p>Information sapien erat, non porttitor non, dignissim et enim Aenean ac enim feugiat classical Latin
-            </p>
-          </div>
-          <!-- End Single Service -->
         </div>
       </div>
-    </div>
+    <?php endif; ?>
   </div>
 </section>
 <!--/ End Services -->
