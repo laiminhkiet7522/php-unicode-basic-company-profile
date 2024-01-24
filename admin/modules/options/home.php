@@ -307,7 +307,7 @@ $errors = getFlashData('errors');
       </div>
       <div class="form-group">
         <label for=""><?php echo getOption('home_fact_desc', 'label'); ?></label>
-        <textarea name="home_fact_desc" class="form-control editor" placeholder="<?php echo getOption('home_fact_desc', 'label'); ?>" rows="10" cols="20"><?php echo getOption('home_fact_desc'); ?></textarea>
+        <textarea name="home_fact_desc" class="form-control" placeholder="<?php echo getOption('home_fact_desc', 'label'); ?>" rows="5" cols="20"><?php echo getOption('home_fact_desc'); ?></textarea>
         <?php echo form_error('home_fact_desc', $errors, '<span class="error">', '</span>'); ?>
       </div>
       <div class="form-group">
