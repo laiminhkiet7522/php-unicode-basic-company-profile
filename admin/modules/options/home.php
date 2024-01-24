@@ -294,6 +294,54 @@ $errors = getFlashData('errors');
       </div>
       <hr>
 
+      <h5>Thiết lập thành tựu</h5>
+      <div class="form-group">
+        <label for=""><?php echo getOption('home_fact_title', 'label'); ?></label>
+        <input type="text" class="form-control" name="home_fact_title" placeholder="<?php echo getOption('home_fact_title', 'label'); ?>" value="<?php echo getOption('home_fact_title'); ?>" />
+        <?php echo form_error('home_fact_title', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <div class="form-group">
+        <label for=""><?php echo getOption('home_fact_sub_title', 'label'); ?></label>
+        <input type="text" class="form-control" name="home_fact_sub_title" placeholder="<?php echo getOption('home_fact_sub_title', 'label'); ?>" value="<?php echo getOption('home_fact_sub_title'); ?>" />
+        <?php echo form_error('home_fact_sub_title', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <div class="form-group">
+        <label for=""><?php echo getOption('home_fact_desc', 'label'); ?></label>
+        <textarea name="home_fact_desc" class="form-control editor" placeholder="<?php echo getOption('home_fact_desc', 'label'); ?>" rows="10" cols="20"><?php echo getOption('home_fact_desc'); ?></textarea>
+        <?php echo form_error('home_fact_desc', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <div class="form-group">
+        <label for=""><?php echo getOption('home_fact_button_text', 'label'); ?></label>
+        <input type="text" class="form-control" name="home_fact_button_text" placeholder="<?php echo getOption('home_fact_button_text', 'label'); ?>" value="<?php echo getOption('home_fact_button_text'); ?>" />
+        <?php echo form_error('home_fact_button_text', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <div class="form-group">
+        <label for=""><?php echo getOption('home_fact_button_link', 'label'); ?></label>
+        <input type="text" class="form-control" name="home_fact_button_link" placeholder="<?php echo getOption('home_fact_button_link', 'label'); ?>" value="<?php echo getOption('home_fact_button_link'); ?>" />
+        <?php echo form_error('home_fact_button_link', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <div class="form-group">
+        <label for=""><?php echo getOption('home_fact_year_number', 'label'); ?></label>
+        <input type="text" class="form-control" name="home_fact_year_number" placeholder="<?php echo getOption('home_fact_year_number', 'label'); ?>" value="<?php echo getOption('home_fact_year_number'); ?>" />
+        <?php echo form_error('home_fact_year_number', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <div class="form-group">
+        <label for=""><?php echo getOption('home_fact_project_number', 'label'); ?></label>
+        <input type="text" class="form-control" name="home_fact_project_number" placeholder="<?php echo getOption('home_fact_project_number', 'label'); ?>" value="<?php echo getOption('home_fact_project_number'); ?>" />
+        <?php echo form_error('home_fact_project_number', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <div class="form-group">
+        <label for=""><?php echo getOption('home_fact_earn_number', 'label'); ?></label>
+        <input type="text" class="form-control" name="home_fact_earn_number" placeholder="<?php echo getOption('home_fact_earn_number', 'label'); ?>" value="<?php echo getOption('home_fact_earn_number'); ?>" />
+        <?php echo form_error('home_fact_earn_number', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <div class="form-group">
+        <label for=""><?php echo getOption('home_fact_award_number', 'label'); ?></label>
+        <input type="text" class="form-control" name="home_fact_award_number" placeholder="<?php echo getOption('home_fact_award_number', 'label'); ?>" value="<?php echo getOption('home_fact_award_number'); ?>" />
+        <?php echo form_error('home_fact_award_number', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <hr>
+
 
       <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
     </form>
