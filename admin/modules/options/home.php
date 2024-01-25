@@ -342,6 +342,34 @@ $errors = getFlashData('errors');
       </div>
       <hr>
 
+      <h5>Thiết lập dự án</h5>
+      <div class="form-group">
+        <label for=""><?php echo getOption('home_portfolio_title', 'label'); ?></label>
+        <input type="text" class="form-control" name="home_portfolio_title" placeholder="<?php echo getOption('home_portfolio_title', 'label'); ?>" value="<?php echo getOption('home_portfolio_title'); ?>" />
+        <?php echo form_error('home_portfolio_title', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <div class="form-group">
+        <label for=""><?php echo getOption('home_portfolio_title_bg', 'label'); ?></label>
+        <input type="text" class="form-control" name="home_portfolio_title_bg" placeholder="<?php echo getOption('home_portfolio_title_bg', 'label'); ?>" value="<?php echo getOption('home_portfolio_title_bg'); ?>" />
+        <?php echo form_error('home_portfolio_title_bg', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <div class="form-group">
+        <label for=""><?php echo getOption('home_portfolio_desc', 'label'); ?></label>
+        <textarea name="home_portfolio_desc" class="form-control" placeholder="<?php echo getOption('home_portfolio_desc', 'label'); ?>" rows="5" cols="20"><?php echo getOption('home_portfolio_desc'); ?></textarea>
+        <?php echo form_error('home_portfolio_desc', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <div class="form-group">
+        <label for=""><?php echo getOption('home_portfolio_more_text', 'label'); ?></label>
+        <input type="text" class="form-control" name="home_portfolio_more_text" placeholder="<?php echo getOption('home_portfolio_more_text', 'label'); ?>" value="<?php echo getOption('home_portfolio_more_text'); ?>" />
+        <?php echo form_error('home_portfolio_more_text', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <div class="form-group">
+        <label for=""><?php echo getOption('home_portfolio_more_link', 'label'); ?></label>
+        <input type="text" class="form-control" name="home_portfolio_more_link" placeholder="<?php echo getOption('home_portfolio_more_link', 'label'); ?>" value="<?php echo getOption('home_portfolio_more_link'); ?>" />
+        <?php echo form_error('home_portfolio_more_link', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <hr>
+
 
       <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
     </form>
