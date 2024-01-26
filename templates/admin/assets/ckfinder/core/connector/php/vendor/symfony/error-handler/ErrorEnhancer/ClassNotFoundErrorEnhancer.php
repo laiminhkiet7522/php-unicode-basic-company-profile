@@ -21,38 +21,57 @@ use Symfony\Component\ErrorHandler\Error\FatalError;
  */
 class ClassNotFoundErrorEnhancer implements ErrorEnhancerInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function enhance(\Throwable $error): ?\Throwable
     {
         // Some specific versions of PHP produce a fatal error when extending a not found class.
         $message = !$error instanceof FatalError ? $error->getMessage() : $error->getError()['message'];
-        if (!preg_match('/^(Class|Interface|Trait) [\'"]([^\'"]+)[\'"] not found$/', $message, $matches)) {
+        $messageLen = \strlen($message);
+        $notFoundSuffix = '\' not found';
+        $notFoundSuffixLen = \strlen($notFoundSuffix);
+        if ($notFoundSuffixLen > $messageLen) {
             return null;
         }
-        $typeName = strtolower($matches[1]);
-        $fullyQualifiedClassName = $matches[2];
 
-        if (false !== $namespaceSeparatorIndex = strrpos($fullyQualifiedClassName, '\\')) {
-            $className = substr($fullyQualifiedClassName, $namespaceSeparatorIndex + 1);
-            $namespacePrefix = substr($fullyQualifiedClassName, 0, $namespaceSeparatorIndex);
-            $message = sprintf('Attempted to load %s "%s" from namespace "%s".', $typeName, $className, $namespacePrefix);
-            $tail = ' for another namespace?';
-        } else {
-            $className = $fullyQualifiedClassName;
-            $message = sprintf('Attempted to load %s "%s" from the global namespace.', $typeName, $className);
-            $tail = '?';
+        if (0 !== substr_compare($message, $notFoundSuffix, -$notFoundSuffixLen)) {
+            return null;
         }
 
-        if ($candidates = $this->getClassCandidates($className)) {
-            $tail = array_pop($candidates).'"?';
-            if ($candidates) {
-                $tail = ' for e.g. "'.implode('", "', $candidates).'" or "'.$tail;
-            } else {
-                $tail = ' for "'.$tail;
+        foreach (['class', 'interface', 'trait'] as $typeName) {
+            $prefix = ucfirst($typeName).' \'';
+            $prefixLen = \strlen($prefix);
+            if (0 !== strpos($message, $prefix)) {
+                continue;
             }
-        }
-        $message .= "\nDid you forget a \"use\" statement".$tail;
 
-        return new ClassNotFoundError($message, $error);
+            $fullyQualifiedClassName = substr($message, $prefixLen, -$notFoundSuffixLen);
+            if (false !== $namespaceSeparatorIndex = strrpos($fullyQualifiedClassName, '\\')) {
+                $className = substr($fullyQualifiedClassName, $namespaceSeparatorIndex + 1);
+                $namespacePrefix = substr($fullyQualifiedClassName, 0, $namespaceSeparatorIndex);
+                $message = sprintf('Attempted to load %s "%s" from namespace "%s".', $typeName, $className, $namespacePrefix);
+                $tail = ' for another namespace?';
+            } else {
+                $className = $fullyQualifiedClassName;
+                $message = sprintf('Attempted to load %s "%s" from the global namespace.', $typeName, $className);
+                $tail = '?';
+            }
+
+            if ($candidates = $this->getClassCandidates($className)) {
+                $tail = array_pop($candidates).'"?';
+                if ($candidates) {
+                    $tail = ' for e.g. "'.implode('", "', $candidates).'" or "'.$tail;
+                } else {
+                    $tail = ' for "'.$tail;
+                }
+            }
+            $message .= "\nDid you forget a \"use\" statement".$tail;
+
+            return new ClassNotFoundError($message, $error);
+        }
+
+        return null;
     }
 
     /**
@@ -90,19 +109,19 @@ class ClassNotFoundErrorEnhancer implements ErrorEnhancerInterface
             if ($function[0] instanceof ClassLoader) {
                 foreach ($function[0]->getPrefixes() as $prefix => $paths) {
                     foreach ($paths as $path) {
-                        $classes[] = $this->findClassInPath($path, $class, $prefix);
+                        $classes = array_merge($classes, $this->findClassInPath($path, $class, $prefix));
                     }
                 }
 
                 foreach ($function[0]->getPrefixesPsr4() as $prefix => $paths) {
                     foreach ($paths as $path) {
-                        $classes[] = $this->findClassInPath($path, $class, $prefix);
+                        $classes = array_merge($classes, $this->findClassInPath($path, $class, $prefix));
                     }
                 }
             }
         }
 
-        return array_unique(array_merge([], ...$classes));
+        return array_unique($classes);
     }
 
     private function findClassInPath(string $path, string $class, string $prefix): array
@@ -140,7 +159,7 @@ class ClassNotFoundErrorEnhancer implements ErrorEnhancerInterface
         ];
 
         if ($prefix) {
-            $candidates = array_filter($candidates, fn ($candidate) => str_starts_with($candidate, $prefix));
+            $candidates = array_filter($candidates, function ($candidate) use ($prefix) { return 0 === strpos($candidate, $prefix); });
         }
 
         // We cannot use the autoloader here as most of them use require; but if the class
@@ -154,7 +173,7 @@ class ClassNotFoundErrorEnhancer implements ErrorEnhancerInterface
 
         try {
             require_once $file;
-        } catch (\Throwable) {
+        } catch (\Throwable $e) {
             return null;
         }
 

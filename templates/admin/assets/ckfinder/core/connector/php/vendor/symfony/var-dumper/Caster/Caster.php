@@ -22,34 +22,34 @@ use Symfony\Component\VarDumper\Cloner\Stub;
  */
 class Caster
 {
-    public const EXCLUDE_VERBOSE = 1;
-    public const EXCLUDE_VIRTUAL = 2;
-    public const EXCLUDE_DYNAMIC = 4;
-    public const EXCLUDE_PUBLIC = 8;
-    public const EXCLUDE_PROTECTED = 16;
-    public const EXCLUDE_PRIVATE = 32;
-    public const EXCLUDE_NULL = 64;
-    public const EXCLUDE_EMPTY = 128;
-    public const EXCLUDE_NOT_IMPORTANT = 256;
-    public const EXCLUDE_STRICT = 512;
+    const EXCLUDE_VERBOSE = 1;
+    const EXCLUDE_VIRTUAL = 2;
+    const EXCLUDE_DYNAMIC = 4;
+    const EXCLUDE_PUBLIC = 8;
+    const EXCLUDE_PROTECTED = 16;
+    const EXCLUDE_PRIVATE = 32;
+    const EXCLUDE_NULL = 64;
+    const EXCLUDE_EMPTY = 128;
+    const EXCLUDE_NOT_IMPORTANT = 256;
+    const EXCLUDE_STRICT = 512;
 
-    public const PREFIX_VIRTUAL = "\0~\0";
-    public const PREFIX_DYNAMIC = "\0+\0";
-    public const PREFIX_PROTECTED = "\0*\0";
-    // usage: sprintf(Caster::PATTERN_PRIVATE, $class, $property)
-    public const PATTERN_PRIVATE = "\0%s\0%s";
+    const PREFIX_VIRTUAL = "\0~\0";
+    const PREFIX_DYNAMIC = "\0+\0";
+    const PREFIX_PROTECTED = "\0*\0";
 
     /**
      * Casts objects to arrays and adds the dynamic property prefix.
      *
      * @param bool $hasDebugInfo Whether the __debugInfo method exists on $obj or not
+     *
+     * @return array The array-cast of the object, with prefixed dynamic properties
      */
-    public static function castObject(object $obj, string $class, bool $hasDebugInfo = false, string $debugClass = null): array
+    public static function castObject(object $obj, string $class, bool $hasDebugInfo = false): array
     {
         if ($hasDebugInfo) {
             try {
                 $debugInfo = $obj->__debugInfo();
-            } catch (\Throwable) {
+            } catch (\Exception $e) {
                 // ignore failing __debugInfo()
                 $hasDebugInfo = false;
             }
@@ -63,7 +63,6 @@ class Caster
 
         if ($a) {
             static $publicProperties = [];
-            $debugClass ??= get_debug_type($obj);
 
             $i = 0;
             $prefixedKeys = [];
@@ -77,8 +76,8 @@ class Caster
                     if (!isset($publicProperties[$class][$k])) {
                         $prefixedKeys[$i] = self::PREFIX_DYNAMIC.$k;
                     }
-                } elseif ($debugClass !== $class && 1 === strpos($k, $class)) {
-                    $prefixedKeys[$i] = "\0".$debugClass.strrchr($k, "\0");
+                } elseif (isset($k[16]) && "\0" === $k[16] && 0 === strpos($k, "\0class@anonymous\0")) {
+                    $prefixedKeys[$i] = "\0".get_parent_class($class).'@anonymous'.strrchr($k, "\0");
                 }
                 ++$i;
             }
@@ -94,9 +93,6 @@ class Caster
         if ($hasDebugInfo && \is_array($debugInfo)) {
             foreach ($debugInfo as $k => $v) {
                 if (!isset($k[0]) || "\0" !== $k[0]) {
-                    if (\array_key_exists(self::PREFIX_DYNAMIC.$k, $a)) {
-                        continue;
-                    }
                     $k = self::PREFIX_VIRTUAL.$k;
                 }
 
@@ -117,7 +113,9 @@ class Caster
      * @param array    $a                The array containing the properties to filter
      * @param int      $filter           A bit field of Caster::EXCLUDE_* constants specifying which properties to filter out
      * @param string[] $listedProperties List of properties to exclude when Caster::EXCLUDE_VERBOSE is set, and to preserve when Caster::EXCLUDE_NOT_IMPORTANT is set
-     * @param int|null &$count           Set to the number of removed properties
+     * @param int      &$count           Set to the number of removed properties
+     *
+     * @return array The filtered array
      */
     public static function filter(array $a, int $filter, array $listedProperties = [], ?int &$count = 0): array
     {

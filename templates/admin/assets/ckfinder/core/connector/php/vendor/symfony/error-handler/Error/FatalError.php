@@ -13,9 +13,11 @@ namespace Symfony\Component\ErrorHandler\Error;
 
 class FatalError extends \Error
 {
-    private array $error;
+    private $error;
 
     /**
+     * {@inheritdoc}
+     *
      * @param array $error An array as returned by error_get_last()
      */
     public function __construct(string $message, int $code, array $error, int $traceOffset = null, bool $traceArgs = true, array $trace = null)
@@ -31,7 +33,8 @@ class FatalError extends \Error
                 }
             }
         } elseif (null !== $traceOffset) {
-            if (\function_exists('xdebug_get_function_stack') && $trace = @xdebug_get_function_stack()) {
+            if (\function_exists('xdebug_get_function_stack')) {
+                $trace = xdebug_get_function_stack();
                 if (0 < $traceOffset) {
                     array_splice($trace, -$traceOffset);
                 }
@@ -69,13 +72,15 @@ class FatalError extends \Error
             'line' => $error['line'],
             'trace' => $trace,
         ] as $property => $value) {
-            if (null !== $value) {
-                $refl = new \ReflectionProperty(\Error::class, $property);
-                $refl->setValue($this, $value);
-            }
+            $refl = new \ReflectionProperty(\Error::class, $property);
+            $refl->setAccessible(true);
+            $refl->setValue($this, $value);
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getError(): array
     {
         return $this->error;

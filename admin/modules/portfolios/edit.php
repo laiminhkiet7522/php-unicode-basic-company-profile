@@ -76,9 +76,9 @@ if (isPost()) {
         $errors['thumbnail']['required'] = 'Ảnh đại diện bắt buộc phải chọn';
     }
 
-    //Validate ảnh dự án: Bắt buộc phải nhập
-    $galleryArr = $body['gallery'];
-    if (!empty($galleryArr)) {
+    //Validate ảnh dự án: Bắt buộc phải nhập    
+    if (!empty($body['gallery'])) {
+        $galleryArr = $body['gallery'];
         foreach ($galleryArr as $key => $item) {
             if (empty(trim($item))) {
                 $errors['gallery']['required'][$key] = 'Vui lòng chọn ảnh';
@@ -86,7 +86,7 @@ if (isPost()) {
         }
     }
 
-    if (is_null($galleryArr)) {
+    if (empty($galleryArr)) {
         $galleryArr = [];
     }
 
@@ -96,7 +96,7 @@ if (isPost()) {
 
         //Trường hợp 1: Cái mới lớn hơn cái cũ
         if (count($galleryArr) > count($galleryData)) {
-            
+
             //Insert những ảnh còn thiếu và update những ảnh thay đổi
             if (!empty($galleryData)) {
                 foreach ($galleryData as $key => $item) {

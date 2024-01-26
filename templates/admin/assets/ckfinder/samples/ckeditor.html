@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-Copyright (c) 2007-2023, CKSource Holding sp. z o.o. All rights reserved.
+Copyright (c) 2007-2019, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or https://ckeditor.com/sales/license/ckfinder
 -->
 <html>
@@ -64,7 +64,7 @@ For licensing, see LICENSE.html or https://ckeditor.com/sales/license/ckfinder
 		<h2 id="integration-ckeditor5">CKEditor 5</h2>
 		<p>To integrate CKFinder with CKEditor 5
 			all you have to do is pass some additional configuration options to CKEditor:</p>
-		<pre class="prettyprint"><code style="overflow-x: scroll">ClassicEditor
+		<pre class="prettyprint"><code>ClassicEditor
 	.create( document.querySelector( '#editor1' ), {
 		ckfinder: {
 			uploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json',
@@ -80,17 +80,17 @@ For licensing, see LICENSE.html or https://ckeditor.com/sales/license/ckfinder
 		</p>
 		<p>
 			You can use the <svg width="20" height="20" viewBox="0 0 20 20"><path d="M11.627 16.5a3.496 3.496 0 0 1 0 0zm5.873-.196a3.484 3.484 0 0 1 0 0zm0-7.001V8h-13v8.5h4.341c.191.54.457 1.044.785 1.5H2a1.5 1.5 0 0 1-1.5-1.5v-13A1.5 1.5 0 0 1 2 2h4.5a1.5 1.5 0 0 1 1.06.44L9.122 4H16a1.5 1.5 0 0 1 1.5 1.5v1A1.5 1.5 0 0 1 19 8v2.531a6.027 6.027 0 0 0-1.5-1.228zM16 6.5v-1H8.5l-2-2H2v13h1V8a1.5 1.5 0 0 1 1.5-1.5H16z"></path><path d="M14.5 19.5a5 5 0 1 1 0-10 5 5 0 0 1 0 10zM15 14v-2h-1v2h-2v1h2v2h1v-2h2v-1h-2z"></path></svg>
-			(Insert image or file) toolbar button to open a CKFinder window. Then you can mange your files or choose an asset that
+			toolbar button to open a CKFinder window. Then you can mange your files or choose an asset that
 			should be added to the edited content.
 		</p>
 		<div id="editor1"></div>
 		<p>
-			For detailed information about the integration between CKEditor 5 and CKFinder, please refer to the <a href="https://ckeditor.com/docs/ckeditor5/latest/features/image-upload/ckfinder.html">CKFinder integration</a>
+			For detailed information about the integration between CKEditor 5 and CKFinder, please refer to <a href="https://ckeditor.com/docs/ckeditor5/latest/features/image-upload/ckfinder.html">CKFinder integration</a>
 			article in the <a href="https://ckeditor.com/docs/ckeditor5/latest/index.html">CKEditor 5 documentation</a>.
 		</p>
 
 		<h2 id="integration-ckeditor4">CKEditor 4</h2>
-		<p>To <a href="https://ckeditor.com/docs/ckfinder/ckfinder3/#!/guide/dev_ckeditor">integrate CKFinder with CKEditor 4</a>
+		<p>To <a href="https://ckeditor.com/docs/ckfinder/ckfinder3/#!/guide/dev_ckeditor">integrate CKFinder with CKEditor</a>
 			all you have to do is pass some additional configuration options to CKEditor:</p>
 		<pre class="prettyprint"><code>CKEDITOR.replace( 'editor2', {
 	filebrowserBrowseUrl: '/ckfinder/ckfinder.html',
@@ -106,18 +106,18 @@ CKFinder.setupCKEditor( editor );</code></pre>
 <footer class="footer-a grid-container">
 	<div class="grid-container">
 		<p class="grid-width-100">
-			CKFinder 3 &ndash; <a href="https://ckeditor.com/ckfinder/">https://ckeditor.com/ckfinder/</a>
+			CKFinder 3 for PHP &ndash; <a href="https://ckeditor.com/ckeditor-4/ckfinder/">https://ckeditor.com/ckeditor-4/ckfinder/</a>
 		</p>
 		<p class="grid-width-100">
-			Copyright &copy; 2007-2023, <a class="samples" href="http://cksource.com/">CKSource Holding Sp. z o.o.</a>
-			<a href="https://ckeditor.com/sales/license/ckfinder">All rights reserved</a>.
+			Copyright &copy; 2003-2019, <a class="samples" href="http://cksource.com/">CKSource</a> &ndash; Frederico
+			Knabben. <a href="https://ckeditor.com/sales/license/ckfinder">All rights reserved</a>.
 		</p>
 	</div>
 </footer>
 <nav class="navigation-a">
 	<div class="grid-container">
 		<ul class="navigation-a-left grid-width-70">
-			<li><a href="https://ckeditor.com/ckfinder/">Project Homepage</a></li>
+			<li><a href="https://ckeditor.com/ckeditor-4/ckfinder/">Project Homepage</a></li>
 			<li class="global-is-mobile-hidden"><a href="https://github.com/ckfinder/ckfinder/issues">I found a bug in CKFinder</a></li>
 			<li class="global-is-mobile-hidden"><a class="icon-pos-right icon-navigation-a-github" href="https://github.com/ckfinder/ckfinder-docs-samples">Sample Plugins on GitHub</a></li>
 		</ul>
@@ -127,8 +127,8 @@ CKFinder.setupCKEditor( editor );</code></pre>
 <style>div.ck-editor__editable { min-height: 200px;}</style>
 <script src="js/sf.js"></script>
 <script src="js/tree-a.js"></script>
-<script src="https://cdn.ckeditor.com/4.20.0/standard-all/ckeditor.js"></script>
-<script src="https://cdn.ckeditor.com/ckeditor5/35.3.0/classic/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/4.11.1/standard-all/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js"></script>
 <script src="../ckfinder.js"></script>
 <script>
 	if ( typeof ClassicEditor !== 'undefined' ) {

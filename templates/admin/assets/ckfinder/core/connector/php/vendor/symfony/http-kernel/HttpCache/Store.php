@@ -25,44 +25,30 @@ use Symfony\Component\HttpFoundation\Response;
 class Store implements StoreInterface
 {
     protected $root;
-    /** @var \SplObjectStorage<Request, string> */
-    private \SplObjectStorage $keyCache;
-    /** @var array<string, resource> */
-    private array $locks = [];
-    private array $options;
+    private $keyCache;
+    private $locks;
 
     /**
-     * Constructor.
-     *
-     * The available options are:
-     *
-     *   * private_headers  Set of response headers that should not be stored
-     *                      when a response is cached. (default: Set-Cookie)
-     *
      * @throws \RuntimeException
      */
-    public function __construct(string $root, array $options = [])
+    public function __construct(string $root)
     {
         $this->root = $root;
-        if (!is_dir($this->root) && !@mkdir($this->root, 0777, true) && !is_dir($this->root)) {
+        if (!file_exists($this->root) && !@mkdir($this->root, 0777, true) && !is_dir($this->root)) {
             throw new \RuntimeException(sprintf('Unable to create the store directory (%s).', $this->root));
         }
         $this->keyCache = new \SplObjectStorage();
-        $this->options = array_merge([
-            'private_headers' => ['Set-Cookie'],
-        ], $options);
+        $this->locks = [];
     }
 
     /**
      * Cleanups storage.
-     *
-     * @return void
      */
     public function cleanup()
     {
         // unlock everything
         foreach ($this->locks as $lock) {
-            flock($lock, \LOCK_UN);
+            flock($lock, LOCK_UN);
             fclose($lock);
         }
 
@@ -74,17 +60,17 @@ class Store implements StoreInterface
      *
      * @return bool|string true if the lock is acquired, the path to the current lock otherwise
      */
-    public function lock(Request $request): bool|string
+    public function lock(Request $request)
     {
         $key = $this->getCacheKey($request);
 
         if (!isset($this->locks[$key])) {
             $path = $this->getPath($key);
-            if (!is_dir(\dirname($path)) && false === @mkdir(\dirname($path), 0777, true) && !is_dir(\dirname($path))) {
+            if (!file_exists(\dirname($path)) && false === @mkdir(\dirname($path), 0777, true) && !is_dir(\dirname($path))) {
                 return $path;
             }
-            $h = fopen($path, 'c');
-            if (!flock($h, \LOCK_EX | \LOCK_NB)) {
+            $h = fopen($path, 'cb');
+            if (!flock($h, LOCK_EX | LOCK_NB)) {
                 fclose($h);
 
                 return $path;
@@ -101,12 +87,12 @@ class Store implements StoreInterface
      *
      * @return bool False if the lock file does not exist or cannot be unlocked, true otherwise
      */
-    public function unlock(Request $request): bool
+    public function unlock(Request $request)
     {
         $key = $this->getCacheKey($request);
 
         if (isset($this->locks[$key])) {
-            flock($this->locks[$key], \LOCK_UN);
+            flock($this->locks[$key], LOCK_UN);
             fclose($this->locks[$key]);
             unset($this->locks[$key]);
 
@@ -116,7 +102,7 @@ class Store implements StoreInterface
         return false;
     }
 
-    public function isLocked(Request $request): bool
+    public function isLocked(Request $request)
     {
         $key = $this->getCacheKey($request);
 
@@ -124,13 +110,13 @@ class Store implements StoreInterface
             return true; // shortcut if lock held by this process
         }
 
-        if (!is_file($path = $this->getPath($key))) {
+        if (!file_exists($path = $this->getPath($key))) {
             return false;
         }
 
-        $h = fopen($path, 'r');
-        flock($h, \LOCK_EX | \LOCK_NB, $wouldBlock);
-        flock($h, \LOCK_UN); // release the lock we just acquired
+        $h = fopen($path, 'rb');
+        flock($h, LOCK_EX | LOCK_NB, $wouldBlock);
+        flock($h, LOCK_UN); // release the lock we just acquired
         fclose($h);
 
         return (bool) $wouldBlock;
@@ -138,8 +124,10 @@ class Store implements StoreInterface
 
     /**
      * Locates a cached Response for the Request provided.
+     *
+     * @return Response|null A Response instance, or null if no cache entry was found
      */
-    public function lookup(Request $request): ?Response
+    public function lookup(Request $request)
     {
         $key = $this->getCacheKey($request);
 
@@ -162,8 +150,8 @@ class Store implements StoreInterface
         }
 
         $headers = $match[1];
-        if (file_exists($path = $this->getPath($headers['x-content-digest'][0]))) {
-            return $this->restoreResponse($headers, $path);
+        if (file_exists($body = $this->getPath($headers['x-content-digest'][0]))) {
+            return $this->restoreResponse($headers, $body);
         }
 
         // TODO the metaStore referenced an entity that doesn't exist in
@@ -178,31 +166,24 @@ class Store implements StoreInterface
      * Existing entries are read and any that match the response are removed. This
      * method calls write with the new list of cache entries.
      *
+     * @return string The key under which the response is stored
+     *
      * @throws \RuntimeException
      */
-    public function write(Request $request, Response $response): string
+    public function write(Request $request, Response $response)
     {
         $key = $this->getCacheKey($request);
         $storedEnv = $this->persistRequest($request);
 
-        if ($response->headers->has('X-Body-File')) {
-            // Assume the response came from disk, but at least perform some safeguard checks
-            if (!$response->headers->has('X-Content-Digest')) {
-                throw new \RuntimeException('A restored response must have the X-Content-Digest header.');
-            }
-
-            $digest = $response->headers->get('X-Content-Digest');
-            if ($this->getPath($digest) !== $response->headers->get('X-Body-File')) {
-                throw new \RuntimeException('X-Body-File and X-Content-Digest do not match.');
-            }
-        // Everything seems ok, omit writing content to disk
-        } else {
+        // write the response body to the entity store if this is the original response
+        if (!$response->headers->has('X-Content-Digest')) {
             $digest = $this->generateContentDigest($response);
-            $response->headers->set('X-Content-Digest', $digest);
 
-            if (!$this->save($digest, $response->getContent(), false)) {
+            if (!$this->save($digest, $response->getContent())) {
                 throw new \RuntimeException('Unable to store the entity.');
             }
+
+            $response->headers->set('X-Content-Digest', $digest);
 
             if (!$response->headers->has('Transfer-Encoding')) {
                 $response->headers->set('Content-Length', \strlen($response->getContent()));
@@ -225,10 +206,6 @@ class Store implements StoreInterface
         $headers = $this->persistResponse($response);
         unset($headers['age']);
 
-        foreach ($this->options['private_headers'] as $h) {
-            unset($headers[strtolower($h)]);
-        }
-
         array_unshift($entries, [$storedEnv, $headers]);
 
         if (!$this->save($key, serialize($entries))) {
@@ -240,16 +217,16 @@ class Store implements StoreInterface
 
     /**
      * Returns content digest for $response.
+     *
+     * @return string
      */
-    protected function generateContentDigest(Response $response): string
+    protected function generateContentDigest(Response $response)
     {
-        return 'en'.hash('xxh128', $response->getContent());
+        return 'en'.hash('sha256', $response->getContent());
     }
 
     /**
      * Invalidates all cache entries that match the request.
-     *
-     * @return void
      *
      * @throws \RuntimeException
      */
@@ -291,8 +268,8 @@ class Store implements StoreInterface
 
         foreach (preg_split('/[\s,]+/', $vary) as $header) {
             $key = str_replace('_', '-', strtolower($header));
-            $v1 = $env1[$key] ?? null;
-            $v2 = $env2[$key] ?? null;
+            $v1 = isset($env1[$key]) ? $env1[$key] : null;
+            $v2 = isset($env2[$key]) ? $env2[$key] : null;
             if ($v1 !== $v2) {
                 return false;
             }
@@ -312,7 +289,7 @@ class Store implements StoreInterface
             return [];
         }
 
-        return unserialize($entries) ?: [];
+        return unserialize($entries);
     }
 
     /**
@@ -322,7 +299,7 @@ class Store implements StoreInterface
      *
      * @return bool true if the URL exists with either HTTP or HTTPS scheme and has been purged, false otherwise
      */
-    public function purge(string $url): bool
+    public function purge(string $url)
     {
         $http = preg_replace('#^https:#', 'http:', $url);
         $https = preg_replace('#^http:#', 'https:', $url);
@@ -340,12 +317,12 @@ class Store implements StoreInterface
     {
         $key = $this->getCacheKey(Request::create($url));
         if (isset($this->locks[$key])) {
-            flock($this->locks[$key], \LOCK_UN);
+            flock($this->locks[$key], LOCK_UN);
             fclose($this->locks[$key]);
             unset($this->locks[$key]);
         }
 
-        if (is_file($path = $this->getPath($key))) {
+        if (file_exists($path = $this->getPath($key))) {
             unlink($path);
 
             return true;
@@ -361,19 +338,15 @@ class Store implements StoreInterface
     {
         $path = $this->getPath($key);
 
-        return is_file($path) && false !== ($contents = @file_get_contents($path)) ? $contents : null;
+        return file_exists($path) && false !== ($contents = file_get_contents($path)) ? $contents : null;
     }
 
     /**
      * Save data for the given key.
      */
-    private function save(string $key, string $data, bool $overwrite = true): bool
+    private function save(string $key, string $data): bool
     {
         $path = $this->getPath($key);
-
-        if (!$overwrite && file_exists($path)) {
-            return true;
-        }
 
         if (isset($this->locks[$key])) {
             $fp = $this->locks[$key];
@@ -386,12 +359,12 @@ class Store implements StoreInterface
                 return false;
             }
         } else {
-            if (!is_dir(\dirname($path)) && false === @mkdir(\dirname($path), 0777, true) && !is_dir(\dirname($path))) {
+            if (!file_exists(\dirname($path)) && false === @mkdir(\dirname($path), 0777, true) && !is_dir(\dirname($path))) {
                 return false;
             }
 
             $tmpFile = tempnam(\dirname($path), basename($path));
-            if (false === $fp = @fopen($tmpFile, 'w')) {
+            if (false === $fp = @fopen($tmpFile, 'wb')) {
                 @unlink($tmpFile);
 
                 return false;
@@ -417,9 +390,6 @@ class Store implements StoreInterface
         return true;
     }
 
-    /**
-     * @return string
-     */
     public function getPath(string $key)
     {
         return $this->root.\DIRECTORY_SEPARATOR.substr($key, 0, 2).\DIRECTORY_SEPARATOR.substr($key, 2, 2).\DIRECTORY_SEPARATOR.substr($key, 4, 2).\DIRECTORY_SEPARATOR.substr($key, 6);
@@ -434,8 +404,10 @@ class Store implements StoreInterface
      * If the same URI can have more than one representation, based on some
      * headers, use a Vary header to indicate them, and each representation will
      * be stored independently under the same cache key.
+     *
+     * @return string A key for the given Request
      */
-    protected function generateCacheKey(Request $request): string
+    protected function generateCacheKey(Request $request)
     {
         return 'md'.hash('sha256', $request->getUri());
     }
@@ -474,25 +446,15 @@ class Store implements StoreInterface
     /**
      * Restores a Response from the HTTP headers and body.
      */
-    private function restoreResponse(array $headers, string $path = null): ?Response
+    private function restoreResponse(array $headers, string $body = null): Response
     {
         $status = $headers['X-Status'][0];
         unset($headers['X-Status']);
-        $content = null;
 
-        if (null !== $path) {
-            $headers['X-Body-File'] = [$path];
-            unset($headers['x-body-file']);
-
-            if ($headers['X-Body-Eval'] ?? $headers['x-body-eval'] ?? false) {
-                $content = file_get_contents($path);
-                \assert(HttpCache::BODY_EVAL_BOUNDARY_LENGTH === 24);
-                if (48 > \strlen($content) || substr($content, -24) !== substr($content, 0, 24)) {
-                    return null;
-                }
-            }
+        if (null !== $body) {
+            $headers['X-Body-File'] = [$body];
         }
 
-        return new Response($content, $status, $headers);
+        return new Response($body, $status, $headers);
     }
 }

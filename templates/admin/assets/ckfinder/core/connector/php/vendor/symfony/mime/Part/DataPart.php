@@ -20,9 +20,6 @@ use Symfony\Component\Mime\MimeTypes;
  */
 class DataPart extends TextPart
 {
-    /** @internal */
-    protected $_parent;
-
     private static $mimeTypes;
 
     private $filename;
@@ -35,24 +32,22 @@ class DataPart extends TextPart
      */
     public function __construct($body, string $filename = null, string $contentType = null, string $encoding = null)
     {
-        unset($this->_parent);
-
         if (null === $contentType) {
             $contentType = 'application/octet-stream';
         }
-        [$this->mediaType, $subtype] = explode('/', $contentType);
+        list($this->mediaType, $subtype) = explode('/', $contentType);
 
         parent::__construct($body, null, $subtype, $encoding);
 
-        if (null !== $filename) {
-            $this->filename = $filename;
-            $this->setName($filename);
-        }
+        $this->filename = $filename;
+        $this->setName($filename);
         $this->setDisposition('attachment');
     }
 
     public static function fromPath(string $path, string $name = null, string $contentType = null): self
     {
+        // FIXME: if file is not readable, exception?
+
         if (null === $contentType) {
             $ext = strtolower(substr($path, strrpos($path, '.') + 1));
             if (null === self::$mimeTypes) {
@@ -61,20 +56,9 @@ class DataPart extends TextPart
             $contentType = self::$mimeTypes->getMimeTypes($ext)[0] ?? 'application/octet-stream';
         }
 
-        if ((is_file($path) && !is_readable($path)) || is_dir($path)) {
-            throw new InvalidArgumentException(sprintf('Path "%s" is not readable.', $path));
-        }
-
         if (false === $handle = @fopen($path, 'r', false)) {
             throw new InvalidArgumentException(sprintf('Unable to open path "%s".', $path));
         }
-
-        if (!is_file($path)) {
-            $cache = fopen('php://temp', 'r+');
-            stream_copy_to_stream($handle, $cache);
-            $handle = $cache;
-        }
-
         $p = new self($handle, $name ?: basename($path), $contentType);
         $p->handle = $handle;
 
@@ -167,13 +151,7 @@ class DataPart extends TextPart
         $r->setValue($this, $this->_headers);
         unset($this->_headers);
 
-        if (!\is_array($this->_parent)) {
-            throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
-        }
         foreach (['body', 'charset', 'subtype', 'disposition', 'name', 'encoding'] as $name) {
-            if (null !== $this->_parent[$name] && !\is_string($this->_parent[$name])) {
-                throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
-            }
             $r = new \ReflectionProperty(TextPart::class, $name);
             $r->setAccessible(true);
             $r->setValue($this, $this->_parent[$name]);

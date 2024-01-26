@@ -4,7 +4,7 @@
  * CKFinder
  * ========
  * https://ckeditor.com/ckfinder/
- * Copyright (c) 2007-2022, CKSource Holding sp. z o.o. All rights reserved.
+ * Copyright (c) 2007-2020, CKSource - Frederico Knabben. All rights reserved.
  *
  * The software, this file and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -112,6 +112,8 @@ class Image
             throw new CKFinderException('Unsupported image type');
         }
 
+        $this->setMemory($this->width, $this->height, $this->bits, $this->channels);
+
         $gdSupportedTypes = @imagetypes();
 
         $supportedFormats = [
@@ -133,8 +135,8 @@ class Image
             $this->gdImage = imagecreatefromstring($imageData);
         }
 
-        if (!$this->hasValidGdImage()) {
-            throw new CKFinderException('Unsupported image type (result is not valid GD image): '.$this->mime);
+        if (!\is_resource($this->gdImage)) {
+            throw new CKFinderException('Unsupported image type (not resource): '.$this->mime);
         }
 
         unset($imageData);
@@ -142,17 +144,9 @@ class Image
 
     public function __destruct()
     {
-        if ($this->hasValidGdImage()) {
+        if (\is_resource($this->gdImage)) {
             imagedestroy($this->gdImage);
         }
-    }
-
-    /**
-     * Checks whether this object contains a valid GD image.
-     */
-    public function hasValidGdImage(): bool
-    {
-        return \is_resource($this->gdImage) || $this->gdImage instanceof \GdImage;
     }
 
     /**
@@ -235,7 +229,6 @@ class Image
      *      [width]  => 80
      *      [heigth] => 120
      * )
-     *
      * @endcode
      *
      * @param int  $maxWidth        requested width
@@ -287,6 +280,75 @@ class Image
 
         // Returns the Size
         return $oSize;
+    }
+
+    /**
+     * @see http://pl.php.net/manual/pl/function.imagecreatefromjpeg.php
+     * function posted by e dot a dot schultz at gmail dot com
+     *
+     * @param $imageWidth
+     * @param $imageHeight
+     * @param $imageBits
+     * @param $imageChannels
+     *
+     * @return bool
+     */
+    public function setMemory($imageWidth, $imageHeight, $imageBits, $imageChannels)
+    {
+        $MB = 1048576; // number of bytes in 1M
+        $K64 = 65536; // number of bytes in 64K
+        $TWEAKFACTOR = 2.4; // Or whatever works for you
+        $memoryNeeded = round(
+            (
+            $imageWidth * $imageHeight
+                    * $imageBits
+                    * $imageChannels / 8
+                    + $K64
+        ) * $TWEAKFACTOR
+        ) + 3 * $MB;
+
+        //ini_get('memory_limit') only works if compiled with "--enable-memory-limit" also
+        //Default memory limit is 8MB so well stick with that.
+        //To find out what yours is, view your php.ini file.
+        $memoryLimit = Utils::returnBytes(@ini_get('memory_limit')) / $MB;
+        // There are no memory limits, nothing to do
+        if (-1 === $memoryLimit) {
+            return true;
+        }
+        if (!$memoryLimit) {
+            $memoryLimit = 8;
+        }
+
+        $memoryLimitMB = $memoryLimit * $MB;
+        if (\function_exists('memory_get_usage')) {
+            if (memory_get_usage() + $memoryNeeded > $memoryLimitMB) {
+                $newLimit = $memoryLimit + ceil(
+                    (
+                    memory_get_usage()
+                            + $memoryNeeded
+                            - $memoryLimitMB
+                ) / $MB
+                );
+                if (false === @ini_set('memory_limit', $newLimit.'M')) {
+                    return false;
+                }
+            }
+        } else {
+            if ($memoryNeeded + 3 * $MB > $memoryLimitMB) {
+                $newLimit = $memoryLimit + ceil(
+                    (
+                    3 * $MB
+                            + $memoryNeeded
+                            - $memoryLimitMB
+                ) / $MB
+                );
+                if (false === @ini_set('memory_limit', $newLimit.'M')) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -349,7 +411,7 @@ class Image
         fwrite($stream, $data);
         rewind($stream);
 
-        // 20 seconds seems to be a reasonable value to not kill a server and process images up to 1680x1050
+        //20 seconds seems to be a reasonable value to not kill a server and process images up to 1680x1050
         @set_time_limit(20);
 
         if (!\is_resource($stream)) {
@@ -365,7 +427,7 @@ class Image
             '/Vcompression/Vsize_bitmap/Vhoriz_resolution'.
             '/Vvert_resolution/Vcolors_used/Vcolors_important', fread($stream, 40));
 
-        $BMP['colors'] = 2 ** $BMP['bits_per_pixel'];
+        $BMP['colors'] = pow(2, $BMP['bits_per_pixel']);
 
         if (0 === $BMP['size_bitmap']) {
             $BMP['size_bitmap'] = $FILE['file_size'] - $FILE['bitmap_offset'];
@@ -386,7 +448,7 @@ class Image
             $PALETTE = unpack('V'.$BMP['colors'], fread($stream, $BMP['colors'] * 4));
         }
 
-        // 2048x1536px@24bit don't even try to process larger files as it will probably fail
+        //2048x1536px@24bit don't even try to process larger files as it will probably fail
         if ($BMP['size_bitmap'] > 3 * 2048 * 1536) {
             return null;
         }
@@ -549,7 +611,6 @@ class Image
                 imagegif($this->gdImage);
 
                 break;
-
             case 'image/jpeg':
             case 'image/bmp':
             case 'image/x-ms-bmp':
@@ -557,14 +618,12 @@ class Image
                 imagejpeg($this->gdImage, null, $quality);
 
                 break;
-
             case 'image/png':
                 imagealphablending($this->gdImage, false);
                 imagesavealpha($this->gdImage, true);
                 imagepng($this->gdImage);
 
                 break;
-
             case 'image/wbmp':
                 imagewbmp($this->gdImage);
 

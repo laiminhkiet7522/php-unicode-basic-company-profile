@@ -4,11 +4,11 @@
  */
 
 CKEDITOR.editorConfig = function (config) {
-	// Define changes to default configuration here. For example:
-	// config.language = 'fr';
-	// config.uiColor = '#AADC6E';
-	config.filebrowserBrowseUrl = '/php-unicode-basic-company-profile/templates/admin/assets/ckfinder/ckfinder.html';
-	config.filebrowserImageBrowseUrl = '/php-unicode-basic-company-profile/templates/admin/assets/ckfinder/ckfinder.html?type=Images';
-	config.filebrowserUploadUrl = '/php-unicode-basic-company-profile/templates/admin/assets/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files';
-	config.filebrowserImageUploadUrl = '/php-unicode-basic-company-profile/templates/admin/assets/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images';
+    // Define changes to default configuration here. For example:
+    // config.language = 'fr';
+    // config.uiColor = '#AADC6E';
+    config.filebrowserBrowseUrl = '/php-unicode-basic-company-profile/templates/admin/assets/ckfinder/ckfinder.html';
+    config.filebrowserImageBrowseUrl = '/php-unicode-basic-company-profile/templates/admin/assets/ckfinder/ckfinder.html?type=Images';
+    config.filebrowserUploadUrl = '/php-unicode-basic-company-profile/templates/admin/assets/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files';
+    config.filebrowserImageUploadUrl = '/php-unicode-basic-company-profile/templates/admin/assets/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images';
 };

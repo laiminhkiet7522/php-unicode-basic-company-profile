@@ -5,8 +5,6 @@ use Aws\AwsClient;
 
 /**
  * This client is used to interact with the **AWS Elemental MediaPackage VOD** service.
- * @method \Aws\Result configureLogs(array $args = [])
- * @method \GuzzleHttp\Promise\Promise configureLogsAsync(array $args = [])
  * @method \Aws\Result createAsset(array $args = [])
  * @method \GuzzleHttp\Promise\Promise createAssetAsync(array $args = [])
  * @method \Aws\Result createPackagingConfiguration(array $args = [])
@@ -37,7 +35,5 @@ use Aws\AwsClient;
  * @method \GuzzleHttp\Promise\Promise tagResourceAsync(array $args = [])
  * @method \Aws\Result untagResource(array $args = [])
  * @method \GuzzleHttp\Promise\Promise untagResourceAsync(array $args = [])
- * @method \Aws\Result updatePackagingGroup(array $args = [])
- * @method \GuzzleHttp\Promise\Promise updatePackagingGroupAsync(array $args = [])
  */
 class MediaPackageVodClient extends AwsClient {}

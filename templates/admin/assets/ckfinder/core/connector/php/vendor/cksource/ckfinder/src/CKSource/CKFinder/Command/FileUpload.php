@@ -4,7 +4,7 @@
  * CKFinder
  * ========
  * https://ckeditor.com/ckfinder/
- * Copyright (c) 2007-2022, CKSource Holding sp. z o.o. All rights reserved.
+ * Copyright (c) 2007-2020, CKSource - Frederico Knabben. All rights reserved.
  *
  * The software, this file and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -29,9 +29,7 @@ use CKSource\CKFinder\Filesystem\Folder\WorkingFolder;
 use CKSource\CKFinder\Filesystem\Path;
 use CKSource\CKFinder\Image;
 use CKSource\CKFinder\Thumbnail\ThumbnailRepository;
-use League\Flysystem\FilesystemException;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\HttpFoundation\File\UploadedFile as UploadedFileBase;
 use Symfony\Component\HttpFoundation\Request;
 
 class FileUpload extends CommandAbstract
@@ -40,13 +38,6 @@ class FileUpload extends CommandAbstract
 
     protected $requires = [Permission::FILE_CREATE];
 
-    /**
-     * @throws InvalidNameException
-     * @throws InvalidUploadException
-     * @throws FilesystemException
-     * @throws InvalidExtensionException
-     * @throws \Exception
-     */
     public function execute(Request $request, WorkingFolder $workingFolder, EventDispatcher $dispatcher, Config $config, CacheManager $cache, ThumbnailRepository $thumbsRepository)
     {
         // #111 IE9 download JSON issue workaround
@@ -71,11 +62,6 @@ class FileUpload extends CommandAbstract
 
         if (null === $upload) {
             throw new InvalidUploadException();
-        }
-
-        // Extra check to handle older Symfony components on PHP 8.1+.
-        if (\is_array($upload)) {
-            $upload = new UploadedFileBase($upload['tmp_name'], $upload['name'], $upload['type'], $upload['error'], false);
         }
 
         $uploadedFile = new UploadedFile($upload, $this->app);
@@ -124,8 +110,8 @@ class FileUpload extends CommandAbstract
             $imagesConfig = $config->get('images');
             $image = Image::create($uploadedFile->getContents());
 
-            if ($imagesConfig['maxWidth'] && $image->getWidth() > $imagesConfig['maxWidth']
-                || $imagesConfig['maxHeight'] && $image->getHeight() > $imagesConfig['maxHeight']) {
+            if ($imagesConfig['maxWidth'] && $image->getWidth() > $imagesConfig['maxWidth'] ||
+                $imagesConfig['maxHeight'] && $image->getHeight() > $imagesConfig['maxHeight']) {
                 $image->resize($imagesConfig['maxWidth'], $imagesConfig['maxHeight'], $imagesConfig['quality']);
                 $imageData = $image->getData();
                 $uploadedFile->save($imageData);
@@ -152,14 +138,7 @@ class FileUpload extends CommandAbstract
 
         if (!$event->isPropagationStopped()) {
             $uploadedFileStream = $uploadedFile->getContentsStream();
-            $mimeType = $uploadedFile->getMimeType();
-            $uploaded = (int) $workingFolder->putStream($fileName, $uploadedFileStream, $mimeType);
-            /*
-             * Mime type is guessed by recurrent function MimeTypes::guessMimeType (inside getMimeType())
-             * That can lead to intensified memory usage and thus to memory leak
-             * By using unset on $mimeType, memory is being cleared and leak doesn't occur
-             */
-            unset($mimeType);
+            $uploaded = (int) $workingFolder->putStream($fileName, $uploadedFileStream, $uploadedFile->getMimeType());
 
             if (\is_resource($uploadedFileStream)) {
                 fclose($uploadedFileStream);

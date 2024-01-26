@@ -13,8 +13,7 @@ namespace Symfony\Component\HttpFoundation\Session\Storage;
 
 /**
  * MockFileSessionStorage is used to mock sessions for
- * functional testing where you may need to persist session data
- * across separate PHP processes.
+ * functional testing when done in a single PHP process.
  *
  * No PHP session is actually started since a session can be initialized
  * and shutdown only once per PHP execution cycle and this class does
@@ -25,14 +24,16 @@ namespace Symfony\Component\HttpFoundation\Session\Storage;
  */
 class MockFileSessionStorage extends MockArraySessionStorage
 {
-    private string $savePath;
+    private $savePath;
 
     /**
-     * @param string|null $savePath Path of directory to save session files
+     * @param string $savePath Path of directory to save session files
      */
     public function __construct(string $savePath = null, string $name = 'MOCKSESSID', MetadataBag $metaBag = null)
     {
-        $savePath ??= sys_get_temp_dir();
+        if (null === $savePath) {
+            $savePath = sys_get_temp_dir();
+        }
 
         if (!is_dir($savePath) && !@mkdir($savePath, 0777, true) && !is_dir($savePath)) {
             throw new \RuntimeException(sprintf('Session Storage was not able to create directory "%s".', $savePath));
@@ -43,7 +44,10 @@ class MockFileSessionStorage extends MockArraySessionStorage
         parent::__construct($name, $metaBag);
     }
 
-    public function start(): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function start()
     {
         if ($this->started) {
             return true;
@@ -60,7 +64,10 @@ class MockFileSessionStorage extends MockArraySessionStorage
         return true;
     }
 
-    public function regenerate(bool $destroy = false, int $lifetime = null): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function regenerate(bool $destroy = false, int $lifetime = null)
     {
         if (!$this->started) {
             $this->start();
@@ -74,7 +81,7 @@ class MockFileSessionStorage extends MockArraySessionStorage
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function save()
     {
@@ -95,10 +102,7 @@ class MockFileSessionStorage extends MockArraySessionStorage
 
         try {
             if ($data) {
-                $path = $this->getFilePath();
-                $tmp = $path.bin2hex(random_bytes(6));
-                file_put_contents($tmp, serialize($data));
-                rename($tmp, $path);
+                file_put_contents($this->getFilePath(), serialize($data));
             } else {
                 $this->destroy();
             }
@@ -106,8 +110,9 @@ class MockFileSessionStorage extends MockArraySessionStorage
             $this->data = $data;
         }
 
-        // this is needed when the session object is re-used across multiple requests
-        // in functional tests.
+        // this is needed for Silex, where the session object is re-used across requests
+        // in functional tests. In Symfony, the container is rebooted, so we don't have
+        // this issue
         $this->started = false;
     }
 
@@ -117,11 +122,8 @@ class MockFileSessionStorage extends MockArraySessionStorage
      */
     private function destroy(): void
     {
-        set_error_handler(static function () {});
-        try {
+        if (is_file($this->getFilePath())) {
             unlink($this->getFilePath());
-        } finally {
-            restore_error_handler();
         }
     }
 
@@ -138,14 +140,8 @@ class MockFileSessionStorage extends MockArraySessionStorage
      */
     private function read(): void
     {
-        set_error_handler(static function () {});
-        try {
-            $data = file_get_contents($this->getFilePath());
-        } finally {
-            restore_error_handler();
-        }
-
-        $this->data = $data ? unserialize($data) : [];
+        $filePath = $this->getFilePath();
+        $this->data = is_readable($filePath) && is_file($filePath) ? unserialize(file_get_contents($filePath)) : [];
 
         $this->loadSession();
     }

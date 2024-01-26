@@ -21,12 +21,16 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class RemoveEmptyControllerArgumentLocatorsPass implements CompilerPassInterface
 {
-    /**
-     * @return void
-     */
+    private $controllerLocator;
+
+    public function __construct(string $controllerLocator = 'argument_resolver.controller_locator')
+    {
+        $this->controllerLocator = $controllerLocator;
+    }
+
     public function process(ContainerBuilder $container)
     {
-        $controllerLocator = $container->findDefinition('argument_resolver.controller_locator');
+        $controllerLocator = $container->findDefinition($this->controllerLocator);
         $controllers = $controllerLocator->getArgument(0);
 
         foreach ($controllers as $controller => $argumentRef) {
@@ -38,14 +42,9 @@ class RemoveEmptyControllerArgumentLocatorsPass implements CompilerPassInterface
             } else {
                 // any methods listed for call-at-instantiation cannot be actions
                 $reason = false;
-                [$id, $action] = explode('::', $controller);
-
-                if ($container->hasAlias($id)) {
-                    continue;
-                }
-
+                list($id, $action) = explode('::', $controller);
                 $controllerDef = $container->getDefinition($id);
-                foreach ($controllerDef->getMethodCalls() as [$method]) {
+                foreach ($controllerDef->getMethodCalls() as list($method)) {
                     if (0 === strcasecmp($action, $method)) {
                         $reason = sprintf('Removing method "%s" of service "%s" from controller candidates: the method is called at instantiation, thus cannot be an action.', $action, $id);
                         break;

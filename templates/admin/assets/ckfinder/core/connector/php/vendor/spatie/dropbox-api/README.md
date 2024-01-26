@@ -1,10 +1,10 @@
 # A minimal implementation of Dropbox API v2
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/dropbox-api.svg?style=flat-square)](https://packagist.org/packages/spatie/dropbox-api)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/spatie/dropbox-api/run-tests.yml?label=tests&style=flat-square)](https://github.com/spatie/dropbox-api/actions?query=workflow%3ATests+branch%3Amaster)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/spatie/dropbox-api/code-style.yml?label=code%20style&style=flat-square)](https://github.com/spatie/dropbox-api/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amaster)
+[![Build Status](https://img.shields.io/travis/spatie/dropbox-api/master.svg?style=flat-square)](https://travis-ci.org/spatie/dropbox-api)
+[![StyleCI](https://styleci.io/repos/88621289/shield?branch=master)](https://styleci.io/repos/88621289)
+[![Quality Score](https://img.shields.io/scrutinizer/g/spatie/dropbox-api.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/dropbox-api)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/dropbox-api.svg?style=flat-square)](https://packagist.org/packages/spatie/dropbox-api)
-
 
 This is a minimal PHP implementation of the [Dropbox API v2](https://www.dropbox.com/developers/documentation/http/overview). It contains only the methods needed for [our flysystem-dropbox adapter](https://github.com/spatie/flysystem-dropbox). We are open however to PRs that add extra methods to the client. 
 
@@ -22,15 +22,6 @@ $client->listFolder($path);
 //get a temporary link
 $client->getTemporaryLink($path);
 ```
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/dropbox-api.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/dropbox-api)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
-
 ## Installation
 
 You can install the package via composer:
@@ -49,67 +40,7 @@ With an authorization token you can instantiate a `Spatie\Dropbox\Client`.
 $client = new Spatie\Dropbox\Client($authorizationToken);
 ```
 
-or alternatively you can implement `Spatie\Dropbox\TokenProvider` 
-which will provide the access-token from its 
-`TokenProvider->getToken(): string` method.
-
-If you use oauth2 to authenticate and to acquire refresh-tokens and access-tokens,
-(like [thephpleague/oauth2-client](https://github.com/thephpleague/oauth2-client)),
-you can create an adapter that internally takes care of token-expiration and refreshing tokens, 
-and at runtime will supply the access-token via the `TokenProvider->getToken(): string` method.
-
-*(Dropbox announced they will be moving to short-lived access_tokens mid 2021).*
-
-
-```php
-// implements Spatie\Dropbox\TokenProvider
-$tokenProvider = new AutoRefreshingDropBoxTokenService($refreshToken);
-$client = new Spatie\Dropbox\Client($tokenProvider);
-```
-
-
-
-or alternatively you can authenticate as an App using your App Key & Secret.
-
-```php
-$client = new Spatie\Dropbox\Client([$appKey, $appSecret]);
-```
-
-If you only need to access the public endpoints you can instantiate `Spatie\Dropbox\Client` without any arguments.
-
-```php
-$client = new Spatie\Dropbox\Client();
-```
-
-## Dropbox Endpoints
-
 Look in [the source code of `Spatie\Dropbox\Client`](https://github.com/spatie/dropbox-api/blob/master/src/Client.php) to discover the methods you can use.
-
-Here's an example:
-
-```php
-$content = 'hello, world';
-$client->upload('/dropboxpath/filename.txt', $content, $mode='add');
-
-$from = '/dropboxpath/somefile.txt';
-$to = '/dropboxpath/archive/somefile.txt';
-$client->move($from, $to);
-```
-
-If the destination filename already exists, dropbox will throw an Exception with 'to/conflict/file/..'
-
-The ``upload()`` and ``move()`` methods have an optional extra 'autorename' argument 
-to try and let dropbox automatically rename the file if there is such a conflict.
-
-Here's an example:
-
-```php
-$from = '/dropboxpath/somefile.txt';
-$to = '/dropboxpath/archive/somefile.txt';
-$client->move($from, $to, $autorename=true);
-// with autorename results in 'somefile (1).txt'
-```
-
 
 If you do not find your favorite method, you can directly use the `contentEndpointRequest` and `rpcEndpointRequest` functions.
 
@@ -145,19 +76,17 @@ composer test
 
 ## Contributing
 
-Please see [CONTRIBUTING](https://github.com/spatie/.github/blob/main/CONTRIBUTING.md) for details.
-
-You can run `composer pint` to run the code style fixer, and `composer phpstan` to run the static analysis.
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Security
 
-If you've found a bug regarding security please mail [security@spatie.be](mailto:security@spatie.be) instead of using the issue tracker.
+If you discover any security related issues, please email freek@spatie.be instead of using the issue tracker.
 
 ## Postcardware
 
 You're free to use this package (it's [MIT-licensed](LICENSE.md)), but if it makes it to your production environment we highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using.
 
-Our address is: Spatie, Kruikstraat 22, 2018 Antwerp, Belgium.
+Our address is: Spatie, Samberstraat 69D, 2060 Antwerp, Belgium.
 
 We publish all received postcards [on our company website](https://spatie.be/en/opensource/postcards).
 
@@ -166,6 +95,13 @@ We publish all received postcards [on our company website](https://spatie.be/en/
 - [Alex Vanderbist](https://github.com/AlexVanderbist)
 - [Freek Van der Herten](https://github.com/freekmurze)
 - [All Contributors](../../contributors)
+
+## Support us
+
+Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
+
+Does your business depend on our contributions? Reach out and support us on [Patreon](https://www.patreon.com/spatie). 
+All pledges will be dedicated to allocating workforce on maintenance and new awesome stuff.
 
 ## License
 
