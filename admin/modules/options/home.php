@@ -370,6 +370,23 @@ $errors = getFlashData('errors');
       </div>
       <hr>
 
+      <h5>Thiết lập kêu gọi hành động</h5>
+      <div class="form-group">
+        <label for=""><?php echo getOption('home_cta_content', 'label'); ?></label>
+        <textarea name="home_cta_content" class="form-control editor" placeholder="<?php echo getOption('home_cta_content', 'label'); ?>" rows="5" cols="20"><?php echo getOption('home_cta_content'); ?></textarea>
+        <?php echo form_error('home_cta_content', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <div class="form-group">
+        <label for=""><?php echo getOption('home_cta_button_text', 'label'); ?></label>
+        <input type="text" class="form-control" name="home_cta_button_text" placeholder="<?php echo getOption('home_cta_button_text', 'label'); ?>" value="<?php echo getOption('home_cta_button_text'); ?>" />
+        <?php echo form_error('home_cta_button_text', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <div class="form-group">
+        <label for=""><?php echo getOption('home_cta_button_link', 'label'); ?></label>
+        <input type="text" class="form-control" name="home_cta_button_link" placeholder="<?php echo getOption('home_cta_button_link', 'label'); ?>" value="<?php echo getOption('home_cta_button_link'); ?>" />
+        <?php echo form_error('home_cta_button_link', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <hr>
 
       <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
     </form>
