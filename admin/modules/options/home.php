@@ -388,6 +388,23 @@ $errors = getFlashData('errors');
       </div>
       <hr>
 
+      <h5>Thiết lập blog</h5>
+      <div class="form-group">
+        <label for=""><?php echo getOption('home_blog_title', 'label'); ?></label>
+        <input type="text" class="form-control" name="home_blog_title" placeholder="<?php echo getOption('home_blog_title', 'label'); ?>" value="<?php echo getOption('home_blog_title'); ?>" />
+        <?php echo form_error('home_blog_title', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <div class="form-group">
+        <label for=""><?php echo getOption('home_blog_title_bg', 'label'); ?></label>
+        <input type="text" class="form-control" name="home_blog_title_bg" placeholder="<?php echo getOption('home_blog_title_bg', 'label'); ?>" value="<?php echo getOption('home_blog_title_bg'); ?>" />
+        <?php echo form_error('home_blog_title_bg', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <div class="form-group">
+        <label for=""><?php echo getOption('home_blog_desc', 'label'); ?></label>
+        <textarea name="home_blog_desc" class="form-control" placeholder="<?php echo getOption('home_blog_desc', 'label'); ?>" rows="5" cols="20"><?php echo getOption('home_blog_desc'); ?></textarea>
+        <?php echo form_error('home_blog_desc', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+
       <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
     </form>
   </div>
