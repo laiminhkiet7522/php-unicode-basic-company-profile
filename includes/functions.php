@@ -555,6 +555,17 @@ function updateOptions($data = [])
     }
 }
 
+function truncateText($text, $maxLength)
+{
+    // Check if the length of the text exceeds the maximum length
+    if (strlen($text) > $maxLength) {
+        // Truncate the text and append '...' at the end
+        $text = substr($text, 0, $maxLength - 3) . '...';
+    }
+    // Return the truncated text
+    return $text;
+}
+
 function head()
 {
 ?>
