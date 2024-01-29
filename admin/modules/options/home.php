@@ -75,9 +75,25 @@ if (isPost()) {
   $homeAbout['skill'] = $skillJson;
   $homeAboutJson = json_encode($homeAbout);
 
+  //Xử lý update danh sách đối tác
+  $partnerJson = '';
+  if (!empty(getBody()['home_partner_content'])) {
+    $partnerArr = [];
+    if (!empty(getBody()['home_partner_content']['logo'])) {
+      foreach (getBody()['home_partner_content']['logo'] as $key => $value) {
+        $partnerArr[] = [
+          'logo' => $value,
+          'link' => getBody()['home_partner_content']['link'][$key],
+        ];
+      }
+      $partnerJson = json_encode($partnerArr);
+    }
+  }
+
   $data = [
     'home_slide' => $homeSlideJson,
     'home_about' => $homeAboutJson,
+    'home_partner_content' => $partnerJson
   ];
 
   updateOptions($data);
@@ -422,13 +438,49 @@ $errors = getFlashData('errors');
         <textarea name="home_partner_desc" class="form-control" placeholder="<?php echo getOption('home_partner_desc', 'label'); ?>" rows="5" cols="20"><?php echo getOption('home_partner_desc'); ?></textarea>
         <?php echo form_error('home_partner_desc', $errors, '<span class="error">', '</span>'); ?>
       </div>
-      
+
       <h5>Danh sách đối tác</h5>
       <div class="partner-wrapper">
-
+        <?php 
+        $partnerJson = getOption('home_partner_content');
+        if(!empty($partnerJson)):
+          $partnerArr = json_decode($partnerJson, true);
+          foreach($partnerArr as $key => $item):
+        ?>
+        <div class="partner-item">
+          <div class="row">
+            <div class="col-11">
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="">Logo</label>
+                    <div class="row ckfinder-group">
+                      <div class="col-10">
+                        <input type="text" class="form-control image-render" name="home_partner_content[logo][]" placeholder="Đường dẫn ảnh..." value="<?php echo $item['logo']; ?>" />
+                      </div>
+                      <div class="col-2">
+                        <button type="button" class="btn btn-success btn-block choose-image"><i class="fa fa-upload" aria-hidden="true"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="from-group">
+                    <label for="">Link</label>
+                    <input type="text" class="form-control" name="home_partner_content[link][]" placeholder="Link..." value="<?php echo $item['link'];?>"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-1">
+              <a href="#" class="btn btn-danger btn-sm btn-block remove">&times;</a>
+            </div>
+          </div>
+        </div><!-- End partner-item -->
+        <?php endforeach; endif;?>
       </div><!-- End partner-wrapper -->
       <p><button type="button" class="btn btn-warning btn-sm add-partner">Thêm đối tác</button></p>
-      
+
 
       <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
     </form>
