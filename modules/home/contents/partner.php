@@ -1,14 +1,24 @@
+<?php
+$title = getOption('home_partner_title');
+$titleBg = getOption('home_partner_title_bg');
+$desc = getOption('home_partner_desc');
+$partnerJson = getOption('home_partner_content');
+$partnerArr = [];
+if (!empty($partnerJson)) {
+  $partnerArr = json_decode($partnerJson, true);
+}
+?>
 <!-- Partners -->
 <section id="partners" class="partners section">
   <div class="container">
     <div class="row">
       <div class="col-12 wow fadeInUp">
         <div class="section-title">
-          <span class="title-bg">Clients</span>
-          <h1>Our Partners</h1>
-          <p>Sed lorem enim, faucibus at erat eget, laoreet tincidunt tortor. Ut sed mi nec ligula bibendum aliquam.
-            Sed scelerisque maximus magna, a vehicula turpis Proin
-          <p>
+          <?php
+          echo !empty($titleBg) ? '<span class="title-bg">' . $titleBg . '</span>' : false;
+          echo !empty($title) ? '<h1>' . $title . '</h1>' : false;
+          echo !empty($desc) ? '<p>' . $desc . '</p>' : false;
+          ?>
         </div>
       </div>
     </div>
@@ -17,89 +27,19 @@
         <div class="partners-inner">
           <div class="row no-gutters">
             <!-- Single Partner -->
-            <div class="col-lg-2 col-md-3 col-12">
-              <div class="single-partner">
-                <a href="#" target="_blank"><img src="<?php echo _WEB_HOST_TEMPLATE; ?>/images/partner-1.png" alt="#"></a>
-              </div>
-            </div>
-            <!--/ End Single Partner -->
-            <!-- Single Partner -->
-            <div class="col-lg-2 col-md-3 col-12">
-              <div class="single-partner">
-                <a href="#" target="_blank"><img src="<?php echo _WEB_HOST_TEMPLATE; ?>/images/partner-2.png" alt="#"></a>
-              </div>
-            </div>
-            <!--/ End Single Partner -->
-            <!-- Single Partner -->
-            <div class="col-lg-2 col-md-3 col-12">
-              <div class="single-partner">
-                <a href="#" target="_blank"><img src="<?php echo _WEB_HOST_TEMPLATE; ?>/images/partner-3.png" alt="#"></a>
-              </div>
-            </div>
-            <!--/ End Single Partner -->
-            <!-- Single Partner -->
-            <div class="col-lg-2 col-md-3 col-12">
-              <div class="single-partner">
-                <a href="#" target="_blank"><img src="<?php echo _WEB_HOST_TEMPLATE; ?>/images/partner-4.png" alt="#"></a>
-              </div>
-            </div>
-            <!--/ End Single Partner -->
-            <!-- Single Partner -->
-            <div class="col-lg-2 col-md-3 col-12">
-              <div class="single-partner">
-                <a href="#" target="_blank"><img src="<?php echo _WEB_HOST_TEMPLATE; ?>/images/partner-5.png" alt="#"></a>
-              </div>
-            </div>
-            <!--/ End Single Partner -->
-            <!-- Single Partner -->
-            <div class="col-lg-2 col-md-3 col-12">
-              <div class="single-partner">
-                <a href="#" target="_blank"><img src="<?php echo _WEB_HOST_TEMPLATE; ?>/images/partner-6.png" alt="#"></a>
-              </div>
-            </div>
-            <!--/ End Single Partner -->
-            <!-- Single Partner -->
-            <div class="col-lg-2 col-md-3 col-12">
-              <div class="single-partner">
-                <a href="#" target="_blank"><img src="<?php echo _WEB_HOST_TEMPLATE; ?>/images/partner-7.png" alt="#"></a>
-              </div>
-            </div>
-            <!--/ End Single Partner -->
-            <!-- Single Partner -->
-            <div class="col-lg-2 col-md-3 col-12">
-              <div class="single-partner">
-                <a href="#" target="_blank"><img src="<?php echo _WEB_HOST_TEMPLATE; ?>/images/partner-8.png" alt="#"></a>
-              </div>
-            </div>
-            <!--/ End Single Partner -->
-            <!-- Single Partner -->
-            <div class="col-lg-2 col-md-3 col-12">
-              <div class="single-partner">
-                <a href="#" target="_blank"><img src="<?php echo _WEB_HOST_TEMPLATE; ?>/images/partner-5.png" alt="#"></a>
-              </div>
-            </div>
-            <!--/ End Single Partner -->
-            <!-- Single Partner -->
-            <div class="col-lg-2 col-md-3 col-12">
-              <div class="single-partner">
-                <a href="#" target="_blank"><img src="<?php echo _WEB_HOST_TEMPLATE; ?>/images/partner-6.png" alt="#"></a>
-              </div>
-            </div>
-            <!--/ End Single Partner -->
-            <!-- Single Partner -->
-            <div class="col-lg-2 col-md-3 col-12">
-              <div class="single-partner">
-                <a href="#" target="_blank"><img src="<?php echo _WEB_HOST_TEMPLATE; ?>/images/partner-7.png" alt="#"></a>
-              </div>
-            </div>
-            <!--/ End Single Partner -->
-            <!-- Single Partner -->
-            <div class="col-lg-2 col-md-3 col-12">
-              <div class="single-partner">
-                <a href="#" target="_blank"><img src="<?php echo _WEB_HOST_TEMPLATE; ?>/images/partner-3.png" alt="#"></a>
-              </div>
-            </div>
-            <!--/ End Single Partner -->
+            <?php
+            if (!empty($partnerArr)) :
+              foreach ($partnerArr as $key => $item) :
+            ?>
+                <div class="col-lg-2 col-md-3 col-12">
+                  <div class="single-partner">
+                    <a href="<?php echo $item['link']; ?>" target="_blank"><img src="<?php echo $item['logo']; ?>" alt="#"></a>
+                  </div>
+                </div>
+                <!--/ End Single Partner -->
+            <?php
+              endforeach;
+            endif; ?>
           </div>
         </div>
       </div>
