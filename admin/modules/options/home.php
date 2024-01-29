@@ -404,6 +404,31 @@ $errors = getFlashData('errors');
         <textarea name="home_blog_desc" class="form-control" placeholder="<?php echo getOption('home_blog_desc', 'label'); ?>" rows="5" cols="20"><?php echo getOption('home_blog_desc'); ?></textarea>
         <?php echo form_error('home_blog_desc', $errors, '<span class="error">', '</span>'); ?>
       </div>
+      <hr>
+
+      <h5>Thiết lập đối tác</h5>
+      <div class="form-group">
+        <label for=""><?php echo getOption('home_partner_title', 'label'); ?></label>
+        <input type="text" class="form-control" name="home_partner_title" placeholder="<?php echo getOption('home_partner_title', 'label'); ?>" value="<?php echo getOption('home_partner_title'); ?>" />
+        <?php echo form_error('home_partner_title', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <div class="form-group">
+        <label for=""><?php echo getOption('home_partner_title_bg', 'label'); ?></label>
+        <input type="text" class="form-control" name="home_partner_title_bg" placeholder="<?php echo getOption('home_partner_title_bg', 'label'); ?>" value="<?php echo getOption('home_partner_title_bg'); ?>" />
+        <?php echo form_error('home_partner_title_bg', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <div class="form-group">
+        <label for=""><?php echo getOption('home_partner_desc', 'label'); ?></label>
+        <textarea name="home_partner_desc" class="form-control" placeholder="<?php echo getOption('home_partner_desc', 'label'); ?>" rows="5" cols="20"><?php echo getOption('home_partner_desc'); ?></textarea>
+        <?php echo form_error('home_partner_desc', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      
+      <h5>Danh sách đối tác</h5>
+      <div class="partner-wrapper">
+
+      </div><!-- End partner-wrapper -->
+      <p><button type="button" class="btn btn-warning btn-sm add-partner">Thêm đối tác</button></p>
+      
 
       <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
     </form>

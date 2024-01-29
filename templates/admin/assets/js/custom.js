@@ -415,5 +415,75 @@ if (addSlideObject !== null && slideWrapperObject !== null) {
     postfix: ' %',
     prettify: false,
     hasGrid: true
-  })
+  });
+
+
+  const partnerItemHtml = `<div class="partner-item">
+          <div class="row">
+            <div class="col-11">
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="">Logo</label>
+                    <div class="row ckfinder-group">
+                      <div class="col-10">
+                        <input type="text" class="form-control image-render" name="home_partner_content[logo][]" placeholder="Đường dẫn ảnh..." value="" />
+                      </div>
+                      <div class="col-2">
+                        <button type="button" class="btn btn-success btn-block choose-image"><i class="fa fa-upload" aria-hidden="true"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="from-group">
+                    <label for="">Link</label>
+                    <input type="text" class="form-control" name="home_partner_content[link][]" placeholder="Link..." />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-1">
+              <a href="#" class="btn btn-danger btn-sm btn-block remove">&times;</a>
+            </div>
+          </div>
+        </div><!-- End partner-item -->`;
+
+  const addPartnerObject = document.querySelector('.add-partner');
+  const partnerWrapperObject = document.querySelector('.partner-wrapper');
+  if (addPartnerObject !== null && partnerWrapperObject !== null) {
+    addPartnerObject.addEventListener('click', function () {
+      let partnerItemHtmlNode = new DOMParser().parseFromString(partnerItemHtml, 'text/html').querySelector('.partner-item');
+
+      partnerWrapperObject.appendChild(partnerItemHtmlNode);
+
+      openCkfinder();
+    });
+
+    partnerWrapperObject.addEventListener('click', function (e) {
+      e.preventDefault(); //Ngăn tình trạng mặc định html (Thẻ a)
+      if (e.target.classList.contains('remove') || e.target.parentElement.classList.contains('remove')) {
+
+        if (confirm('Bạn có chắc chắn muốn xoá?')) {
+          let partnerItem = e.target;
+          while (partnerItem) {
+
+            partnerItem = partnerItem.parentElement;
+
+            if (partnerItem.classList.contains('partner-item')) {
+              break;
+            }
+          }
+
+          if (partnerItem !== null) {
+            partnerItem.remove();
+          }
+
+        }
+      }
+    });
+
+  }
+
+  
 }
