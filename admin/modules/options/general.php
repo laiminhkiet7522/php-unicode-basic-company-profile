@@ -55,6 +55,11 @@ $allCategories = getRaw("SELECT id, name FROM blog_categories ORDER BY name");
         <?php echo form_error('general_time', $errors, '<span class="error">', '</span>'); ?>
       </div>
       <div class="form-group">
+        <label for=""><?php echo getOption('general_address', 'label'); ?></label>
+        <input type="text" class="form-control" name="general_address" placeholder="<?php echo getOption('general_address', 'label'); ?>" value="<?php echo getOption('general_address'); ?>" />
+        <?php echo form_error('general_address', $errors, '<span class="error">', '</span>'); ?>
+      </div>
+      <div class="form-group">
         <label for=""><?php echo getOption('general_facebook', 'label'); ?></label>
         <input type="text" class="form-control" name="general_facebook" placeholder="<?php echo getOption('general_facebook', 'label'); ?>" value="<?php echo getOption('general_facebook'); ?>" />
         <?php echo form_error('general_facebook', $errors, '<span class="error">', '</span>'); ?>
@@ -79,6 +84,7 @@ $allCategories = getRaw("SELECT id, name FROM blog_categories ORDER BY name");
         <input type="text" class="form-control" name="general_youtube" placeholder="<?php echo getOption('general_youtube', 'label'); ?>" value="<?php echo getOption('general_youtube'); ?>" />
         <?php echo form_error('general_youtube', $errors, '<span class="error">', '</span>'); ?>
       </div>
+
       <hr>
 
       <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
