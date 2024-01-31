@@ -375,4 +375,7 @@ Version: 1.0
 				$(this).remove();
 			});
 		});
+
+		//Custom js
+		$('.footer .links ul.list li a').prepend('<i class="fa fa-caret-right"></i>');
 })(jQuery);	
