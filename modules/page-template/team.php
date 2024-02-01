@@ -24,106 +24,46 @@ $desc = getOption('team_desc');
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-lg-3 col-md-6 col-12">
-        <!-- Single Team -->
-        <div class="single-team">
-          <div class="t-head">
-            <img src="images/t2.jpg" alt="#">
-            <div class="t-icon">
-              <a href="team-single.html"><i class="fa fa-plus"></i></a>
+    <?php
+    $teamContentJson = getOption('team_content');
+    if (!empty($teamContentJson)) {
+      $teamContentArr = json_decode($teamContentJson, true);
+      if (!empty($teamContentArr)) {
+    ?>
+        <div class="row">
+          <?php
+          foreach ($teamContentArr as $item) {
+          ?>
+            <div class="col-lg-3 col-md-6 col-12">
+              <!-- Single Team -->
+              <div class="single-team">
+                <div class="t-head">
+                  <img src="<?php echo $item['image']; ?>" alt="#">
+                  <div class="t-icon">
+                    <a href="#"><i class="fa fa-plus"></i></a>
+                  </div>
+                </div>
+                <div class="t-bottom">
+                  <p><?php echo $item['position']; ?></p>
+                  <h2><?php echo $item['name']; ?></h2>
+                  <ul class="t-social">
+                    <li><a href="<?php echo $item['facebook']; ?>"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="<?php echo $item['twitter']; ?>"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="<?php echo $item['linkedin']; ?>"><i class="fa fa-linkedin"></i></a></li>
+                    <li><a href="<?php echo $item['behance']; ?>"><i class="fa fa-behance"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+              <!-- End Single Team -->
             </div>
-          </div>
-          <div class="t-bottom">
-            <p>Founder</p>
-            <h2>Collis Molate</h2>
-            <ul class="t-social">
-              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-              <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-              <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-              <li><a href="#"><i class="fa fa-behance"></i></a></li>
-            </ul>
-          </div>
+          <?php
+          }
+          ?>
         </div>
-        <!-- End Single Team -->
-      </div>
-      <div class="col-lg-3 col-md-6 col-12">
-        <!-- Single Team -->
-        <div class="single-team">
-          <!-- Team Head -->
-          <div class="t-head">
-            <img src="images/t1.jpg" alt="#">
-            <div class="t-icon">
-              <a href="team-single.html"><i class="fa fa-plus"></i></a>
-            </div>
-          </div>
-          <!-- Team Bottom -->
-          <div class="t-bottom">
-            <p>Co-Founder</p>
-            <h2>Domani Plavon</h2>
-            <ul class="t-social">
-              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-              <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-              <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-              <li><a href="#"><i class="fa fa-behance"></i></a></li>
-            </ul>
-          </div>
-          <!--/ End Team Bottom -->
-        </div>
-        <!-- End Single Team -->
-      </div>
-      <div class="col-lg-3 col-md-6 col-12">
-        <!-- Single Team -->
-        <div class="single-team">
-          <!-- Team Head -->
-          <div class="t-head">
-            <img src="images/t3.jpg" alt="#">
-            <div class="t-icon">
-              <a href="team-single.html"><i class="fa fa-plus"></i></a>
-            </div>
-          </div>
-          <!-- Team Bottom -->
-          <div class="t-bottom">
-            <p>Developer</p>
-            <h2>John Mard</h2>
-            <ul class="t-social">
-              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-              <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-              <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-              <li><a href="#"><i class="fa fa-behance"></i></a></li>
-            </ul>
-          </div>
-          <!--/ End Team Bottom -->
-        </div>
-        <!-- End Single Team -->
-      </div>
-      <div class="col-lg-3 col-md-6 col-12">
-        <!-- Single Team -->
-        <div class="single-team">
-          <!-- Team Head -->
-          <div class="t-head">
-            <img src="images/t4.jpg" alt="#">
-            <div class="t-icon">
-              <a href="team-single.html"><i class="fa fa-plus"></i></a>
-            </div>
-          </div>
-          <!-- Team Bottom -->
-          <div class="t-bottom">
-            <p>Marketer</p>
-            <h2>Amanal Frond</h2>
-            <ul class="t-social">
-              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-              <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-              <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-              <li><a href="#"><i class="fa fa-behance"></i></a></li>
-            </ul>
-          </div>
-          <!--/ End Team Bottom -->
-        </div>
-        <!-- End Single Team -->
-      </div>
-    </div>
-  </div>
+    <?php
+      }
+    }
+    ?>
 </section>
 <!--/ End Team -->
 <?php
