@@ -307,6 +307,12 @@ $userDetail = getUserInfo($userId);
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=options&action=about'; ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Thiết lập trang giới thiệu</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=options&action=header'; ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Thiết lập Header</p>
