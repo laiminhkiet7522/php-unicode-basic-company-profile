@@ -2,17 +2,7 @@
     margin-bottom: 10px;
 }
 
-.slide-wrapper .slide-item{
-    margin-bottom: 15px;
-    border-bottom: 1px solid #ddd;
-}
-
-.skill-wrapper .skill-item{
-    margin-bottom: 15px;
-    border-bottom: 1px solid #ddd;
-}
-
-.partner-wrapper .partner-item{
+.slide-wrapper .slide-item ,.skill-wrapper .skill-item, .partner-wrapper .partner-item, .team-wrapper .team-item{
     margin-bottom: 15px;
     border-bottom: 1px solid #ddd;
 }

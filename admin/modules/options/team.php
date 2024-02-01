@@ -8,7 +8,35 @@ layout('header', 'admin', $data);
 layout('sidebar', 'admin', $data);
 layout('breadcrumb', 'admin', $data);
 
-updateOptions();
+if (isPost()) {
+
+  $teamContentJson = '';
+
+  if (!empty(getBody()['team_content'])) {
+    $teamContent = getBody()['team_content'];
+    $teamContentArr = [];
+
+    if (!empty($teamContent['name'])) {
+      foreach ($teamContent['name'] as $key => $value) {
+        $teamContentArr[] = [
+          'name' => $value,
+          'position' => $teamContent['position'][$key],
+          'image' => $teamContent['image'][$key],
+          'link' => $teamContent['link'][$key],
+          'facebook' => $teamContent['facebook'][$key],
+          'twitter' => $teamContent['twitter'][$key],
+          'linkedin' => $teamContent['linkedin'][$key],
+          'behance' => $teamContent['behance'][$key],
+        ];
+      }
+    }
+    $teamContentJson = json_encode($teamContentArr);
+  }
+  $data = [
+    'team_content' => $teamContentJson
+  ];
+  updateOptions($data);
+}
 
 $msg = getFlashData('msg');
 $msgType = getFlashData('msg_type');
@@ -46,6 +74,91 @@ $errors = getFlashData('errors');
         <textarea name="team_desc" class="form-control" placeholder="<?php echo getOption('team_desc', 'label'); ?>" rows="5" cols="20"><?php echo getOption('team_desc'); ?></textarea>
         <?php echo form_error('team_desc', $errors, '<span class="error">', '</span>'); ?>
       </div>
+      <hr>
+
+      <h5>Thiết lập danh sách đội ngũ</h5>
+      <div class="team-wrapper">
+        <?php
+        $teamContentJson = getOption('team_content');
+        if (!empty($teamContentJson)) {
+          $teamContentArr = json_decode($teamContentJson, true);
+          if (!empty($teamContentArr)) {
+            foreach ($teamContentArr as $item) {
+        ?>
+              <div class="team-item">
+                <div class="row">
+                  <div class="col-11">
+                    <div class="row">
+                      <div class="col-6">
+                        <div class="form-group">
+                          <label for="">Tên</label>
+                          <input type="text" class="form-control" name="team_content[name][]" placeholder="Tên..." value="<?php echo $item['name']; ?>" />
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="form-group">
+                          <label for="">Chức vụ</label>
+                          <input type="text" class="form-control" name="team_content[position][]" placeholder="Chức vụ..." value="<?php echo $item['position']; ?>" />
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="form-group">
+                          <label for="">Ảnh</label>
+                          <div class="row ckfinder-group">
+                            <div class="col-10">
+                              <input type="text" class="form-control image-render" name="team_content[image][]" placeholder="Đường dẫn ảnh..." value="<?php echo $item['image']; ?>" />
+                            </div>
+                            <div class="col-2">
+                              <button type="button" class="btn btn-success btn-block choose-image"><i class="fa fa-upload" aria-hidden="true"></i></button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="form-group">
+                          <label for="">Link</label>
+                          <input type="text" class="form-control" name="team_content[link][]" placeholder="Link..." value="<?php echo $item['link']; ?>" />
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="form-group">
+                          <label for="">Facebook</label>
+                          <input type="text" class="form-control" name="team_content[facebook][]" placeholder="Facebook..." value="<?php echo $item['facebook']; ?>" />
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="form-group">
+                          <label for="">Twitter</label>
+                          <input type="text" class="form-control" name="team_content[twitter][]" placeholder="Twitter..." value="<?php echo $item['twitter']; ?>" />
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="form-group">
+                          <label for="">Linkedin</label>
+                          <input type="text" class="form-control" name="team_content[linkedin][]" placeholder="Linkedin..." value="<?php echo $item['linkedin']; ?>" />
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="form-group">
+                          <label for="">Behance</label>
+                          <input type="text" class="form-control" name="team_content[behance][]" placeholder="Behance..." value="<?php echo $item['behance']; ?>" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-1">
+                    <a href="#" class="btn btn-danger btn-sm btn-block remove">&times;</a>
+                  </div>
+                </div>
+              </div> <!-- End .team-item -->
+        <?php
+            }
+          }
+        }
+        ?>
+
+      </div><!-- End .team-wrapper -->
+      <p><button type="button" class="btn btn-warning btn-sm add-team">Thêm đội ngũ</button></p>
       <hr>
 
       <button type="submit" class="btn btn-primary">Lưu thay đổi</button>

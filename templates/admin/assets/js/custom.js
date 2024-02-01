@@ -338,7 +338,9 @@ if (addSlideObject !== null && slideWrapperObject !== null) {
     }
   });
 
-  const skillItemHtml = `<div class="skill-item">
+}
+
+const skillItemHtml = `<div class="skill-item">
           <div class="row">
             <div class="col-11">
               <div class="row">
@@ -362,63 +364,63 @@ if (addSlideObject !== null && slideWrapperObject !== null) {
           </div>
         </div><!-- End skill-item -->`;
 
-  const addSkillObject = document.querySelector('.add-skill');
-  const skillWrapperObject = document.querySelector('.skill-wrapper');
-  if (addSkillObject !== null && skillWrapperObject !== null) {
-    addSkillObject.addEventListener('click', function () {
-      let skillItemHtmlNode = new DOMParser().parseFromString(skillItemHtml, 'text/html').querySelector('.skill-item');
+const addSkillObject = document.querySelector('.add-skill');
+const skillWrapperObject = document.querySelector('.skill-wrapper');
+if (addSkillObject !== null && skillWrapperObject !== null) {
+  addSkillObject.addEventListener('click', function () {
+    let skillItemHtmlNode = new DOMParser().parseFromString(skillItemHtml, 'text/html').querySelector('.skill-item');
 
-      skillWrapperObject.appendChild(skillItemHtmlNode);
+    skillWrapperObject.appendChild(skillItemHtmlNode);
 
-      openCkfinder();
+    openCkfinder();
 
-      $('.ranger').ionRangeSlider({
-        min: 0,
-        max: 100,
-        type: 'single',
-        step: 1,
-        postfix: ' %',
-        prettify: false,
-        hasGrid: true
-      })
-    });
-
-    skillWrapperObject.addEventListener('click', function (e) {
-      e.preventDefault(); //Ngăn tình trạng mặc định html (Thẻ a)
-      if (e.target.classList.contains('remove') || e.target.parentElement.classList.contains('remove')) {
-
-        if (confirm('Bạn có chắc chắn muốn xoá?')) {
-          let skillItem = e.target;
-          while (skillItem) {
-
-            skillItem = skillItem.parentElement;
-
-            if (skillItem.classList.contains('skill-item')) {
-              break;
-            }
-          }
-
-          if (skillItem !== null) {
-            skillItem.remove();
-          }
-
-        }
-      }
-    });
-
-  }
-  $('.ranger').ionRangeSlider({
-    min: 0,
-    max: 100,
-    type: 'single',
-    step: 1,
-    postfix: ' %',
-    prettify: false,
-    hasGrid: true
+    $('.ranger').ionRangeSlider({
+      min: 0,
+      max: 100,
+      type: 'single',
+      step: 1,
+      postfix: ' %',
+      prettify: false,
+      hasGrid: true
+    })
   });
 
+  skillWrapperObject.addEventListener('click', function (e) {
+    e.preventDefault(); //Ngăn tình trạng mặc định html (Thẻ a)
+    if (e.target.classList.contains('remove') || e.target.parentElement.classList.contains('remove')) {
 
-  const partnerItemHtml = `<div class="partner-item">
+      if (confirm('Bạn có chắc chắn muốn xoá?')) {
+        let skillItem = e.target;
+        while (skillItem) {
+
+          skillItem = skillItem.parentElement;
+
+          if (skillItem.classList.contains('skill-item')) {
+            break;
+          }
+        }
+
+        if (skillItem !== null) {
+          skillItem.remove();
+        }
+
+      }
+    }
+  });
+
+}
+$('.ranger').ionRangeSlider({
+  min: 0,
+  max: 100,
+  type: 'single',
+  step: 1,
+  postfix: ' %',
+  prettify: false,
+  hasGrid: true
+});
+
+
+const partnerItemHtml = `<div class="partner-item">
           <div class="row">
             <div class="col-11">
               <div class="row">
@@ -449,41 +451,139 @@ if (addSlideObject !== null && slideWrapperObject !== null) {
           </div>
         </div><!-- End partner-item -->`;
 
-  const addPartnerObject = document.querySelector('.add-partner');
-  const partnerWrapperObject = document.querySelector('.partner-wrapper');
-  if (addPartnerObject !== null && partnerWrapperObject !== null) {
-    addPartnerObject.addEventListener('click', function () {
-      let partnerItemHtmlNode = new DOMParser().parseFromString(partnerItemHtml, 'text/html').querySelector('.partner-item');
+const addPartnerObject = document.querySelector('.add-partner');
+const partnerWrapperObject = document.querySelector('.partner-wrapper');
+if (addPartnerObject !== null && partnerWrapperObject !== null) {
+  addPartnerObject.addEventListener('click', function () {
+    let partnerItemHtmlNode = new DOMParser().parseFromString(partnerItemHtml, 'text/html').querySelector('.partner-item');
 
-      partnerWrapperObject.appendChild(partnerItemHtmlNode);
+    partnerWrapperObject.appendChild(partnerItemHtmlNode);
 
-      openCkfinder();
-    });
+    openCkfinder();
+  });
 
-    partnerWrapperObject.addEventListener('click', function (e) {
-      e.preventDefault(); //Ngăn tình trạng mặc định html (Thẻ a)
-      if (e.target.classList.contains('remove') || e.target.parentElement.classList.contains('remove')) {
+  partnerWrapperObject.addEventListener('click', function (e) {
+    e.preventDefault(); //Ngăn tình trạng mặc định html (Thẻ a)
+    if (e.target.classList.contains('remove') || e.target.parentElement.classList.contains('remove')) {
 
-        if (confirm('Bạn có chắc chắn muốn xoá?')) {
-          let partnerItem = e.target;
-          while (partnerItem) {
+      if (confirm('Bạn có chắc chắn muốn xoá?')) {
+        let partnerItem = e.target;
+        while (partnerItem) {
 
-            partnerItem = partnerItem.parentElement;
+          partnerItem = partnerItem.parentElement;
 
-            if (partnerItem.classList.contains('partner-item')) {
-              break;
-            }
+          if (partnerItem.classList.contains('partner-item')) {
+            break;
           }
-
-          if (partnerItem !== null) {
-            partnerItem.remove();
-          }
-
         }
+
+        if (partnerItem !== null) {
+          partnerItem.remove();
+        }
+
       }
-    });
+    }
+  });
+}
 
-  }
+const teamItemHtml = `<div class="team-item">
+          <div class="row">
+            <div class="col-11">
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="">Tên</label>
+                    <input type="text" class="form-control" name="team_content[name][]" placeholder="Tên..." value="" />
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="">Chức vụ</label>
+                    <input type="text" class="form-control" name="team_content[position][]" placeholder="Chức vụ..." value="" />
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="">Ảnh</label>
+                    <div class="row ckfinder-group">
+                      <div class="col-10">
+                        <input type="text" class="form-control image-render" name="team_content[image][]" placeholder="Đường dẫn ảnh..." value="" />
+                      </div>
+                      <div class="col-2">
+                        <button type="button" class="btn btn-success btn-block choose-image"><i class="fa fa-upload" aria-hidden="true"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="">Link</label>
+                    <input type="text" class="form-control" name="team_content[link][]" placeholder="Link..." value="" />
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="">Facebook</label>
+                    <input type="text" class="form-control" name="team_content[facebook][]" placeholder="Facebook..." value="" />
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="">Twitter</label>
+                    <input type="text" class="form-control" name="team_content[twitter][]" placeholder="Twitter..." value="" />
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="">Linkedin</label>
+                    <input type="text" class="form-control" name="team_content[linkedin][]" placeholder="Linkedin..." value="" />
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="">Behance</label>
+                    <input type="text" class="form-control" name="team_content[behance][]" placeholder="Behance..." value="" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-1">
+              <a href="#" class="btn btn-danger btn-sm btn-block remove">&times;</a>
+            </div>
+          </div>
+        </div> <!-- End .team-item -->`;
 
-  
+const addTeamObject = document.querySelector('.add-team');
+const teamWrapperObject = document.querySelector('.team-wrapper');
+if (addTeamObject !== null && teamWrapperObject !== null) {
+  addTeamObject.addEventListener('click', function () {
+    let teamItemHtmlNode = new DOMParser().parseFromString(teamItemHtml, 'text/html').querySelector('.team-item');
+
+    teamWrapperObject.appendChild(teamItemHtmlNode);
+
+    openCkfinder();
+  });
+
+  teamWrapperObject.addEventListener('click', function (e) {
+    e.preventDefault(); //Ngăn tình trạng mặc định html (Thẻ a)
+    if (e.target.classList.contains('remove') || e.target.parentElement.classList.contains('remove')) {
+
+      if (confirm('Bạn có chắc chắn muốn xoá?')) {
+        let teamItem = e.target;
+        while (teamItem) {
+
+          teamItem = teamItem.parentElement;
+
+          if (teamItem.classList.contains('team-item')) {
+            break;
+          }
+        }
+
+        if (teamItem !== null) {
+          teamItem.remove();
+        }
+
+      }
+    }
+  });
 }
