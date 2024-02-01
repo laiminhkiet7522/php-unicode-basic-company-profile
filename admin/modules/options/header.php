@@ -14,9 +14,6 @@ $msg = getFlashData('msg');
 $msgType = getFlashData('msg_type');
 $errors = getFlashData('errors');
 
-//Lấy dữ liệu tất cả chuyên mục
-$allCategories = getRaw("SELECT id, name FROM blog_categories ORDER BY name");
-
 ?>
 <!-- Main content -->
 <section class="content">
