@@ -1,7 +1,7 @@
 <?php
 if (!defined('_INCODE')) die('Access Deined...');
 $data = [
-  'pageTitle' => 'Dịch vụ'
+  'pageTitle' => getOption('service_title')
 ];
 layout('header', 'client', $data);
 layout('breadcrumb', 'client', $data);
@@ -29,7 +29,7 @@ layout('breadcrumb', 'client', $data);
             <!-- Single Service -->
             <div class="single-service">
               <?php echo html_entity_decode($item['icon']); ?>
-              <h2><a href="#"><?php echo $item['name']; ?></a></h2>
+              <h2><a href="<?php echo _WEB_HOST_ROOT . '?module=services&action=detail&id=' . $item['id']; ?>"><?php echo $item['name']; ?></a></h2>
               <p><?php echo $item['description']; ?></p>
             </div>
             <!-- End Single Service -->
@@ -46,113 +46,5 @@ layout('breadcrumb', 'client', $data);
   </div>
 </section>
 <!--/ End Services -->
-<!-- Partners -->
-<section id="partners" class="partners section">
-  <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <div class="section-title">
-          <span class="title-bg">Clients</span>
-          <h1>Our Partners</h1>
-          <p>Sed lorem enim, faucibus at erat eget, laoreet tincidunt tortor. Ut sed mi nec ligula bibendum aliquam. Sed scelerisque maximus magna, a vehicula turpis Proin
-          <p>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <div class="partners-inner">
-          <div class="row no-gutters">
-            <!-- Single Partner -->
-            <div class="col-lg-2 col-md-3 col-12">
-              <div class="single-partner">
-                <a href="#" target="_blank"><img src="images/partner-1.png" alt="#"></a>
-              </div>
-            </div>
-            <!--/ End Single Partner -->
-            <!-- Single Partner -->
-            <div class="col-lg-2 col-md-3 col-12">
-              <div class="single-partner">
-                <a href="#" target="_blank"><img src="images/partner-2.png" alt="#"></a>
-              </div>
-            </div>
-            <!--/ End Single Partner -->
-            <!-- Single Partner -->
-            <div class="col-lg-2 col-md-3 col-12">
-              <div class="single-partner">
-                <a href="#" target="_blank"><img src="images/partner-3.png" alt="#"></a>
-              </div>
-            </div>
-            <!--/ End Single Partner -->
-            <!-- Single Partner -->
-            <div class="col-lg-2 col-md-3 col-12">
-              <div class="single-partner">
-                <a href="#" target="_blank"><img src="images/partner-4.png" alt="#"></a>
-              </div>
-            </div>
-            <!--/ End Single Partner -->
-            <!-- Single Partner -->
-            <div class="col-lg-2 col-md-3 col-12">
-              <div class="single-partner">
-                <a href="#" target="_blank"><img src="images/partner-5.png" alt="#"></a>
-              </div>
-            </div>
-            <!--/ End Single Partner -->
-            <!-- Single Partner -->
-            <div class="col-lg-2 col-md-3 col-12">
-              <div class="single-partner">
-                <a href="#" target="_blank"><img src="images/partner-6.png" alt="#"></a>
-              </div>
-            </div>
-            <!--/ End Single Partner -->
-            <!-- Single Partner -->
-            <div class="col-lg-2 col-md-3 col-12">
-              <div class="single-partner">
-                <a href="#" target="_blank"><img src="images/partner-7.png" alt="#"></a>
-              </div>
-            </div>
-            <!--/ End Single Partner -->
-            <!-- Single Partner -->
-            <div class="col-lg-2 col-md-3 col-12">
-              <div class="single-partner">
-                <a href="#" target="_blank"><img src="images/partner-8.png" alt="#"></a>
-              </div>
-            </div>
-            <!--/ End Single Partner -->
-            <!-- Single Partner -->
-            <div class="col-lg-2 col-md-3 col-12">
-              <div class="single-partner">
-                <a href="#" target="_blank"><img src="images/partner-5.png" alt="#"></a>
-              </div>
-            </div>
-            <!--/ End Single Partner -->
-            <!-- Single Partner -->
-            <div class="col-lg-2 col-md-3 col-12">
-              <div class="single-partner">
-                <a href="#" target="_blank"><img src="images/partner-6.png" alt="#"></a>
-              </div>
-            </div>
-            <!--/ End Single Partner -->
-            <!-- Single Partner -->
-            <div class="col-lg-2 col-md-3 col-12">
-              <div class="single-partner">
-                <a href="#" target="_blank"><img src="images/partner-7.png" alt="#"></a>
-              </div>
-            </div>
-            <!--/ End Single Partner -->
-            <!-- Single Partner -->
-            <div class="col-lg-2 col-md-3 col-12">
-              <div class="single-partner">
-                <a href="#" target="_blank"><img src="images/partner-3.png" alt="#"></a>
-              </div>
-            </div>
-            <!--/ End Single Partner -->
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!--/ End Partners -->
 <?php
 layout('footer', 'client');

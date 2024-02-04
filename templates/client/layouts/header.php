@@ -49,8 +49,8 @@
 
   <!-- Radix StyleShet CSS -->
   <link rel="stylesheet" href="<?php echo _WEB_HOST_TEMPLATE; ?>/css/reset.css">
-  <link rel="stylesheet" href="<?php echo _WEB_HOST_TEMPLATE; ?>/css/style.css">
-  <link rel="stylesheet" href="<?php echo _WEB_HOST_TEMPLATE; ?>/css/responsive.css">
+  <link rel="stylesheet" href="<?php echo _WEB_HOST_TEMPLATE; ?>/css/style.css?ver=<?php echo rand(); ?>">
+  <link rel="stylesheet" href="<?php echo _WEB_HOST_TEMPLATE; ?>/css/responsive.css"> 
 
   <!-- Radix Color CSS -->
   <link rel="stylesheet" href="<?php echo _WEB_HOST_TEMPLATE; ?>/css/color/color1.css">

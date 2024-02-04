@@ -566,6 +566,13 @@ function truncateText($text, $maxLength)
     return $text;
 }
 
+function loadError($name = '404')
+{
+    $path = _WEB_PATH_ROOT.'/modules/errors/'.$name.'.php';
+    require_once $path;
+    die();
+}
+
 function head()
 {
 ?>
