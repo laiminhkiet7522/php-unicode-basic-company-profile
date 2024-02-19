@@ -66,7 +66,7 @@ $portfolios = getRaw("SELECT * FROM portfolios ORDER BY create_at DESC");
                       <img src="<?php echo $item['thumbnail']; ?>" alt="#" />
                     </div>
                     <div class="portfolio-hover">
-                      <h4><a href="#"><?php echo $item['name']; ?></a></h4>
+                      <h4><a href="<?php echo _WEB_HOST_ROOT . '/?module=portfolios&action=detail&id=' . $item['id']; ?>"><?php echo $item['name']; ?></a></h4>
                       <p><?php echo $item['description']; ?></p>
                       <div class="button">
                         <?php
@@ -75,7 +75,7 @@ $portfolios = getRaw("SELECT * FROM portfolios ORDER BY create_at DESC");
                         <?php endif; ?>
                         <a class="primary" data-fancybox="gallery" href="<?php echo $item['thumbnail']; ?>"><i class="fa fa-search"></i></a>
                         <a href="<?php echo $item['video']; ?>" class="primary cbp-lightbox"><i class="fa fa-play"></i></a>
-                        <a href="#"><i class="fa fa-link"></i></a>
+                        <a href="<?php echo _WEB_HOST_ROOT . '/?module=portfolios&action=detail&id=' . $item['id']; ?>"><i class="fa fa-link"></i></a>
                       </div>
                     </div>
                   </div>

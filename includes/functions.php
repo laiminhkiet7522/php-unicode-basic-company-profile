@@ -568,7 +568,7 @@ function truncateText($text, $maxLength)
 
 function loadError($name = '404')
 {
-    $path = _WEB_PATH_ROOT.'/modules/errors/'.$name.'.php';
+    $path = _WEB_PATH_ROOT . '/modules/errors/' . $name . '.php';
     require_once $path;
     die();
 }
@@ -582,4 +582,26 @@ function head()
 
 function foot()
 {
+}
+
+function getYoutubeId($url)
+{
+    //Using regex
+    // $pattern = "/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'>]+)/";
+    // preg_match($pattern, $url, $matches);
+    // return $matches[1];
+
+    //Using parse_url()
+    $result = [];
+    $urlStr = parse_url($url, PHP_URL_QUERY);
+    parse_str($urlStr, $result);
+
+    if(!empty($result['v']))
+    {
+        return $result['v'];
+    }
+    else
+    {
+        return false;
+    }
 }

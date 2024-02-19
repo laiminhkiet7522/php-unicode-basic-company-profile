@@ -3298,3 +3298,7 @@ Version: 1.0
 .text-small {
   font-size: 28px;
 }
+
+.portfolio-meta {
+  margin-top: 7px;
+}
