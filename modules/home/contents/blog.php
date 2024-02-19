@@ -4,7 +4,7 @@ $titleBg = getOption('home_blog_title_bg');
 $desc = getOption('home_blog_desc');
 
 //Truy vấn blog
-$listBlog = getRaw("SELECT title, description, thumbnail, view_count, blog.create_at as create_at, blog.id, blog_categories.name as cate_name FROM blog INNER JOIN blog_categories ON blog.category_id=blog_categories.id");
+$listBlog = getRaw("SELECT title, description, thumbnail, view_count, blog.create_at as create_at, blog.id, blog_categories.name as cate_name FROM blog INNER JOIN blog_categories ON blog.category_id=blog_categories.id ORDER BY blog.create_at DESC LIMIT 6");
 ?>
 <!-- Blogs Area -->
 <section class="blogs-main section">
