@@ -3,7 +3,14 @@ if (!defined('_INCODE')) die('Access Deined...');
 
 if (!empty(getBody()['id'])) {
   $id = getBody()['id'];
+
+  setView($id);
+
   $blogDetail = firstRaw("SELECT blog.*, blog_categories.name as cate_name, blog_categories.id as cate_id FROM blog INNER JOIN blog_categories ON blog.category_id = blog_categories.id WHERE blog.id = $id");
+
+  if (empty($blogDetail)) {
+    loadError('404');
+  }
 } else {
   loadError('404');
 }
@@ -18,6 +25,11 @@ $data = [
 ];
 layout('header', 'client', $data);
 layout('breadcrumb', 'client', $data);
+
+//Truy vấn lấy tất cả bài viết
+$allBlogs = getRaw("SELECT * FROM blog ORDER BY create_at DESC");
+
+$currentKey = array_search($id, array_column($allBlogs, 'id'));
 
 ?>
 <!-- Blogs Area -->
@@ -59,8 +71,16 @@ layout('breadcrumb', 'client', $data);
                 <div class="bottom-area">
                   <!-- Next Prev -->
                   <ul class="arrow">
-                    <li class="prev"><a href="#"><i class="fa fa-angle-double-left"></i>Previews Posts</a></li>
-                    <li class="next"><a href="#">Next Posts<i class="fa fa-angle-double-right"></i></a></li>
+                    <?php
+                    if ($currentKey > 0) :
+                    ?>
+                      <li class="prev"><a href="<?php echo _WEB_HOST_ROOT . '?module=blog&action=detail&id=' . $allBlogs[$currentKey - 1]['id']; ?>"><i class="fa fa-angle-double-left"></i>Previews Posts</a></li>
+                    <?php endif; ?>
+                    <?php
+                    if ($currentKey < count($allBlogs) - 1) :
+                    ?>
+                      <li class="next"><a href="<?php echo _WEB_HOST_ROOT . '?module=blog&action=detail&id=' . $allBlogs[$currentKey + 1]['id']; ?>">Next Posts<i class="fa fa-angle-double-right"></i></a></li>
+                    <?php endif; ?>
                   </ul>
                   <!--/ End Next Prev -->
                 </div>

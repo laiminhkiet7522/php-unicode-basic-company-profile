@@ -596,12 +596,27 @@ function getYoutubeId($url)
     $urlStr = parse_url($url, PHP_URL_QUERY);
     parse_str($urlStr, $result);
 
-    if(!empty($result['v']))
-    {
+    if (!empty($result['v'])) {
         return $result['v'];
-    }
-    else
-    {
+    } else {
         return false;
+    }
+}
+
+function setView($id)
+{
+    $blog = firstRaw("SELECT view_count FROM blog WHERE id = $id");
+    $check = false;
+    if (!empty($blog)) {
+        $view = $blog['view_count'] + 1;
+        $check = true;
+    } else {
+        if(is_array($blog)){
+            $view = 1;
+            $check = true;
+        }
+    }
+    if($check){
+        update('blog', ['view_count' => $view], "id = $id");
     }
 }
