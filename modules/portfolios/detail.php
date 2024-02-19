@@ -7,6 +7,9 @@ if (!empty(getBody()['id'])) {
   //Thực hiện truy vấn với bảng portfolio
   $sql = "SELECT p.*, c.name as cate_name FROM portfolios as p INNER JOIN portfolio_categories as c ON p.portfolio_category_id = c.id WHERE p.id = $id";
   $portfolioDetail = firstRaw($sql);
+
+  $portfolioImages = getRaw("SELECT * FROM portfolio_images WHERE portfolio_id = $id");
+  
   if (empty($portfolioDetail)) {
     loadError('404');
   }
@@ -59,30 +62,21 @@ layout('breadcrumb', 'client', $data);
       } else {
         echo '<div class="col-12">';
       }
+      if(!empty($portfolioImages)):
       ?>
       <h3>Thumbnail</h3>
       <hr>
       <div class="row">
+        <?php
+        foreach ($portfolioImages as $item):
+        ?>
         <div class="col-4 mb-4">
-          <a href="https://media.istockphoto.com/id/1868061596/vi/vec-to/m%E1%BB%99t-ng%C6%B0%E1%BB%9Di-%C4%91%C3%A0n-%C3%B4ng-trang-tr%C3%AD-c%C3%A2y-th%C3%B4ng-noel-trong-khi-v%E1%BB%A3-mang-qu%C3%A0.jpg?s=1024x1024&w=is&k=20&c=jrbIlZfDg8MNyjAJfhY2sYGDMo-SrsCJ3rM5NZ77ds8=" data-fancybox="gallery"><img src="https://media.istockphoto.com/id/1868061596/vi/vec-to/m%E1%BB%99t-ng%C6%B0%E1%BB%9Di-%C4%91%C3%A0n-%C3%B4ng-trang-tr%C3%AD-c%C3%A2y-th%C3%B4ng-noel-trong-khi-v%E1%BB%A3-mang-qu%C3%A0.jpg?s=1024x1024&w=is&k=20&c=jrbIlZfDg8MNyjAJfhY2sYGDMo-SrsCJ3rM5NZ77ds8=" alt=""></a>
+          <a href="<?php echo $item['image']; ?>" data-fancybox="gallery"><img src="<?php echo $item['image']; ?>" alt=""></a>
         </div>
-        <div class="col-4 mb-4">
-          <a href="https://media.istockphoto.com/id/1868061596/vi/vec-to/m%E1%BB%99t-ng%C6%B0%E1%BB%9Di-%C4%91%C3%A0n-%C3%B4ng-trang-tr%C3%AD-c%C3%A2y-th%C3%B4ng-noel-trong-khi-v%E1%BB%A3-mang-qu%C3%A0.jpg?s=1024x1024&w=is&k=20&c=jrbIlZfDg8MNyjAJfhY2sYGDMo-SrsCJ3rM5NZ77ds8=" data-fancybox="gallery"><img src="https://media.istockphoto.com/id/1868061596/vi/vec-to/m%E1%BB%99t-ng%C6%B0%E1%BB%9Di-%C4%91%C3%A0n-%C3%B4ng-trang-tr%C3%AD-c%C3%A2y-th%C3%B4ng-noel-trong-khi-v%E1%BB%A3-mang-qu%C3%A0.jpg?s=1024x1024&w=is&k=20&c=jrbIlZfDg8MNyjAJfhY2sYGDMo-SrsCJ3rM5NZ77ds8=" alt=""></a>
-        </div>
-        <div class="col-4 mb-4">
-          <a href="https://media.istockphoto.com/id/1868061596/vi/vec-to/m%E1%BB%99t-ng%C6%B0%E1%BB%9Di-%C4%91%C3%A0n-%C3%B4ng-trang-tr%C3%AD-c%C3%A2y-th%C3%B4ng-noel-trong-khi-v%E1%BB%A3-mang-qu%C3%A0.jpg?s=1024x1024&w=is&k=20&c=jrbIlZfDg8MNyjAJfhY2sYGDMo-SrsCJ3rM5NZ77ds8=" data-fancybox="gallery"><img src="https://media.istockphoto.com/id/1868061596/vi/vec-to/m%E1%BB%99t-ng%C6%B0%E1%BB%9Di-%C4%91%C3%A0n-%C3%B4ng-trang-tr%C3%AD-c%C3%A2y-th%C3%B4ng-noel-trong-khi-v%E1%BB%A3-mang-qu%C3%A0.jpg?s=1024x1024&w=is&k=20&c=jrbIlZfDg8MNyjAJfhY2sYGDMo-SrsCJ3rM5NZ77ds8=" alt=""></a>
-        </div>
-        <div class="col-4 mb-4">
-          <a href="https://media.istockphoto.com/id/1868061596/vi/vec-to/m%E1%BB%99t-ng%C6%B0%E1%BB%9Di-%C4%91%C3%A0n-%C3%B4ng-trang-tr%C3%AD-c%C3%A2y-th%C3%B4ng-noel-trong-khi-v%E1%BB%A3-mang-qu%C3%A0.jpg?s=1024x1024&w=is&k=20&c=jrbIlZfDg8MNyjAJfhY2sYGDMo-SrsCJ3rM5NZ77ds8=" data-fancybox="gallery"><img src="https://media.istockphoto.com/id/1868061596/vi/vec-to/m%E1%BB%99t-ng%C6%B0%E1%BB%9Di-%C4%91%C3%A0n-%C3%B4ng-trang-tr%C3%AD-c%C3%A2y-th%C3%B4ng-noel-trong-khi-v%E1%BB%A3-mang-qu%C3%A0.jpg?s=1024x1024&w=is&k=20&c=jrbIlZfDg8MNyjAJfhY2sYGDMo-SrsCJ3rM5NZ77ds8=" alt=""></a>
-        </div>
-        <div class="col-4 mb-4">
-          <a href="https://media.istockphoto.com/id/1868061596/vi/vec-to/m%E1%BB%99t-ng%C6%B0%E1%BB%9Di-%C4%91%C3%A0n-%C3%B4ng-trang-tr%C3%AD-c%C3%A2y-th%C3%B4ng-noel-trong-khi-v%E1%BB%A3-mang-qu%C3%A0.jpg?s=1024x1024&w=is&k=20&c=jrbIlZfDg8MNyjAJfhY2sYGDMo-SrsCJ3rM5NZ77ds8=" data-fancybox="gallery"><img src="https://media.istockphoto.com/id/1868061596/vi/vec-to/m%E1%BB%99t-ng%C6%B0%E1%BB%9Di-%C4%91%C3%A0n-%C3%B4ng-trang-tr%C3%AD-c%C3%A2y-th%C3%B4ng-noel-trong-khi-v%E1%BB%A3-mang-qu%C3%A0.jpg?s=1024x1024&w=is&k=20&c=jrbIlZfDg8MNyjAJfhY2sYGDMo-SrsCJ3rM5NZ77ds8=" alt=""></a>
-        </div>
-        <div class="col-4 mb-4">
-          <a href="https://media.istockphoto.com/id/1868061596/vi/vec-to/m%E1%BB%99t-ng%C6%B0%E1%BB%9Di-%C4%91%C3%A0n-%C3%B4ng-trang-tr%C3%AD-c%C3%A2y-th%C3%B4ng-noel-trong-khi-v%E1%BB%A3-mang-qu%C3%A0.jpg?s=1024x1024&w=is&k=20&c=jrbIlZfDg8MNyjAJfhY2sYGDMo-SrsCJ3rM5NZ77ds8=" data-fancybox="gallery"><img src="https://media.istockphoto.com/id/1868061596/vi/vec-to/m%E1%BB%99t-ng%C6%B0%E1%BB%9Di-%C4%91%C3%A0n-%C3%B4ng-trang-tr%C3%AD-c%C3%A2y-th%C3%B4ng-noel-trong-khi-v%E1%BB%A3-mang-qu%C3%A0.jpg?s=1024x1024&w=is&k=20&c=jrbIlZfDg8MNyjAJfhY2sYGDMo-SrsCJ3rM5NZ77ds8=" alt=""></a>
-        </div>
+        <?php endforeach;?>
       </div>
       <?php
+      endif;
       echo '</div>';
       ?>
     </div>
