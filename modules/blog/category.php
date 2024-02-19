@@ -1,7 +1,15 @@
 <?php
 if (!defined('_INCODE')) die('Access Deined...');
+
+if (!empty(getBody()['id'])) {
+  $categoryId = getBody()['id'];
+  $category = firstRaw("SELECT * FROM blog_categories WHERE id = $categoryId");
+} else {
+  loadError('404');
+}
 $data = [
-  'pageTitle' => getOption('blog_title')
+  'pageTitle' => $category['name'],
+  'itemParent' => '<li><a href="' . _WEB_HOST_ROOT . '?module=blog">' . getOption('blog_title') . '</a></li>'
 ];
 layout('header', 'client', $data);
 layout('breadcrumb', 'client', $data);
@@ -9,7 +17,7 @@ layout('breadcrumb', 'client', $data);
 //Xử lý phân trang
 
 //Số lượng bản ghi blog
-$allBlogNum = getRows("SELECT id FROM blog");
+$allBlogNum = getRows("SELECT id FROM blog WHERE category_id = $categoryId");
 
 //Thiết lập số lượng bản ghi trên 1 trang
 $perPage = getOption('blog_per_page') ? getOption('blog_per_page') : 6;
@@ -38,7 +46,7 @@ $offset = ($page - 1) * $perPage;
 
 
 //Truy vấn blog
-$listBlog = getRaw("SELECT title, description, thumbnail, view_count, blog.create_at as create_at, blog.id, blog_categories.name as cate_name, blog_categories.id as cate_id FROM blog INNER JOIN blog_categories ON blog.category_id=blog_categories.id ORDER BY blog.create_at DESC LIMIT $offset, $perPage");
+$listBlog = getRaw("SELECT title, description, thumbnail, view_count, blog.create_at as create_at, blog.id, blog_categories.name as cate_name, blog_categories.id as cate_id FROM blog INNER JOIN blog_categories ON blog.category_id=blog_categories.id WHERE blog.category_id = $categoryId ORDER BY blog.create_at DESC LIMIT $offset, $perPage");
 
 ?>
 <!-- Blogs Area -->

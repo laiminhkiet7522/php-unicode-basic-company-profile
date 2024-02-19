@@ -4,7 +4,7 @@ $titleBg = getOption('home_blog_title_bg');
 $desc = getOption('home_blog_desc');
 
 //Truy vấn blog
-$listBlog = getRaw("SELECT title, description, thumbnail, view_count, blog.create_at as create_at, blog.id, blog_categories.name as cate_name FROM blog INNER JOIN blog_categories ON blog.category_id=blog_categories.id ORDER BY blog.create_at DESC LIMIT 6");
+$listBlog = getRaw("SELECT title, description, thumbnail, view_count, blog.create_at as create_at, blog.id, blog_categories.name as cate_name, blog_categories.id as category_id FROM blog INNER JOIN blog_categories ON blog.category_id=blog_categories.id ORDER BY blog.create_at DESC LIMIT 6");
 ?>
 <!-- Blogs Area -->
 <section class="blogs-main section">
@@ -37,7 +37,7 @@ $listBlog = getRaw("SELECT title, description, thumbnail, view_count, blog.creat
                       <h4><a href="blog-single.html"><?php echo truncateText($item['title'], 30); ?></a></h4>
                       <p><?php echo $item['description']; ?></p>
                       <div class="meta">
-                        <span><i class="fa fa-bolt"></i><a href="#"><?php echo $item['cate_name']; ?></a></span>
+                        <span><i class="fa fa-bolt"></i><a href="<?php echo _WEB_HOST_ROOT . '?module=blog&action=category&id=' . $item['category_id']; ?>"><?php echo $item['cate_name']; ?></a></span>
                         <span><i class="fa fa-calendar"></i><?php echo getDateFormat($item['create_at'], 'd M, Y') ?></span>
                         <span><i class="fa fa-eye"></i><a href="#"><?php echo $item['view_count']; ?></a></span>
                       </div>
