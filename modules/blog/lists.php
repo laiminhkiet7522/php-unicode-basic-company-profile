@@ -59,7 +59,7 @@ $listBlog = getRaw("SELECT title, description, thumbnail, view_count, blog.creat
               </div>
               <div class="blog-bottom">
                 <div class="blog-inner">
-                  <h4><a href="blog-single.html"><?php echo truncateText($item['title'], 30); ?></a></h4>
+                  <h4><a href="<?php echo _WEB_HOST_ROOT . '?module=blog&action=detail&id=' . $item['id']; ?>"><?php echo truncateText($item['title'], 30); ?></a></h4>
                   <p><?php echo $item['description']; ?></p>
                   <div class="meta">
                     <span><i class="fa fa-bolt"></i><a href="<?php echo _WEB_HOST_ROOT . '?module=blog&action=category&id=' . $item['cate_id']; ?>"><?php echo $item['cate_name']; ?></a></span>
