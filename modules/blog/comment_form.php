@@ -37,6 +37,15 @@ if (isPost()) {
   }
 
   if (empty($errors)) {
+
+    //Lưu tất cả thông tin vào cookie
+    $commentInfo = [
+      'name' => trim(strip_tags($body['name'])),
+      'email' => trim(strip_tags($body['email'])),
+      'website' => trim(strip_tags($body['website']))
+    ];
+    setcookie('commentInfo', json_encode($commentInfo), time() + (86400 * 365));
+
     //Không Có lỗi xảy ra
     $dataInsert = [
       'name' => trim(strip_tags($body['name'])),
@@ -81,6 +90,12 @@ $msg = getFlashData('msg');
 $msgType = getFlashData('msg_type');
 $errors = getFlashData('errors');
 $old = getFlashData('old');
+
+//Lấy dữ liệu từ cookie
+$commentInfo = [];
+if (!empty($_COOKIE['commentInfo'])) {
+  $commentInfo = json_decode($_COOKIE['commentInfo'], true);
+}
 ?>
 <div class="comments-form">
   <h2 class="title"><?php echo !(empty($commentName)) ? 'Reply to ' . $commentName . '\'s comment ' . '<a href="' . _WEB_HOST_ROOT . '?module=blog&action=detail&id=' . $id . '"><i class="fa fa-times"></i> Cancel</a>' : 'Leave a comment'; ?></h2>
@@ -92,19 +107,19 @@ $old = getFlashData('old');
     <div class="row">
       <div class="col-lg-4 col-12">
         <div class="form-group">
-          <input type="text" name="name" placeholder="Full Name">
+          <input type="text" name="name" placeholder="Full Name" value="<?php echo !empty($commentInfo['name']) ? $commentInfo['name'] : ''; ?>">
           <?php echo form_error('name', $errors, '<span class="error">', '</span>'); ?>
         </div>
       </div>
       <div class="col-lg-4 col-12">
         <div class="form-group">
-          <input type="email" name="email" placeholder="Your Email">
+          <input type="email" name="email" placeholder="Your Email" value="<?php echo !empty($commentInfo['email']) ? $commentInfo['email'] : ''; ?>">
           <?php echo form_error('email', $errors, '<span class="error">', '</span>'); ?>
         </div>
       </div>
       <div class="col-lg-4 col-12">
         <div class="form-group">
-          <input type="text" name="website" placeholder="Website">
+          <input type="text" name="website" placeholder="Website" value="<?php echo !empty($commentInfo['website']) ? $commentInfo['website'] : ''; ?>">
           <?php echo form_error('website', $errors, '<span class="error">', '</span>'); ?>
         </div>
       </div>
