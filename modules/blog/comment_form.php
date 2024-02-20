@@ -1,4 +1,10 @@
 <?php
+$commentName = null;
+if (!empty(getBody('get')['comment_id'])) {
+  $commentId = getBody('get')['comment_id'];
+  $commentName = $commentData[$commentId]['name'];
+}
+
 if (isPost()) {
   $body = getBody();
   $errors = [];
@@ -43,7 +49,14 @@ if (isPost()) {
       'create_at' => date('Y-m-d H:i:s'),
       'status' => 0
     ];
+
+    if (!empty($commentId)) {
+      $dataInsert['parent_id'] = $commentId;
+      $dataInsert['status'] = 1; //bỏ duyệt khi trả lời
+    }
+
     $insertStatus = insert('comments', $dataInsert);
+
     if ($insertStatus) {
       setFlashData('msg', 'Comment added successfully');
       setFlashData('msg_type', 'success');
@@ -70,7 +83,7 @@ $errors = getFlashData('errors');
 $old = getFlashData('old');
 ?>
 <div class="comments-form">
-  <h2 class="title">Leave a comment</h2>
+  <h2 class="title"><?php echo !(empty($commentName)) ? 'Reply to ' . $commentName . '\'s comment ' . '<a href="' . _WEB_HOST_ROOT . '?module=blog&action=detail&id=' . $id . '"><i class="fa fa-times"></i> Cancel</a>' : 'Leave a comment'; ?></h2>
   <!-- Contact Form -->
   <form class="form" method="post" action="">
     <?php

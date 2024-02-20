@@ -1,5 +1,6 @@
 <?php
 $commentLists = getRaw("SELECT * FROM comments WHERE blog_id=$id AND status=1 ORDER BY create_at DESC");
+$commentData = [];
 ?>
 <div class="blog-comments">
   <h2 class="title"><?php echo count($commentLists) > 1 ? count($commentLists) . ' Comments Found!' : count($commentLists) . ' Comment Found!'; ?></h2>
@@ -7,6 +8,7 @@ $commentLists = getRaw("SELECT * FROM comments WHERE blog_id=$id AND status=1 OR
     <?php
     if (!empty($commentLists)) :
       foreach ($commentLists as $item) :
+        $commentData[$item['id']] = $item;
     ?>
         <!-- Single Comments -->
         <div class="single-comments">
@@ -17,7 +19,7 @@ $commentLists = getRaw("SELECT * FROM comments WHERE blog_id=$id AND status=1 OR
             <div class="body">
               <h4><?php echo $item['name']; ?></h4>
               <div class="comment-info">
-                <p><span><?php echo getDateFormat($item['create_at'], 'd M, Y'); ?> at<i class="fa fa-clock-o"></i><?php echo getDateFormat($item['create_at'], 'h:i A'); ?>,</span><a href="#"><i class="fa fa-comment-o"></i>replay</a></p>
+                <p><span><?php echo getDateFormat($item['create_at'], 'd M, Y'); ?> at<i class="fa fa-clock-o"></i><?php echo getDateFormat($item['create_at'], 'h:i A'); ?>,</span><a href="<?php echo _WEB_HOST_ROOT . '?module=blog&action=detail&id=' . $id . '&comment_id=' . $item['id']; ?>"><i class="fa fa-comment-o"></i>reply</a></p>
               </div>
               <p><?php echo $item['content']; ?></p>
             </div>
@@ -36,7 +38,8 @@ $commentLists = getRaw("SELECT * FROM comments WHERE blog_id=$id AND status=1 OR
       </div> -->
         </div>
         <!--/ End Single Comments -->
-      <?php endforeach; else : ?>
+      <?php endforeach;
+    else : ?>
       <div class="alert">
         <span class="closebtn" style="cursor: pointer;" onclick="this.parentElement.style.display='none';">&times;</span>
         <strong>Sorry!</strong> No comments found
