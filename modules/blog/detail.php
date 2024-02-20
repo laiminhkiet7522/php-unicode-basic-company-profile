@@ -176,8 +176,8 @@ $avatarUrl = 'https://gravatar.com/avatar/' . $hashGravatar . '?s=200';
               </div>
             </div>
           </div>
-          <div class="col-12">
-            <?php require_once _WEB_PATH_ROOT. '/modules/blog/comment_form.php'; ?>
+          <div class="col-12" id="comment-form">
+            <?php require_once _WEB_PATH_ROOT . '/modules/blog/comment_form.php'; ?>
           </div>
         </div>
       </div>

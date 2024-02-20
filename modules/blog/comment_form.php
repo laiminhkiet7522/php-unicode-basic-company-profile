@@ -31,9 +31,33 @@ if (isPost()) {
   }
 
   if (empty($errors)) {
+    //Không Có lỗi xảy ra
+    $dataInsert = [
+      'name' => trim(strip_tags($body['name'])),
+      'email' => trim(strip_tags($body['email'])),
+      'website' => trim(strip_tags($body['website'])),
+      'content' => trim(strip_tags($body['content'])),
+      'parent_id' => 0,
+      'blog_id' => $id,
+      'user_id' => NULL,
+      'create_at' => date('Y-m-d H:i:s'),
+      'status' => 0
+    ];
+    $insertStatus = insert('comments', $dataInsert);
+    if ($insertStatus) {
+      setFlashData('msg', 'Comment added successfully');
+      setFlashData('msg_type', 'success');
+      redirect('?module=blog&action=detail&id=' . $id . '#comment-form');
+    } else {
+      setFlashData('msg', 'Comment added failed');
+      setFlashData('msg_type', 'danger');
+      setFlashData('errors', $errors);
+      setFlashData('old', $body);
+      redirect('?module=blog&action=detail&id=' . $id . '#comment-form');
+    }
   } else {
     //Có lỗi xảy ra
-    setFlashData('msg', 'Vui lòng kiểm tra dữ liệu nhập vào');
+    setFlashData('msg', 'Please check the entered data');
     setFlashData('msg_type', 'danger');
     setFlashData('errors', $errors);
     setFlashData('old', $body);
@@ -45,10 +69,13 @@ $msgType = getFlashData('msg_type');
 $errors = getFlashData('errors');
 $old = getFlashData('old');
 ?>
-<div class="comments-form" id="comment-form">
+<div class="comments-form">
   <h2 class="title">Leave a comment</h2>
   <!-- Contact Form -->
   <form class="form" method="post" action="">
+    <?php
+    getMsg($msg, $msgType);
+    ?>
     <div class="row">
       <div class="col-lg-4 col-12">
         <div class="form-group">
