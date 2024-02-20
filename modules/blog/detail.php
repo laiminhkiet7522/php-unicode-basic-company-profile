@@ -6,7 +6,7 @@ if (!empty(getBody()['id'])) {
 
   setView($id);
 
-  $blogDetail = firstRaw("SELECT blog.*, blog_categories.name as cate_name, blog_categories.id as cate_id FROM blog INNER JOIN blog_categories ON blog.category_id = blog_categories.id WHERE blog.id = $id");
+  $blogDetail = firstRaw("SELECT blog.*, blog_categories.name as cate_name, blog_categories.id as cate_id, users.fullname, users.email, groups.name as group_name, users.about_content, users.contact_facebook, users.contact_twitter, users.contact_linkedin, users.contact_pinterest, (SELECT count(id) FROM blog WHERE user_id = users.id) as total_blog FROM blog INNER JOIN blog_categories ON blog.category_id = blog_categories.id INNER JOIN users ON blog.user_id = users.id INNER JOIN `groups` ON users.group_id = `groups`.id WHERE blog.id = $id");
 
   if (empty($blogDetail)) {
     loadError('404');
@@ -31,6 +31,9 @@ $allBlogs = getRaw("SELECT * FROM blog ORDER BY create_at DESC");
 
 $currentKey = array_search($id, array_column($allBlogs, 'id'));
 
+$userEmail = $blogDetail['email'];
+$hashGravatar = md5($userEmail);
+$avatarUrl = 'https://gravatar.com/avatar/' . $hashGravatar . '?s=200';
 ?>
 <!-- Blogs Area -->
 <section class="blogs-main archives single section">
@@ -91,18 +94,17 @@ $currentKey = array_search($id, array_column($allBlogs, 'id'));
           <div class="col-12">
             <div class="author-details">
               <div class="author-left">
-                <img src="images/t4.jpg" alt="#">
-                <h4>About Author<span>Senior Author</span></h4>
-                <p><a href="#"><i class="fa fa-pencil"></i>33 posts</a></p>
+                <img src="<?php echo $avatarUrl; ?>" alt="#">
+                <h4><?php echo $blogDetail['fullname']; ?><span><?php echo $blogDetail['group_name']; ?></span></h4>
+                <p><a href="#"><i class="fa fa-pencil"></i><?php echo $blogDetail['total_blog']; ?> posts</a></p>
               </div>
               <div class="author-content">
-                <p>Hi My name is Lamp! quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per seacula There are many variations of passages of Lorem Ipsum available, but the majority have suffered alterations. Vivamus vehicula quis cursus. In hac habitasse platea dictumst Aenean tristique odio id lectus solmania trundard lamp!</p>
+                <p><?php echo $blogDetail['about_content']; ?></p>
                 <ul class="social-share">
-                  <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                  <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                  <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                  <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
-                  <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                  <li><a href="<?php echo $blogDetail['contact_facebook']; ?>"><i class="fa fa-facebook"></i></a></li>
+                  <li><a href="<?php echo $blogDetail['contact_twitter']; ?>"><i class="fa fa-twitter"></i></a></li>
+                  <li><a href="<?php echo $blogDetail['contact_linkedin']; ?>"><i class="fa fa-linkedin"></i></a></li>
+                  <li><a href="<?php echo $blogDetail['contact_pinterest']; ?>"><i class="fa fa-pinterest"></i></a></li>
                 </ul>
               </div>
             </div>
