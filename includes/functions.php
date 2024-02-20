@@ -611,12 +611,25 @@ function setView($id)
         $view = $blog['view_count'] + 1;
         $check = true;
     } else {
-        if(is_array($blog)){
+        if (is_array($blog)) {
             $view = 1;
             $check = true;
         }
     }
-    if($check){
+    if ($check) {
         update('blog', ['view_count' => $view], "id = $id");
     }
+}
+
+//Lấy avatar từ Gravatar
+function getAvatar($email, $size = null)
+{
+    $hashGravatar = md5($email);
+    if (!empty($size)) {
+        $avatarUrl = 'https://gravatar.com/avatar/' . $hashGravatar . '?s=' . $size;
+    } else {
+
+        $avatarUrl = 'https://gravatar.com/avatar/' . $hashGravatar;
+    }
+    return $avatarUrl;
 }
