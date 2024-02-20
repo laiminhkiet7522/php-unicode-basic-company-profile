@@ -3302,3 +3302,11 @@ Version: 1.0
 .portfolio-meta {
   margin-top: 7px;
 }
+
+.comment-children {
+  padding-left: 50px;
+}
+
+.comment-list {
+  padding-left: 0;
+}

@@ -577,7 +577,7 @@ function head()
 {
 ?>
     <link rel="stylesheet" href="<?php echo _WEB_HOST_ROOT; ?>/templates/core/css/style.css" />
-<?php
+    <?php
 }
 
 function foot()
@@ -632,4 +632,33 @@ function getAvatar($email, $size = null)
         $avatarUrl = 'https://gravatar.com/avatar/' . $hashGravatar;
     }
     return $avatarUrl;
+}
+
+function getCommentList($commentData, $parentId, $id)
+{
+    if (!empty($commentData)) {
+        echo '<div class="comment-children">';
+        foreach ($commentData as $key => $item) {
+            if ($item['parent_id'] == $parentId) {
+    ?>
+                <div class="comment-list">
+                    <div class="head">
+                        <img src="<?php echo getAvatar($item['email']); ?>" alt="#">
+                    </div>
+                    <div class="body">
+                        <h4><?php echo $item['name']; ?></h4>
+                        <div class="comment-info">
+                            <p><span><?php echo getDateFormat($item['create_at'], 'd M, Y'); ?> at<i class="fa fa-clock-o"></i><?php echo getDateFormat($item['create_at'], 'h:i A'); ?>,</span><a href="<?php echo _WEB_HOST_ROOT . '?module=blog&action=detail&id=' . $id . '&comment_id=' . $item['id']; ?>#comment-form"><i class="fa fa-comment-o"></i>reply</a></p>
+                        </div>
+                        <p><?php echo $item['content']; ?></p>
+                    </div>
+                </div>
+
+<?php
+                getCommentList($commentData, $item['id'], $id);
+                unset($commentData[$key]);
+            }
+        }
+        echo '</div>';
+    }
 }
