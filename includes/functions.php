@@ -223,9 +223,13 @@ function getMsg($msg, $type = 'success')
 }
 
 //Hàm chuyển hướng
-function redirect($path = 'index.php')
+function redirect($path = 'index.php', $fullUrl = false)
 {
-    $url = _WEB_HOST_ROOT . '/' . $path;
+    if (empty($fullUrl)) {
+        $url = _WEB_HOST_ROOT . '/' . $path;
+    } else {
+        $url = $path;
+    }
     header("Location: $url");
     exit;
 }
@@ -646,7 +650,8 @@ function getCommentList($commentData, $parentId, $id)
                         <img src="<?php echo getAvatar($item['email']); ?>" alt="#">
                     </div>
                     <div class="body">
-                        <h4><?php echo $item['name']; ?></h4>
+                        <h4><?php echo $item['name'];
+                            echo !(empty($item['user_id'])) ? ' <span class="badge badge-danger">' . $item['group_name'] . '</span>' : ''; ?></h4>
                         <div class="comment-info">
                             <p><span><?php echo getDateFormat($item['create_at'], 'd M, Y'); ?> at<i class="fa fa-clock-o"></i><?php echo getDateFormat($item['create_at'], 'h:i A'); ?>,</span><a href="<?php echo _WEB_HOST_ROOT . '?module=blog&action=detail&id=' . $id . '&comment_id=' . $item['id']; ?>#comment-form"><i class="fa fa-comment-o"></i>reply</a></p>
                         </div>
