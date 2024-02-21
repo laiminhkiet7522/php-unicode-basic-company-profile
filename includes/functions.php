@@ -559,6 +559,7 @@ function updateOptions($data = [])
     }
 }
 
+//Hàm cắt chuỗi
 function truncateText($text, $maxLength)
 {
     // Check if the length of the text exceeds the maximum length
@@ -568,6 +569,26 @@ function truncateText($text, $maxLength)
     }
     // Return the truncated text
     return $text;
+}
+
+//Hàm cắt chữ
+function getLimitText($content, $limit = 20)
+{
+    $content = strip_tags($content);
+    $content = trim($content);
+    $contentArr = explode(' ', $content);
+    $contentArr = array_filter($contentArr);
+    $wordsNumber = count($contentArr); //trả về số lượng phần tử mảng
+    if ($wordsNumber > $limit) {
+        $contentArrLimit = explode(' ', $content, $limit + 1);
+        array_pop($contentArrLimit);
+
+        $limitText = implode(' ', $contentArrLimit) . '...';
+
+        return $limitText;
+    }
+
+    return $content;
 }
 
 function loadError($name = '404')
@@ -666,4 +687,10 @@ function getCommentList($commentData, $parentId, $id)
         }
         echo '</div>';
     }
+}
+
+function getComment($commentId)
+{
+    $commentData = firstRaw("SELECT * FROM comments WHERE id = $commentId");
+    return $commentData;
 }

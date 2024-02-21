@@ -6,3 +6,7 @@
     margin-bottom: 15px;
     border-bottom: 1px solid #ddd;
 }
+
+.nav-sidebar .nav-link>.right, .nav-sidebar .nav-link>p>.right{
+    right: 1rem !important;
+}
