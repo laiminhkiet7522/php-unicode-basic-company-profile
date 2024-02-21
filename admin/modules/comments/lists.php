@@ -156,11 +156,10 @@ $msgType = getFlashData('msg_type');
         <tr>
           <th width="5%">STT</th>
           <th>Thông tin</th>
-          <th width="20%">Nội dung</th>
+          <th width="30%">Nội dung</th>
           <th width="10%">Trạng thái</th>
           <th width="10%">Thời gian</th>
           <th width="10%">Bài viết</th>
-          <th width="10%">Sửa</th>
           <th width="10%">Xoá</th>
         </tr>
       </thead>
@@ -209,7 +208,6 @@ $msgType = getFlashData('msg_type');
               </td>
               <td><?php echo getDateFormat($item['create_at'], 'd/m/Y H:i:s') ?></td>
               <td class="text-center"><a target="_blank" href="<?php echo _WEB_HOST_ROOT . '?module=blog&action=detail&id=' . $item['blog_id']; ?>"><?php echo truncateText($item['title'], 25); ?></a></td>
-              <td class="text-center"><a href="<?php echo getLinkAdmin('comments', 'edit', ['id' => $item['id']]); ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Sửa</a></td>
               <td class="text-center"><a href="<?php echo getLinkAdmin('comments', 'delete', ['id' => $item['id']]); ?>" id="delete_sweet_alert2" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Xoá</a></td>
             </tr>
           <?php
@@ -217,7 +215,7 @@ $msgType = getFlashData('msg_type');
         else :
           ?>
           <tr>
-            <td colspan="8" class="alert alert-danger text-center">Không có bình luận</td>
+            <td colspan="7" class="alert alert-danger text-center">Không có bình luận</td>
           </tr>
         <?php endif; ?>
       </tbody>

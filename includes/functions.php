@@ -694,3 +694,18 @@ function getComment($commentId)
     $commentData = firstRaw("SELECT * FROM comments WHERE id = $commentId");
     return $commentData;
 }
+
+//Đệ quy lấy tất cả trả lời của một comment => gán vào 1 mảng mới
+function getCommentReply($commentData, $parent_id, &$result = [])
+{
+    if (!empty($commentData)) {
+        foreach ($commentData as $key => $item) {
+            if ($item['parent_id'] == $parent_id) {
+                $result[] = $item['id'];
+                getCommentReply($commentData, $item['id'], $result);
+                unset($commentData[$key]);
+            }
+        }
+    }
+    return $result;
+}
