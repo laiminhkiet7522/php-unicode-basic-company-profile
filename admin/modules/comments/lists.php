@@ -16,6 +16,25 @@ $filter = '';
 if (isGet()) {
   $body = getBody();
 
+  //Xử lý lọc status
+  if (!empty($body['status'])) {
+    $status = $body['status'];
+
+    if ($status == 2) {
+      $statusSql = 0;
+    } else {
+      $statusSql = $status;
+    }
+
+    if (!empty($filter) && strpos($filter, 'WHERE') >= 0) {
+      $operator = 'AND';
+    } else {
+      $operator = 'WHERE';
+    }
+
+    $filter .= " $operator comments.status=$statusSql";
+  }
+
   //Xử lý lọc theo từ khoá
   if (!empty($body['keyword'])) {
     $keyword = $body['keyword'];
@@ -27,7 +46,7 @@ if (isGet()) {
       $operator = 'WHERE';
     }
 
-    $filter .= " $operator title LIKE '%$keyword%'";
+    $filter .= " $operator comments.name LIKE '%$keyword%' OR comments.content LIKE '%$keyword%' OR comments.email LIKE '%$keyword%' OR comments.website LIKE '%$keyword%'";
   }
 
   //Xử lý lọc theo user
@@ -41,7 +60,7 @@ if (isGet()) {
       $operator = 'WHERE';
     }
 
-    $filter .= " $operator user_id=$userId";
+    $filter .= " $operator comments.user_id=$userId";
   }
 }
 
@@ -80,8 +99,8 @@ if (!empty($_SERVER['QUERY_STRING'])) {
   $queryString = '&' . $queryString;
 }
 
-//Lấy dữ liệu dịch vụ
-$listComments = getRaw("SELECT comments.*, blog.title, users.fullname, users.email as user_email FROM comments INNER JOIN blog ON comments.blog_id = blog.id LEFT JOIN users ON comments.user_id=users.id ORDER BY comments.create_at DESC LIMIT $offset, $perPage");
+//Lấy dữ liệu bình luận
+$listComments = getRaw("SELECT comments.*, blog.title, users.fullname, users.email as user_email FROM comments INNER JOIN blog ON comments.blog_id = blog.id LEFT JOIN users ON comments.user_id=users.id $filter ORDER BY comments.create_at DESC LIMIT $offset, $perPage");
 
 //Lấy dữ liệu tất cả người dùng
 $allUsers = getRaw("SELECT id, fullname, email FROM users ORDER BY fullname");
@@ -110,14 +129,23 @@ $msgType = getFlashData('msg_type');
             ?>
           </select>
         </div>
-        <div class="col-6">
-          <input type="search" name="keyword" class="form-control" placeholder="Nhập tên trang..." value="<?php echo (!empty($keyword)) ? $keyword : false; ?>" />
-        </div>
         <div class="col-3">
+          <div class="form-group">
+            <select name="status" class="form-control">
+              <option value="0">Chọn trạng thái</option>
+              <option value="1" <?php echo (!empty($status) && $status == 1) ? 'selected' : false; ?>>Đã duyệt</option>
+              <option value="2" <?php echo (!empty($status) && $status == 2) ? 'selected' : false; ?>>Chưa duyệt</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-4">
+          <input type="search" name="keyword" class="form-control" placeholder="Từ khóa tiềm kiếm..." value="<?php echo (!empty($keyword)) ? $keyword : false; ?>" />
+        </div>
+        <div class="col-2">
           <button type="submit" class="btn btn-primary btn-block">Tìm kiếm</button>
         </div>
       </div>
-      <input type="hidden" name="module" value="pages" />
+      <input type="hidden" name="module" value="comments" />
     </form>
     <hr>
     <?php
@@ -158,10 +186,11 @@ $msgType = getFlashData('msg_type');
                 ?>
                 <?php
                 if ($item['parent_id'] == 0) {
-                  echo '- Loại Bình luận: Viết mới' . '<br>';
+                  echo '- Loại bình luận: Viết mới' . '<br>';
                 } else {
                   $commentData = getComment($item['parent_id']);
                   if (!empty($commentData['name'])) {
+                    echo '- Loại Bình luận: Hồi đáp' . '<br>';
                     echo '- Trả lời: ' . $commentData['name'];
                   }
                 }
