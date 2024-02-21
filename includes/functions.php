@@ -709,3 +709,18 @@ function getCommentReply($commentData, $parent_id, &$result = [])
     }
     return $result;
 }
+
+//Lấy số lượng liên hệ
+function getCountContacts()
+{
+    $sql = "SELECT id FROM contacts WHERE status=0";
+    $count = getRows($sql);
+    return $count;
+}
+
+//Lấy số lượng comment theo trạng thái
+function getCommentCount($status = 0)
+{
+    $sql = "SELECT id FROM comments WHERE status=$status";
+    return getRows($sql);
+}

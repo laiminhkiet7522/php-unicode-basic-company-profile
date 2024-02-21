@@ -36,10 +36,7 @@ $commentData = [];
       <?php endif;
       endforeach;
     else : ?>
-      <div class="alert">
-        <span class="closebtn" style="cursor: pointer;" onclick="this.parentElement.style.display='none';">&times;</span>
-        <strong>Sorry!</strong> No comments found
-      </div>
+      <div class="alert alert-success text-center">No comments found</div>
     <?php endif; ?>
   </div>
 </div>

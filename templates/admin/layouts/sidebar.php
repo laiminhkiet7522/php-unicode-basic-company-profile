@@ -257,7 +257,7 @@ $userDetail = getUserInfo($userId);
                     <a href="#" class="nav-link <?php echo (activeMenuSidebar('contacts') || activeMenuSidebar('contact_type')) ? 'active' : false; ?>">
                         <i class="nav-icon far fa-id-card"></i>
                         <p>
-                            Quản lý liên hệ <span class="badge badge-danger">1</span>
+                            Quản lý liên hệ <span class="badge badge-danger"><?php echo getCountContacts(); ?></span>
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
@@ -265,7 +265,7 @@ $userDetail = getUserInfo($userId);
                         <li class="nav-item">
                             <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=contacts'; ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Danh sách <span class="badge badge-danger">1</span></p>
+                                <p>Danh sách <span class="badge badge-danger"><?php echo getCountContacts(); ?></span></p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -289,7 +289,7 @@ $userDetail = getUserInfo($userId);
                     <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=comments'; ?>" class="nav-link <?php echo activeMenuSidebar('comments') ? 'active' : false; ?>">
                         <i class="nav-icon fas fa-comment-dots"></i>
                         <p>
-                            Quản lý bình luận <span class="badge badge-danger">1</span>
+                            Quản lý bình luận <span class="badge badge-danger"><?php echo getCommentCount(); ?></span>
                         </p>
                     </a>
                 </li>
