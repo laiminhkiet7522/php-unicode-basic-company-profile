@@ -197,7 +197,16 @@ $msgType = getFlashData('msg_type');
                 ?>
               </td>
               <td><?php echo truncateText($item['content'], 100); ?></td>
-              <td><?php echo $item['status'] == 1 ? '<span class="badge badge-success">Đã duyệt</span>' : '<span class="badge badge-info">Chưa duyệt</span>'; ?></td>
+              <td><?php echo $item['status'] == 1 ? '<span class="badge badge-success">Đã duyệt</span>' : '<span class="badge badge-info">Chưa duyệt</span>'; ?>
+                <?php
+                echo '<br>';
+                if ($item['status'] == 0) {
+                  echo '<a href="' . _WEB_HOST_ROOT_ADMIN . '/?module=comments&action=status&id=' . $item['id'] . '&status=1" class="text-success">Duyệt</a>';
+                } else {
+                  echo '<a href="' . _WEB_HOST_ROOT_ADMIN . '/?module=comments&action=status&id=' . $item['id'] . '&status=0" class="text-danger">Bỏ duyệt</a>';
+                }
+                ?>
+              </td>
               <td><?php echo getDateFormat($item['create_at'], 'd/m/Y H:i:s') ?></td>
               <td class="text-center"><a target="_blank" href="<?php echo _WEB_HOST_ROOT . '?module=blog&action=detail&id=' . $item['blog_id']; ?>"><?php echo truncateText($item['title'], 25); ?></a></td>
               <td class="text-center"><a href="<?php echo getLinkAdmin('comments', 'edit', ['id' => $item['id']]); ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Sửa</a></td>
