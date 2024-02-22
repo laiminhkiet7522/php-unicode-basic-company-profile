@@ -62,6 +62,33 @@ if (isPost()) {
     if ($insertStatus) {
       setFlashData('msg', 'Contact sent successfully');
       setFlashData('msg_type', 'success');
+
+      $contactType = getContactType($dataInsert['type_id']);
+      $siteName = getOption('general_sitename');
+
+      //Gửi mail cho khách hàng
+      $subjectCustomer = 'Thank you for your contact';
+      $contentCustomer = '<p>Dear ' . '<b>' . $dataInsert['fullname'] . ',</b>' . '</p>';
+      $contentCustomer .= '<p>Thank you for contacting us, below is your information</p>';
+      $contentCustomer .= '<p>Full name: ' . $dataInsert['fullname'] . '</p>';
+      $contentCustomer .= '<p>Email: ' . $dataInsert['email'] . '</p>';
+      $contentCustomer .= '<p>Message: ' . $dataInsert['message'] . '</p>';
+      $contentCustomer .= '<p>Department: ' . $contactType['name'] . '</p>';
+      $contentCustomer .= '<p>Sending time: ' . $dataInsert['create_at'] . '</p>';
+      $contentCustomer .= '<p>We will contact you as soon as possible</p>';
+      $contentCustomer .= '<p>Best regards</p>';
+      sendMail($dataInsert['email'], $subjectCustomer, $contentCustomer);
+
+      //Gửi email cho admin
+      $subjectAdmin = 'There is 1 new contact';
+      $contentAdmin = '<p>Sender contact information</p>';
+      $contentAdmin .= '<p>Full name: ' . $dataInsert['fullname'] . '</p>';
+      $contentAdmin .= '<p>Email: ' . $dataInsert['email'] . '</p>';
+      $contentAdmin .= '<p>Message: ' . $dataInsert['message'] . '</p>';
+      $contentAdmin .= '<p>Department: ' . $contactType['name'] . '</p>';
+      $contentAdmin .= '<p>Sending time: ' . $dataInsert['create_at'] . '</p>';
+      sendMail(getOption('general_email'), $subjectAdmin, $contentAdmin);
+
       redirect('?module=page-template&action=contact');
     } else {
       setFlashData('msg', 'Sending contact failed');
