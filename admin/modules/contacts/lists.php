@@ -180,7 +180,7 @@ $msgType = getFlashData('msg_type');
                 <?php echo $item['message']; ?>
               </td>
 
-              <td><?php echo $item['status'] == 1 ? '<button type="button" class="btn btn-success btn-sm">Đã xử lý</button>' : '<button type="button" class="btn btn-warning btn-sm">Chưa xử lý</button>'; ?></td>
+              <td><?php echo $item['status'] == 1 ? '<button type="button" class="btn btn-success btn-sm">Đã xử lý</button>' : '<button type="button" class="btn btn-info btn-sm">Chưa xử lý</button>'; ?></td>
 
               <td>
                 <?php echo $item['note']; ?>

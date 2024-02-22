@@ -111,7 +111,7 @@ if (empty($old) && !empty($pageDetail)){
                 <div class="form-group">
                     <label for="">Tên trang</label>
                     <input type="text" class="form-control slug" name="title" placeholder="Tên trang..." value="<?php echo old('title', $old); ?>"/>
-                    <?php echo form_error('name', $errors, '<span class="error">', '</span>'); ?>
+                    <?php echo form_error('title', $errors, '<span class="error">', '</span>'); ?>
                 </div>
 
                 <div class="form-group">

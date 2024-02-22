@@ -281,7 +281,6 @@ $userDetail = getUserInfo($userId);
                 Quản lý liên hệ - End
                 -->
 
-
                 <!--
                 Quản lý bình luận - Begin
                 -->
@@ -295,6 +294,21 @@ $userDetail = getUserInfo($userId);
                 </li>
                 <!--
                 Quản lý bình luận - End
+                -->
+
+                <!--
+                Quản lý đăng ký nhận tin - Begin
+                -->
+                <li class="nav-item">
+                    <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=subscribe'; ?>" class="nav-link <?php echo activeMenuSidebar('subscribe') ? 'active' : false; ?>">
+                        <i class="nav-icon fa fa-comments"></i>
+                        <p>
+                            Quản lý đăng ký nhận tin <span class="badge badge-danger"><?php echo getCountSubscribe(); ?></span>
+                        </p>
+                    </a>
+                </li>
+                <!--
+                Quản lý đăng ký nhận tin - End
                 -->
 
                 <!--

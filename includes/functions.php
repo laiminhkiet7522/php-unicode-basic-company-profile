@@ -718,6 +718,14 @@ function getCountContacts()
     return $count;
 }
 
+//Lấy số lượng đăng ký nhận tin chưa duyệt
+function getCountSubscribe()
+{
+    $sql = "SELECT id FROM subscribe WHERE status=0";
+    $count = getRows($sql);
+    return $count;
+}
+
 //Lấy số lượng comment theo trạng thái
 function getCommentCount($status = 0)
 {
