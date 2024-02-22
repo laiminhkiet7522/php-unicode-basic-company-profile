@@ -50,7 +50,7 @@
   <!-- Radix StyleShet CSS -->
   <link rel="stylesheet" href="<?php echo _WEB_HOST_TEMPLATE; ?>/css/reset.css">
   <link rel="stylesheet" href="<?php echo _WEB_HOST_TEMPLATE; ?>/css/style.css?ver=<?php echo rand(); ?>">
-  <link rel="stylesheet" href="<?php echo _WEB_HOST_TEMPLATE; ?>/css/responsive.css"> 
+  <link rel="stylesheet" href="<?php echo _WEB_HOST_TEMPLATE; ?>/css/responsive.css">
 
   <!-- Radix Color CSS -->
   <link rel="stylesheet" href="<?php echo _WEB_HOST_TEMPLATE; ?>/css/color/color1.css">
@@ -96,8 +96,9 @@
               <!-- Search Form -->
               <div class="search-form active">
                 <a class="icon" href="#"><i class="fa fa-search"></i></a>
-                <form class="form" action="#">
-                  <input placeholder="<?php echo getOption('header_search_placeholder'); ?>" type="search">
+                <form class="form" method="get" action="<?php echo _WEB_HOST_ROOT; ?>">
+                  <input placeholder="<?php echo getOption('header_search_placeholder'); ?>" type="search" value="<?php echo !empty(getBody()['keyword']) ? getBody()['keyword'] : ''; ?>" name="keyword">
+                  <input type="hidden" name="module" value="search">
                 </form>
               </div>
               <!--/ End Search Form -->
