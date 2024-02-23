@@ -710,6 +710,33 @@ function getCommentReply($commentData, $parent_id, &$result = [])
     return $result;
 }
 
+//Đệ quy đổ dữ liệu menu
+function getMenu($dataMenu, $isSub = false)
+{
+    if (!empty($dataMenu)) {
+        echo $isSub ? '<ul class="dropdown">' : '<ul class="nav menu">';
+        $active = ''; // Biến để kiểm tra đã thêm class active cho thẻ li đầu tiên chưa
+        foreach ($dataMenu as $key => $item) {
+            echo '<li';
+            // Thêm class active cho thẻ li đầu tiên
+            if (!$active && $key === 0) {
+                echo ' class="active"';
+                $active = true;
+            }
+
+            echo '><a href="' . $item['href'] . '" target="' . $item['target'] . '" title="' . $item['title'] . '">' . $item['text'] . '</i></a>';
+
+            // Gọi đệ quy
+            if (!empty($item['children'])) {
+                getMenu($item['children'], true);
+            }
+            echo '</li>';
+        }
+        echo '</ul>';
+    }
+}
+
+
 //Lấy số lượng liên hệ
 function getCountContacts()
 {

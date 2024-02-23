@@ -1,3 +1,10 @@
+<?php
+$menuDataArr = [];
+$menuJson = html_entity_decode(getOption('menu'));
+if (!empty($menuJson)) {
+  $menuDataArr = json_decode($menuJson, true);
+}
+?>
 <!DOCTYPE html>
 <html class="no-js" lang="zxx">
 
@@ -152,7 +159,7 @@
             <!-- Main Menu -->
             <div class="mainmenu">
               <nav class="navigation">
-                <ul class="nav menu">
+                <!-- <ul class="nav menu">
                   <li class="active"><a href="index.html">Home</a></li>
                   <li><a href="#">Pages<i class="fa fa-caret-down"></i></a>
                     <ul class="dropdown">
@@ -170,7 +177,8 @@
                     </ul>
                   </li>
                   <li><a href="contact.html">Contact</a></li>
-                </ul>
+                </ul> -->
+                <?php getMenu($menuDataArr); ?>
               </nav>
               <!-- Button -->
               <div class="button">
