@@ -587,3 +587,40 @@ if (addTeamObject !== null && teamWrapperObject !== null) {
     }
   });
 }
+
+//Menu Editor Custom
+// icon picker options
+// var iconPickerOptions = { searchText: "Buscar...", labelHeader: "{0}/{1}" };
+// sortable list options
+var sortableListOptions = {
+  placeholderCss: { 'background-color': "#cccccc" }
+};
+var editor = new MenuEditor('myEditor',
+  {
+    listOptions: sortableListOptions,
+    maxLevel: 2 // (Optional) Default is -1 (no level limit)
+    // Valid levels are from [0, 1, 2, 3,...N]
+  });
+editor.setForm($('#frmEdit'));
+editor.setUpdateButton($('#btnUpdate'));
+//Calling the update method
+$("#btnUpdate").click(function () {
+  editor.update();
+});
+// Calling the add method
+$('#btnAdd').click(function () {
+  editor.add();
+});
+
+// var arrayJson = [{ "href": "http://home.com", "icon": "fas fa-home", "text": "Home", "target": "_top", "title": "My Home" }, { "icon": "fas fa-chart-bar", "text": "Opcion2" }, { "icon": "fas fa-bell", "text": "Opcion3" }, { "icon": "fas fa-crop", "text": "Opcion4" }, { "icon": "fas fa-flask", "text": "Opcion5" }, { "icon": "fas fa-map-marker", "text": "Opcion6" }, { "icon": "fas fa-search", "text": "Opcion7", "children": [{ "icon": "fas fa-plug", "text": "Opcion7-1", "children": [{ "icon": "fas fa-filter", "text": "Opcion7-1-1" }] }] }];
+editor.setData(arrayJson);
+
+if ($('.save-menu').length > 0) {
+  $('.save-menu').on('click', function (e) {
+    e.preventDefault(); //Vô hiệu hóa submit form
+    var str = editor.getString();
+    $('#menu-content').val(str);
+    $('#frmEdit').submit();
+    console.log(str);
+  });
+}

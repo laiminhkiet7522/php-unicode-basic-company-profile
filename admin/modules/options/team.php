@@ -1,7 +1,7 @@
 <?php
 if (!defined('_INCODE')) die('Access Deined...');
 $data = [
-  'pageTitle' => 'Thiết lập chung'
+  'pageTitle' => 'Thiết lập team'
 ];
 
 layout('header', 'admin', $data);

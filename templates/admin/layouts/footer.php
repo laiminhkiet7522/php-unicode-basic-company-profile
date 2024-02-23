@@ -53,6 +53,9 @@
 <script src="<?php echo _WEB_HOST_ADMIN_TEMPLATE; ?>/assets/js/demo.js"></script>
 <!-- Sweetalert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.all.min.js"></script>
+<!-- Jquery Menu Editor -->
+<script src="<?php echo _WEB_HOST_ADMIN_TEMPLATE; ?>/assets/js/jquery-menu-editor.js"></script>
+<script src="<?php echo _WEB_HOST_ADMIN_TEMPLATE; ?>/assets/js/bootstrap-iconpicker.min.js"></script>
 <?php
 $body = getBody();
 $module = null;
