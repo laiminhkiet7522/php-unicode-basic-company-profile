@@ -24,7 +24,7 @@
               <!-- Single Service -->
               <div class="single-service">
                 <?php echo html_entity_decode($item['icon']); ?>
-                <h2><a href="#"><?php echo $item['name']; ?></a></h2>
+                <h2><a href="<?php echo getLinkModule('services', $item['id']); ?>"><?php echo $item['name']; ?></a></h2>
                 <p><?php echo $item['description']; ?></p>
               </div>
               <!-- End Single Service -->

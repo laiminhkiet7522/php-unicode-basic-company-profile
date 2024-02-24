@@ -88,22 +88,19 @@ if (isPost()) {
       $contentAdmin .= '<p>Department: ' . $contactType['name'] . '</p>';
       $contentAdmin .= '<p>Sending time: ' . $dataInsert['create_at'] . '</p>';
       sendMail(getOption('general_email'), $subjectAdmin, $contentAdmin);
-
-      redirect('?module=page-template&action=contact');
     } else {
       setFlashData('msg', 'Sending contact failed');
       setFlashData('msg_type', 'danger');
       setFlashData('errors', $errors);
       setFlashData('old', $body);
-      redirect('?module=page-template&action=contact');
     }
   } else {
     //Có lỗi xảy ra
     setFlashData('msg', 'Please check the entered data');
     setFlashData('msg_type', 'danger');
     setFlashData('errors', $errors);
-    redirect('?module=page-template&action=contact');
   }
+  redirect('lien-he.html');
 }
 $msg = getFlashData('msg');
 $msgType = getFlashData('msg_type');

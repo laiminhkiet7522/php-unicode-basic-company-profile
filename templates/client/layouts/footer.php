@@ -70,7 +70,7 @@ $errors = getFlashData('errors');
 					<div class="single-widget newsletter" id="newsletter">
 						<h2><?php echo getOption('footer_4_title'); ?></h2>
 						<?php echo html_entity_decode(getOption('footer_4_content')); ?>
-						<form method="post" action="<?php echo _WEB_HOST_ROOT . '/?module=subscribe&action=submit'; ?>">
+						<form method="post" action="<?php echo _WEB_HOST_ROOT . '/submit-subscribe.html'; ?>">
 							<input placeholder="Your Name" type="text" name="fullname">
 							<?php echo form_error('fullname', $errors, '<span class="error">', '</span>'); ?>
 							<input placeholder="Your email" type="email" name="email">

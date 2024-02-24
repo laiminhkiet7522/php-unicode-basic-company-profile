@@ -59,10 +59,10 @@ $listBlog = getRaw("SELECT title, description, thumbnail, view_count, blog.creat
               </div>
               <div class="blog-bottom">
                 <div class="blog-inner">
-                  <h4><a href="<?php echo _WEB_HOST_ROOT . '?module=blog&action=detail&id=' . $item['id']; ?>"><?php echo truncateText($item['title'], 30); ?></a></h4>
+                  <h4><a href="<?php echo getLinkModule('blog', $item['id']); ?>"><?php echo truncateText($item['title'], 30); ?></a></h4>
                   <p><?php echo $item['description']; ?></p>
                   <div class="meta">
-                    <span><i class="fa fa-bolt"></i><a href="<?php echo _WEB_HOST_ROOT . '?module=blog&action=category&id=' . $item['cate_id']; ?>"><?php echo $item['cate_name']; ?></a></span>
+                    <span><i class="fa fa-bolt"></i><a href="<?php echo getLinkModule('blog_categories', $item['cate_id']); ?>"><?php echo $item['cate_name']; ?></a></span>
                     <span><i class="fa fa-calendar"></i><?php echo getDateFormat($item['create_at'], 'd M, Y') ?></span>
                     <span><i class="fa fa-eye"></i><a href="#"><?php echo $item['view_count']; ?></a></span>
                   </div>
@@ -99,17 +99,17 @@ $listBlog = getRaw("SELECT title, description, thumbnail, view_count, blog.creat
               <?php
               if ($page > 1) {
                 $prevPage = $page - 1;
-                echo '<li class="prev"><a href="' . _WEB_HOST_ROOT . '?module=blog&page=' . $prevPage . '"><i class="fa fa-angle-double-left"></i></a></li>';
+                echo '<li class="prev"><a href="' . _WEB_HOST_ROOT . '/blog-page-' . $prevPage . '.html' . '"><i class="fa fa-angle-double-left"></i></a></li>';
               }
               for ($index = $begin; $index <= $end; $index++) :
                 $classActive = ($index == $page) ? 'active' : '';
               ?>
-                <li class="<?php echo $classActive; ?>"><a href="<?php echo _WEB_HOST_ROOT . '?module=blog&page=' . $index; ?>"><?php echo $index; ?></a></li>
+                <li class="<?php echo $classActive; ?>"><a href="<?php echo _WEB_HOST_ROOT . '/blog-page-' . $index . '.html'; ?>"><?php echo $index; ?></a></li>
               <?php
               endfor;
               if ($page < $maxPage) {
                 $nextPage = $page + 1;
-                echo '<li class="next"><a href="' . _WEB_HOST_ROOT . '?module=blog&page=' . $nextPage . '"><i class="fa fa-angle-double-right"></i></a></li>';
+                echo '<li class="next"><a href="' . _WEB_HOST_ROOT . '/blog-page-' . $nextPage . '.html' . '"><i class="fa fa-angle-double-right"></i></a></li>';
               }
               ?>
             </ul>

@@ -207,7 +207,7 @@ $msgType = getFlashData('msg_type');
                 ?>
               </td>
               <td><?php echo getDateFormat($item['create_at'], 'd/m/Y H:i:s') ?></td>
-              <td class="text-center"><a target="_blank" href="<?php echo _WEB_HOST_ROOT . '?module=blog&action=detail&id=' . $item['blog_id']; ?>"><?php echo truncateText($item['title'], 25); ?></a></td>
+              <td class="text-center"><a target="_blank" href="<?php echo getLinkModule('blog', $item['blog_id']) ?>"><?php echo truncateText($item['title'], 25); ?></a></td>
               <td class="text-center"><a href="<?php echo getLinkAdmin('comments', 'delete', ['id' => $item['id']]); ?>" id="delete_sweet_alert2" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Xoá</a></td>
             </tr>
           <?php

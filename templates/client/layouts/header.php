@@ -103,9 +103,8 @@ if (!empty($menuJson)) {
               <!-- Search Form -->
               <div class="search-form active">
                 <a class="icon" href="#"><i class="fa fa-search"></i></a>
-                <form class="form" method="get" action="<?php echo _WEB_HOST_ROOT; ?>">
+                <form class="form" method="get" action="<?php echo _WEB_HOST_ROOT. '/tim-kiem.html'; ?>">
                   <input placeholder="<?php echo getOption('header_search_placeholder'); ?>" type="search" value="<?php echo !empty(getBody()['keyword']) ? getBody()['keyword'] : ''; ?>" name="keyword">
-                  <input type="hidden" name="module" value="search">
                 </form>
               </div>
               <!--/ End Search Form -->

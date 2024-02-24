@@ -80,13 +80,11 @@ if (isPost()) {
     if ($insertStatus) {
       setFlashData('msg', 'Comment added successfully');
       setFlashData('msg_type', 'success');
-      redirect('?module=blog&action=detail&id=' . $id . '#comment-form');
     } else {
       setFlashData('msg', 'Comment added failed');
       setFlashData('msg_type', 'danger');
       setFlashData('errors', $errors);
       setFlashData('old', $body);
-      redirect('?module=blog&action=detail&id=' . $id . '#comment-form');
     }
   } else {
     //Có lỗi xảy ra
@@ -94,8 +92,9 @@ if (isPost()) {
     setFlashData('msg_type', 'danger');
     setFlashData('errors', $errors);
     setFlashData('old', $body);
-    redirect('?module=blog&action=detail&id=' . $id . '#comment-form');
   }
+  $linkBlog = getLinkModule('blog', $id) . '#comment-form';
+  redirect($linkBlog, true);
 }
 $msg = getFlashData('msg');
 $msgType = getFlashData('msg_type');
