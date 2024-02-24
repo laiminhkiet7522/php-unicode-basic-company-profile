@@ -123,7 +123,7 @@ $msgType = getFlashData('msg_type');
                         ?>
                                 <tr>
                                     <td><?php echo ($key + 1); ?></td>
-                                    <td><a href="<?php echo getLinkAdmin('blog_categories', '', ['id' => $item['id'], 'view' => 'edit']); ?>"><?php echo $item['name']; ?></a> (<?php echo $item['blog_count']; ?>)<br /><a href="<?php echo getLinkAdmin('blog_categories', 'duplicate', ['id' => $item['id']]); ?>" style="padding: 0 5px;" class="btn btn-danger btn-sm">Nhân bản</a> <a href="#" style="padding: 0 5px;" class="btn btn-success btn-sm" target="_blank">Xem</a></td>
+                                    <td><a href="<?php echo getLinkAdmin('blog_categories', '', ['id' => $item['id'], 'view' => 'edit']); ?>"><?php echo $item['name']; ?></a> (<?php echo $item['blog_count']; ?>)<br /><a href="<?php echo getLinkAdmin('blog_categories', 'duplicate', ['id' => $item['id']]); ?>" style="padding: 0 5px;" class="btn btn-danger btn-sm">Nhân bản</a> <a href="<?php echo getLinkModule('blog_categories', $item['id']); ?>" style="padding: 0 5px;" class="btn btn-success btn-sm" target="_blank">Xem</a></td>
                                     <td><?php echo (!empty($item['create_at'])) ? getDateFormat($item['create_at'], 'd/m/Y H:i:s') : ''; ?></td>
                                     <td><a href="<?php echo getLinkAdmin('blog_categories', '', ['id' => $item['id'], 'view' => 'edit']); ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a></td>
                                     <td>

@@ -155,7 +155,7 @@ $msgType = getFlashData('msg_type');
                             </td>
                             <td><?php echo getDateFormat($item['create_at'], 'd/m/Y H:i:s'); ?></td>
                             <td class="text-center">
-                                <a href="#" class="btn btn-primary btn-sm">Xem</a>
+                                <a target="_blank" href="<?php echo getLinkModule('services', $item['id'],); ?>" class="btn btn-primary btn-sm">Xem</a>
                             </td>
                             <td class="text-center"><a href="<?php echo getLinkAdmin('services', 'edit', ['id' => $item['id']]); ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Sửa</a></td>
                             <td class="text-center"><a href="<?php echo getLinkAdmin('services', 'delete', ['id' => $item['id']]); ?>" id="delete_sweet_alert2" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Xoá</a></td>
