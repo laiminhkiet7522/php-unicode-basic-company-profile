@@ -1,8 +1,9 @@
 <?php
 session_start();
 ob_start();
-require_once 'config.php';
 
+require_once 'config.php';
+require_once 'routes.php';
 //Import phpmailer lib
 require_once 'includes/phpmailer/PHPMailer.php';
 require_once 'includes/phpmailer/SMTP.php';
@@ -26,17 +27,45 @@ set_error_handler('setErrorHandler');
 
 loadExceptionError();
 
+//Xử lý rewrite url
+$currentUrl = null;
+
+if (empty($_GET['module'])) {
+    $currentUrl = !empty($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '/';
+}
+
+if ($currentUrl != '/') {
+    $currentUrl = trim($currentUrl, '/');
+}
+
+$targetUrl = null;
+
+if (!empty($route)) {
+    foreach ($route as $key => $item) {
+        if (preg_match('~^' . $key . '$~i', $currentUrl)) {
+            $targetUrl = preg_replace('~^' . $key . '$~i', $item, $currentUrl);
+            break;
+        }
+    }
+}
+
+echo $currentUrl;
+echo $targetUrl;
+die();
+
 if (!empty($_GET['module'])) {
     if (is_string($_GET['module'])) {
         $module = trim($_GET['module']);
     }
 }
 
+
 if (!empty($_GET['action'])) {
     if (is_string($_GET['action'])) {
         $action = trim($_GET['action']);
     }
 }
+
 
 $path = 'modules/' . $module . '/' . $action . '.php';
 
