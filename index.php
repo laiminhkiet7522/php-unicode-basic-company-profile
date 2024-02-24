@@ -49,9 +49,19 @@ if (!empty($route)) {
     }
 }
 
-echo $currentUrl;
-echo $targetUrl;
-die();
+if (!empty($targetUrl)) {
+    $targetUrlArr = parse_url($targetUrl);
+    if (!empty($targetUrlArr)) {
+        $targetQuery = $targetUrlArr['query'];
+        $targetQueryArr = array_filter(explode('&', $targetQuery));
+        if(!empty($targetQueryArr)){
+            foreach ($targetQueryArr as $key => $item) {
+                $itemArr = array_filter(explode('=', $item));
+                $_GET[$itemArr[0]] = $itemArr[1];
+            }
+        }
+    }
+}
 
 if (!empty($_GET['module'])) {
     if (is_string($_GET['module'])) {
@@ -59,13 +69,11 @@ if (!empty($_GET['module'])) {
     }
 }
 
-
 if (!empty($_GET['action'])) {
     if (is_string($_GET['action'])) {
         $action = trim($_GET['action']);
     }
 }
-
 
 $path = 'modules/' . $module . '/' . $action . '.php';
 
