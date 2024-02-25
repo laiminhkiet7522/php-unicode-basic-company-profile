@@ -107,7 +107,7 @@ $msgType = getFlashData('msg_type');
                             <td><a href="<?php echo getLinkAdmin('groups', 'edit', ['id' => $item['id']]); ?>"><?php echo $item['name']; ?></a></td>
                             <td><?php echo getDateFormat($item['create_at'], 'd/m/Y H:i:s'); ?></td>
                             <td class="text-center">
-                                <a href="#" class="btn btn-primary btn-sm">Phân quyền</a>
+                                <a href="<?php echo getLinkAdmin('groups', 'permission', ['id' => $item['id']]); ?>" class="btn btn-primary btn-sm">Phân quyền</a>
                             </td>
                             <td class="text-center"><a href="<?php echo getLinkAdmin('groups', 'edit', ['id' => $item['id']]); ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Sửa</a></td>
                             <td class="text-center"><a href="<?php echo getLinkAdmin('groups', 'delete', ['id' => $item['id']]); ?>" id="delete_sweet_alert2" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Xoá</a></td>
