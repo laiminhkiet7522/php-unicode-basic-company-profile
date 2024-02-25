@@ -30,10 +30,37 @@ if (isPost()) {
 
   //Validate form
   $body = getBody(); //Lấy tất cả dữ liệu trong form
+  $errors = []; //Mảng lưu trữ các lỗi
 
-  echo '<pre>';
-  print_r($body['permissions']);
-  echo '</pre>';
+  if (empty($errors)) {
+    //Không có lỗi xảy ra
+    if (!empty($body['permissions'])) {
+      $permissionJson = json_encode($body['permissions']);
+    } else {
+      $permissionJson = null;
+    }
+    $dataUpdate = [
+      'permission' => $permissionJson,
+      'update_at' => date('Y-m-d H:i:s'),
+    ];
+    $condition = "id=$groupId";
+    $updateStatus = update('groups', $dataUpdate, $condition);
+    if ($updateStatus) {
+      setFlashData('msg', 'Phân quyền cập nhật thành công');
+      setFlashData('msg_type', 'success');
+      redirect('admin?module=groups&action=permission&id=' . $groupId);
+    } else {
+      setFlashData('msg', 'Có lỗi xảy ra. Vui lòng thử lại');
+      setFlashData('msg_type', 'danger');
+      redirect('admin?module=groups&action=permission&id=' . $groupId);
+    }
+  } else {
+    //Có lỗi xảy ra
+    setFlashData('msg', 'Vui lòng kiểm tra dữ liệu nhập vào');
+    setFlashData('msg_type', 'danger');
+    setFlashData('errors', $errors);
+    setFlashData('old', $body);
+  }
 }
 
 $msg = getFlashData('msg');
@@ -47,6 +74,12 @@ if (empty($old) && !empty($groupDetail)) {
 
 //Lấy danh sách module
 $moduleLists = getRaw("SELECT * FROM modules ORDER BY id DESC");
+
+if (!empty($old['permission'])) {
+  $permissionJson = $old['permission'];
+  $permissionArr = json_decode($permissionJson, true);
+}
+
 ?>
 <!-- Main content -->
 <section class="content">
@@ -79,7 +112,7 @@ $moduleLists = getRaw("SELECT * FROM modules ORDER BY id DESC");
                     ?>
                         <div class="col">
 
-                          <input style="cursor: pointer;" type="checkbox" name="<?php echo 'permissions[' . $item['name'] . '][]'; ?>" value="<?php echo $roleKey; ?>" id="<?php echo $item['name'] . '_' . $roleKey; ?>">
+                          <input style="cursor: pointer;" type="checkbox" name="<?php echo 'permissions[' . $item['name'] . '][]'; ?>" value="<?php echo $roleKey; ?>" id="<?php echo $item['name'] . '_' . $roleKey; ?>" <?php echo (!empty($permissionArr[$item['name']]) && in_array($roleKey, $permissionArr[$item['name']])) ? 'checked' : ''; ?>>
 
                           <label style="cursor: pointer;" for="<?php echo $item['name'] . '_' . $roleKey; ?>"><?php echo $roleTitle; ?></label>
 
