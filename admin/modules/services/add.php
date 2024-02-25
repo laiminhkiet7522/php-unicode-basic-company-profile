@@ -8,6 +8,19 @@ layout('header', 'admin', $data);
 layout('sidebar', 'admin', $data);
 layout('breadcrumb', 'admin', $data);
 
+//Kiểm tra phân quyền
+$groupId = getGroupId();
+
+$permissionsData = getPermissionsData($groupId);
+
+$checkPermission = checkPermission($permissionsData, 'services', 'add');
+
+if (!$checkPermission) {
+    setFlashData('msg', 'Bạn không có quyền truy cập với chức năng này.');
+    setFlashData('msg_type', 'danger');
+    redirect('admin');
+}
+
 //Lấy userId đăng nhập
 $userId = isLogin()['user_id'];
 

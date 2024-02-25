@@ -2,6 +2,10 @@
 $userId = isLogin()['user_id'];
 $userDetail = getUserInfo($userId);
 
+//Kiểm tra phân quyền
+$groupId = getGroupId();
+
+$permissionsData = getPermissionsData($groupId);
 ?>
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -42,36 +46,42 @@ $userDetail = getUserInfo($userId);
                 Trang tổng quan - End
                 -->
 
-                <!--
+                <?php
+                if (checkPermission($permissionsData, 'services', 'lists')) :
+                ?>
+                    <!--
                 Quản lý dịch vụ - Begin
                 -->
-                <li class="nav-item has-treeview <?php echo activeMenuSidebar('services') ? 'menu-open' : false; ?>">
-                    <a href="#" class="nav-link <?php echo activeMenuSidebar('services') ? 'active' : false; ?>">
-                        <i class="nav-icon fab fa-servicestack"></i>
-                        <p>
-                            Quản lý dịch vụ
-                            <i class="fas fa-angle-left right"></i>
+                    <li class="nav-item has-treeview <?php echo activeMenuSidebar('services') ? 'menu-open' : false; ?>">
+                        <a href="#" class="nav-link <?php echo activeMenuSidebar('services') ? 'active' : false; ?>">
+                            <i class="nav-icon fab fa-servicestack"></i>
+                            <p>
+                                Quản lý dịch vụ
+                                <i class="fas fa-angle-left right"></i>
 
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=services'; ?>" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Danh sách</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=services&action=add'; ?>" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Thêm mới</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <!--
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=services'; ?>" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Danh sách</p>
+                                </a>
+                            </li>
+                            <?php if (checkPermission($permissionsData, 'services', 'add')) : ?>
+                                <li class="nav-item">
+                                    <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=services&action=add'; ?>" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Thêm mới</p>
+                                    </a>
+                                </li>
+                            <?php endif; ?>
+                        </ul>
+                    </li>
+                    <!--
                 Quản lý dịch vụ - End
                 -->
+                <?php endif; ?>
 
                 <!--
                 Quản lý trang - Begin

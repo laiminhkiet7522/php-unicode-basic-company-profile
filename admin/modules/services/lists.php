@@ -8,6 +8,18 @@ layout('header', 'admin', $data);
 layout('sidebar', 'admin', $data);
 layout('breadcrumb', 'admin', $data);
 
+//Kiểm tra phân quyền
+$groupId = getGroupId();
+
+$permissionsData = getPermissionsData($groupId);
+
+$checkPermission = checkPermission($permissionsData, 'services', 'lists');
+
+if (!$checkPermission) {
+    setFlashData('msg', 'Bạn không có quyền truy cập với chức năng này.');
+    setFlashData('msg_type', 'danger');
+    redirect('admin');
+}
 
 //Xử lý lọc dữ liệu
 
@@ -93,8 +105,10 @@ $msgType = getFlashData('msg_type');
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
-        <a href="<?php echo getLinkAdmin('services', 'add'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Thêm dịch vụ</a>
-        <hr>
+        <?php if (checkPermission($permissionsData, 'services', 'add')) : ?>
+            <a href="<?php echo getLinkAdmin('services', 'add'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Thêm dịch vụ</a>
+            <hr>
+        <?php endif; ?>
         <form action="" method="get">
             <div class="row">
                 <div class="col-3">
@@ -157,8 +171,16 @@ $msgType = getFlashData('msg_type');
                             <td class="text-center">
                                 <a target="_blank" href="<?php echo getLinkModule('services', $item['id'],); ?>" class="btn btn-primary btn-sm">Xem</a>
                             </td>
-                            <td class="text-center"><a href="<?php echo getLinkAdmin('services', 'edit', ['id' => $item['id']]); ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Sửa</a></td>
-                            <td class="text-center"><a href="<?php echo getLinkAdmin('services', 'delete', ['id' => $item['id']]); ?>" id="delete_sweet_alert2" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Xoá</a></td>
+                            <td class="text-center">
+                                <?php if (checkPermission($permissionsData, 'services', 'edit')) : ?>
+                                    <a href="<?php echo getLinkAdmin('services', 'edit', ['id' => $item['id']]); ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Sửa</a>
+                                <?php endif; ?>
+                            </td>
+                            <td class="text-center">
+                                <?php if (checkPermission($permissionsData, 'services', 'delete')) : ?>
+                                    <a href="<?php echo getLinkAdmin('services', 'delete', ['id' => $item['id']]); ?>" id="delete_sweet_alert2" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Xoá</a>
+                                <?php endif; ?>
+                            </td>
                         </tr>
                     <?php
                     endforeach;

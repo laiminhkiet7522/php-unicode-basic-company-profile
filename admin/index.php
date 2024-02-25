@@ -12,6 +12,7 @@ require_once '../includes/functions.php';
 require_once '../includes/connect.php';
 require_once '../includes/database.php';
 require_once '../includes/session.php';
+require_once '../includes/permissions.php';
 
 $module = _MODULE_DEFAULT_ADMIN;
 $action = _ACTION_DEFAULT;

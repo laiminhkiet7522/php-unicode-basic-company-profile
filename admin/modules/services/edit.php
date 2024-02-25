@@ -1,5 +1,19 @@
 <?php
 if (!defined('_INCODE')) die('Access Deined...');
+
+//Kiểm tra phân quyền
+$groupId = getGroupId();
+
+$permissionsData = getPermissionsData($groupId);
+
+$checkPermission = checkPermission($permissionsData, 'services', 'edit');
+
+if (!$checkPermission) {
+    setFlashData('msg', 'Bạn không có quyền truy cập với chức năng này.');
+    setFlashData('msg_type', 'danger');
+    redirect('admin');
+}
+
 $data = [
     'pageTitle' => 'Cập nhật dịch vụ'
 ];
