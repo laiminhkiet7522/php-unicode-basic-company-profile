@@ -88,7 +88,7 @@ if (!empty($old['permission'])) {
       <?php
       getMsg($msg, $msgType);
       ?>
-      <table class="table table-borderd">
+      <table class="table table-borderd permission-lists">
         <thead>
           <tr>
             <th width="20%">Module</th>

@@ -629,8 +629,9 @@ $('#btnAdd').click(function () {
   editor.add();
 });
 
-// var arrayJson = [{ "href": "http://home.com", "icon": "fas fa-home", "text": "Home", "target": "_top", "title": "My Home" }, { "icon": "fas fa-chart-bar", "text": "Opcion2" }, { "icon": "fas fa-bell", "text": "Opcion3" }, { "icon": "fas fa-crop", "text": "Opcion4" }, { "icon": "fas fa-flask", "text": "Opcion5" }, { "icon": "fas fa-map-marker", "text": "Opcion6" }, { "icon": "fas fa-search", "text": "Opcion7", "children": [{ "icon": "fas fa-plug", "text": "Opcion7-1", "children": [{ "icon": "fas fa-filter", "text": "Opcion7-1-1" }] }] }];
-editor.setData(arrayJson);
+if (typeof arrayJson !== 'undefined') {
+  editor.setData(arrayJson);
+}
 
 if ($('.save-menu').length > 0) {
   $('.save-menu').on('click', function (e) {
@@ -640,4 +641,29 @@ if ($('.save-menu').length > 0) {
     $('#frmEdit').submit();
     console.log(str);
   });
+}
+
+//Xử lý check phân quyền
+let permissionObject = document.querySelector('.permission-lists');
+if (permissionObject !== null) {
+  const allowRoles = ['add', 'edit', 'delete', 'duplicate'];
+  let rowPermissionObj = permissionObject.querySelectorAll('tr');
+  if (rowPermissionObj !== null) {
+    rowPermissionObj.forEach(function (item) {
+      let checkboxObj = item.querySelectorAll('input[type="checkbox"]');
+      if (checkboxObj !== null) {
+        checkboxObj.forEach(function (checkbox) {
+          checkbox.addEventListener('click', function () {
+            let checkboxValue = checkbox.value;
+            if (checkboxValue.trim() !== '' && allowRoles.includes(checkboxValue)) {
+              let viewRole = item.querySelectorAll('input[value="lists"]');
+              if (viewRole.length > 0) {
+                viewRole[0].checked = true;
+              }
+            }
+          });
+        });
+      }
+    });
+  }
 }
