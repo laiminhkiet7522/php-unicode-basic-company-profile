@@ -1,11 +1,6 @@
 <?php
 $userId = isLogin()['user_id'];
 $userDetail = getUserInfo($userId);
-
-//Kiểm tra phân quyền
-$groupId = getGroupId();
-
-$permissionsData = getPermissionsData($groupId);
 ?>
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -47,7 +42,7 @@ $permissionsData = getPermissionsData($groupId);
                 -->
 
                 <?php
-                if (checkPermission($permissionsData, 'services', 'lists')) :
+                if (checkCurrentPermission('lists', 'services')) :
                 ?>
                     <!--
                 Quản lý dịch vụ - Begin
@@ -68,7 +63,7 @@ $permissionsData = getPermissionsData($groupId);
                                     <p>Danh sách</p>
                                 </a>
                             </li>
-                            <?php if (checkPermission($permissionsData, 'services', 'add')) : ?>
+                            <?php if (checkCurrentPermission('add', 'services')) : ?>
                                 <li class="nav-item">
                                     <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '?module=services&action=add'; ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>

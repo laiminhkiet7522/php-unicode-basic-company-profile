@@ -9,17 +9,17 @@ layout('sidebar', 'admin', $data);
 layout('breadcrumb', 'admin', $data);
 
 //Kiểm tra phân quyền
-$groupId = getGroupId();
 
-$permissionsData = getPermissionsData($groupId);
-
-$checkPermission = checkPermission($permissionsData, 'services', 'lists');
+$checkPermission = checkCurrentPermission();
 
 if (!$checkPermission) {
-    setFlashData('msg', 'Bạn không có quyền truy cập với chức năng này.');
-    setFlashData('msg_type', 'danger');
-    redirect('admin');
+    redirectPermission();
 }
+
+$checkRoleAdd = checkCurrentPermission('add');
+$checkRoleEdit = checkCurrentPermission('edit');
+$checkRoleDelete = checkCurrentPermission('delete');
+$checkRoleDuplicate = checkCurrentPermission('duplicate');
 
 //Xử lý lọc dữ liệu
 
@@ -105,7 +105,9 @@ $msgType = getFlashData('msg_type');
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
-        <?php if (checkPermission($permissionsData, 'services', 'add')) : ?>
+        <?php
+        if ($checkRoleAdd) :
+        ?>
             <a href="<?php echo getLinkAdmin('services', 'add'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Thêm dịch vụ</a>
             <hr>
         <?php endif; ?>
@@ -147,8 +149,19 @@ $msgType = getFlashData('msg_type');
                     <th width="15%">Đăng bởi</th>
                     <th width="10%">Thời gian</th>
                     <th width="10%">Xem</th>
-                    <th width="10%">Sửa</th>
-                    <th width="10%">Xoá</th>
+                    <?php
+                    if ($checkRoleEdit) :
+                    ?>
+                        <th width="10%">Sửa</th>
+                    <?php
+                    endif;
+
+                    if ($checkRoleDelete) :
+                    ?>
+                        <th width="10%">Xoá</th>
+                    <?php
+                    endif;
+                    ?>
                 </tr>
             </thead>
             <tbody>
@@ -162,32 +175,36 @@ $msgType = getFlashData('msg_type');
                                 <?php echo (isFontIcon($item['icon'])) ? html_entity_decode($item['icon']) : '<img src="' . $item['icon'] . '" width="80"/>'; ?>
                             </td>
                             <td><a href="<?php echo getLinkAdmin('services', 'edit', ['id' => $item['id']]); ?>"><?php echo $item['name']; ?></a>
-                                <a href="<?php echo getLinkAdmin('services', 'duplicate', ['id' => $item['id']]); ?>" style="padding: 0 5px;" class="btn btn-danger btn-sm">Nhân bản</a>
+                                <?php if ($checkRoleDuplicate) : ?>
+                                    <a href="<?php echo getLinkAdmin('services', 'duplicate', ['id' => $item['id']]); ?>" style="padding: 0 5px;" class="btn btn-danger btn-sm">Nhân bản</a>
+                                <?php endif; ?>
                             </td>
                             <td>
                                 <a href="?<?php echo getLinkQueryString('user_id', $item['user_id']); ?>"><?php echo $item['fullname']; ?></a>
                             </td>
                             <td><?php echo getDateFormat($item['create_at'], 'd/m/Y H:i:s'); ?></td>
                             <td class="text-center">
-                                <a target="_blank" href="<?php echo getLinkModule('services', $item['id'],); ?>" class="btn btn-primary btn-sm">Xem</a>
+                                <a target="_blank" href="<?php echo getLinkModule('services', $item['id']); ?>" class="btn btn-primary btn-sm">Xem</a>
                             </td>
-                            <td class="text-center">
-                                <?php if (checkPermission($permissionsData, 'services', 'edit')) : ?>
-                                    <a href="<?php echo getLinkAdmin('services', 'edit', ['id' => $item['id']]); ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Sửa</a>
-                                <?php endif; ?>
-                            </td>
-                            <td class="text-center">
-                                <?php if (checkPermission($permissionsData, 'services', 'delete')) : ?>
-                                    <a href="<?php echo getLinkAdmin('services', 'delete', ['id' => $item['id']]); ?>" id="delete_sweet_alert2" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Xoá</a>
-                                <?php endif; ?>
-                            </td>
+                            <?php
+                            if ($checkRoleEdit) :
+                            ?>
+                                <td class="text-center"><a href="<?php echo getLinkAdmin('services', 'edit', ['id' => $item['id']]); ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Sửa</a></td>
+                            <?php
+                            endif;
+                            if ($checkRoleDelete) :
+                            ?>
+                                <td class="text-center"><a href="<?php echo getLinkAdmin('services', 'delete', ['id' => $item['id']]); ?>" onclick="return confirm('Bạn có chắc chắn muốn xoá?')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Xoá</a></td>
+                            <?php
+                            endif;
+                            ?>
                         </tr>
                     <?php
                     endforeach;
                 else :
                     ?>
                     <tr>
-                        <td colspan="8" class="alert alert-danger text-center">Không có dịch vụ</td>
+                        <td colspan="8" class="text-center">Không có dịch vụ</td>
                     </tr>
                 <?php endif; ?>
             </tbody>

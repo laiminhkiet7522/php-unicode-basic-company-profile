@@ -4,7 +4,7 @@ function checkPermission($permissionData, $module, $role = 'lists')
 {
   if (!empty($permissionData[$module])) {
     $roleArr = $permissionData[$module];
-    if(!empty($roleArr) && in_array($role, $roleArr)) {
+    if (!empty($roleArr) && in_array($role, $roleArr)) {
       return true;
     }
   }
@@ -34,4 +34,43 @@ function getPermissionsData($groupId)
     return $permissionData;
   }
   return false;
+}
+
+function checkCurrentPermission($role = '', $module = '')
+{
+  $groupId = getGroupId();
+
+  $permissionsData = getPermissionsData($groupId);
+
+  $currentModule = null;
+
+  $body = getBody('get');
+
+  if (!empty($body['module'])) {
+    $currentModule = $body['module'];
+  }
+
+  $action = !empty($body['action']) ? $body['action'] : 'lists';
+
+  if (!empty($role)) {
+    $action = $role;
+  }
+
+  if (!empty($module)) {
+    $currentModule = $module;
+  }
+
+  if (!empty($action)) {
+    $checkPermission = checkPermission($permissionsData, $currentModule, $action);
+
+    return $checkPermission;
+  }
+  return false;
+}
+
+function redirectPermission($path = 'admin')
+{
+  setFlashData('msg', 'Bạn không có quyền truy cập với chức năng này.');
+  setFlashData('msg_type', 'danger');
+  redirect($path);
 }
