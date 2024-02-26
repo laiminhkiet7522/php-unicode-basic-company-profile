@@ -91,7 +91,7 @@ if (!empty($old['permission'])) {
       <table class="table table-borderd permission-lists">
         <thead>
           <tr>
-            <th width="20%">Module</th>
+            <th width="25%">Module</th>
             <th>Chức năng</th>
           </tr>
         </thead>
@@ -110,7 +110,7 @@ if (!empty($old['permission'])) {
                     if (!empty($actionArr)) :
                       foreach ($actionArr as $roleKey => $roleTitle) :
                     ?>
-                        <div class="col">
+                        <div class="col-3">
 
                           <input style="cursor: pointer;" type="checkbox" name="<?php echo 'permissions[' . $item['name'] . '][]'; ?>" value="<?php echo $roleKey; ?>" id="<?php echo $item['name'] . '_' . $roleKey; ?>" <?php echo (!empty($permissionArr[$item['name']]) && in_array($roleKey, $permissionArr[$item['name']])) ? 'checked' : ''; ?>>
 
